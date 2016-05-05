@@ -34,9 +34,10 @@ class Worm:
 		assert isinstance(category["category_url"], list)
 		self.category = {
 							"url": category["category_url"], # That is a list containing one or more url
-							"dom_path": category["category_dom_path"], 
+							"category_dom_path": category["category_dom_path"], 
 							"pattern": "", 
-							"article_url": category["category_article_url"], 
+							"category_article_url": category["category_article_url"], 
+							"article_dom_path": category["article_dom_path"], 
 							"article_url_pattern": ""
 						}
 
@@ -155,4 +156,23 @@ class Worm:
 			return [patterns, re.compile(patterns, re.IGNORECASE|re.DOTALL)]
 		else:
 			return self.regexr.make_pattern(self.category["url"][0], True)	
+
+	def patternize_url_article(self):
+		"""
+		This method will extract the regex pattern of the url as to get all similar links.
+		This will helps us extract all the links of articles in a website.
+
+		"""
+		patterns = "("
+		if len(self.category["category_article_url"]) > 1:
+			for index, url in enumerate(self.category["category_article_url"]):
+				if index == len(self.category["category_article_url"]) - 1:
+					patterns += self.regexr.make_pattern(url)[0] + ")"
+				else:
+					patterns += self.regexr.make_pattern(url)[0] + "|"
+				index += 1
+
+			return [patterns, re.compile(patterns, re.IGNORECASE|re.DOTALL)]
+		else:
+			return self.regexr.make_pattern(self.category["category_article_url"][0], True)	
 
