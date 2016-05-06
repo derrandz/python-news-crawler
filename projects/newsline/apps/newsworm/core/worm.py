@@ -3,7 +3,7 @@
 # 
 # My sincere gratitude to anyone that have had a hand in developing these two libraries.
 
-from ..submodels.newsworm_article import NewswormArticle
+# from newsline.apps.newsworm.submodels. import NewswormArticle
 from newspaper import Article
 from htmldom import htmldom
 from .tree import Tree

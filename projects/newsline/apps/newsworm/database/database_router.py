@@ -13,13 +13,18 @@ class NewswormDatabaseRouter(object):
 
         from django.conf import settings
 
-        if not settings.DATABASES.has_key('newsworm_db'):
+        if not settings.TESTING:
+            if not 'newsworm_db' in settings.DATABASES:
+                return None
+            
+            if model._meta.app_label == 'newsworm':
+                return 'newsworm_db'
             return None
-        
-        if model._meta.app_label == 'newsworm':
-            return 'newsworm_db'
-        
-        return None
+
+        else:
+            if model._meta.app_label == 'newsworm':
+                return "test_newsworm_db"
+            return None
 
 
     def db_for_write(self, model, **hints):
@@ -27,13 +32,16 @@ class NewswormDatabaseRouter(object):
 
         from django.conf import settings
 
-        if not settings.DATABASES.has_key('newsworm_db'):
+        if not settings.TESTING:
+            if not 'newsworm_db' in settings.DATABASES:
+                return None
+
+            if model._meta.app_label == 'newsworm':
+                return 'newsworm_db'
             return None
-
-        if model._meta.app_label == 'newsworm':
-            return 'newsworm_db'
-
-        return None
+        else:
+            if model._meta.app_label == 'newsworm':
+                return "test_newsworm_db"
 
 
     def allow_relation(self, obj1, obj2, **hints):
@@ -41,19 +49,21 @@ class NewswormDatabaseRouter(object):
 
         from django.conf import settings
 
-        if not settings.DATABASES.has_key('newsworm_db'):
-            return None
-
-        if obj1._meta.app_label == 'newsworm' or \
+        if obj1._meta.app_label == 'newsworm' and \
            obj2._meta.app_label == 'newsworm':
             return True
-
         return None
-
+      
 
     def allow_migrate(self, db, app_label, model_name=None, **hints):
         "Make sure the auth app only appears in the 'newsworm_db' database."
 
-        if app_label == 'newsworm':
-            return db == 'newsworm_db'
-        return None
+        from django.conf import settings
+
+        if not settings.TESTING:
+            if app_label == 'newsworm':
+                return db == 'newsworm_db'
+            return None
+        else:
+            if app_label == 'newsworm':
+                return db == 'test_newsworm_db'

@@ -76,7 +76,14 @@ WSGI_APPLICATION = 'newsline.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
-    'default':{},
+    'default':{
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'newsline_failure_db',
+        'USER': 'newsline_db_root',
+        'PASSWORD': 'simple_root_pw',
+        'HOST': '', # An empty string means localhost
+        'PORT': '', # An empty string means the default port
+    },
 
     'newsline_main_db': {
         'ENGINE': 'django.db.backends.mysql',
@@ -94,7 +101,25 @@ DATABASES = {
         'PASSWORD': 'simple_root_pw',
         'HOST': '', # An empty string means localhost
         'PORT': '', # An empty string means the default port
-    }
+    },
+
+    'newsline_main_db': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'newsline_main_db',
+        'USER': 'newsline_db_root',
+        'PASSWORD': 'simple_root_pw',
+        'HOST': '', # An empty string means localhost
+        'PORT': '', # An empty string means the default port
+    },
+
+    'test_newsworm_db': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test_newsline_newsworm',
+        'USER': 'newsline_db_root',
+        'PASSWORD': 'simple_root_pw',
+        'HOST': '', # An empty string means localhost
+        'PORT': '', # An empty string means the default port
+    },
 }
 
 # This list contains the router for each application that this project owns.
@@ -140,3 +165,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+import sys
+
+TESTING = sys.argv[1:2] == ['test']
