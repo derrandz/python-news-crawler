@@ -4,12 +4,16 @@ class RegexrClass:
 	"""
 	A class that handles regex operations for our purposes.
 	"""
-	_regex_digit_only        = "(\\d+)"
-	_regex_alphanum          = "((?:[a-z][a-z]*[0-9]+[a-z0-9]*))"
-	_regex_alpha_only        = "((?:[a-z][a-z]+))"
-	_regex_word              = "((?:\w+))"
-	_regex_string            = "((?:[^?:#/=0-9])+)" # A string signifies any word contaning any character except /?#
-
+	_regex_digit_only  = "(\\d+)"
+	_regex_alphanum    = "((?:[a-z][a-z]*[0-9]+[a-z0-9]*))"
+	_regex_alpha_only  = "((?:[a-z][a-z]+))"
+	_regex_word        = "((?:\w+))"
+	_regex_string      = "((?:[^?:#/=0-9])+)" # A string signifies any word contaning any character except /?#
+	_regex_url_pattern = "((http|https)\:\/\/)(||www)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?"
+	
+	def compile(self, pattern):
+		return re.compile(pattern, re.IGNORECASE|re.DOTALL)
+			
 	def escape(self, char):
 		"""
 		escapes any provided character
