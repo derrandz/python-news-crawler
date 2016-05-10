@@ -1,0 +1,37 @@
+{
+    "2": {
+        "category_article_dom_path": "h2[class~=section_title] > a",
+        "category_article_url": [
+            "/politique/304713.html",
+            "/art-et-culture/304866.html"
+        ],
+        "category_dom_path": "ul[id=menu_main] > li > a",
+        "category_nextpage_dom_path": "div[id~=box_pagination] > span[class~=pagination] > a",
+        "category_nextpage_url": [
+            "http://www.hespress.com/politique/index.2.html"
+        ],
+        "category_url": [
+            "/politique.index.1.html",
+            "/art-et-culture/index.1.html"
+        ],
+        "root_url": "http://www.hespress.com"
+    },
+    
+    "hespress": {
+        "category_article_dom_path": "h2[class~=section_title] > a",
+        "category_article_url": [
+            "/politique/304713.html",
+            "/art-et-culture/304866.html"
+        ],
+        "category_dom_path": "ul[id=menu_main] > li > a",
+        "category_nextpage_dom_path": "div[id~=box_pagination] > span[class~=pagination] > a",
+        "category_nextpage_url": [
+            "http://www.hespress.com/politique/index.2.html"
+        ],
+        "category_url": [
+            "/politique.index.1.html",
+            "/art-et-culture/index.1.html"
+        ],
+        "root_url": "http://www.hespress.com"
+    }
+}

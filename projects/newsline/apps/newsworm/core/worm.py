@@ -19,7 +19,7 @@ class Worm:
 	"""
 
 	def is_category_multipage(self):
-		npup = self.category["nextpage_url_pattern"]
+		npup = self.category["nextpage_url"]
 		return isinstance(npup, list) and len(npup) > 0
 
 	def crawl(self, url, dom_path=None):
@@ -95,7 +95,7 @@ class Worm:
 							"dom_path": category["category_dom_path"], 
 							"url_pattern": "", 
 							"nextpage_url": category["category_nextpage_url"] , # That is a list containing one or more url
-							"nextpage_dom_path": category["category_nextpage_dom_path"], 
+							"nextpage_dom_path": category["category_nextpage_dom_path"] if not helpers.is_empty(category["category_nextpage_url"]) else "", 
 							"nextpage_url_pattern": "", 
 							"article_url": category["category_article_url"], 
 							"article_dom_path": category["category_article_dom_path"], 
@@ -115,36 +115,65 @@ class Worm:
 			self.category["nextpage_url_pattern"] = self.patternize_url_category_nextpage() 
 
 
-	def apply_filter(self):
+	def apply_filter(self, urls=None):
 		def url_extractor(_substring, _string):
 			return self.regexr.del_substring(_substring, _string)
 
 		def rooturl_extractor(_string):
 			return url_extractor(self.root_url, _string)
 
-		self.category["url"] = list(map(rooturl_extractor, self.category["url"]))
-		self.category["article_url"] = list(map(rooturl_extractor, self.category["article_url"]))
+		if urls is not None:
+			if helpers.is_list(urls):
+				return list(map(rooturl_extractor, urls))
+			else:
+				if helpers.is_str(urls):
+					return rooturl_extractor(urls)
+		else:
+			self.category["url"] = list(map(rooturl_extractor, self.category["url"]))
+			self.category["article_url"] = list(map(rooturl_extractor, self.category["article_url"]))
 
-		if self.is_category_multipage() :
-			self.category["nextpage_url"] = list(map(rooturl_extractor, self.category["nextpage_url"]))
+			if self.is_category_multipage() :
+				self.category["nextpage_url"] = list(map(rooturl_extractor, self.category["nextpage_url"]))
 
 	def build_tree_dict(self):
 		tree_dict = {}
-		for category in self.sitemap.children:
-			aritcles_list = [] # A list for urls
-			for article in category.children:
-				aritcles_list.append(article.content)
-			tree_dict.update({category.content: aritcles_list})
 
-		return tree_dict 
+		if self.is_category_multipage():
+			for category in self.sitemap.children:
+				pages_list = {}
+				for page in category.children:
+					aritcles_list = []
+					for article in page.children:
+						aritcles_list.append(article.content)
 
+					pages_list.update({page.content: aritcles_list})
+
+				tree_dict.update({category.content: pages_list})
+		else:
+			for category in self.sitemap.children:
+				aritcles_list = [] # A list for urls
+				for article in category.children:
+					aritcles_list.append(article.content)
+				tree_dict.update({category.content: aritcles_list})
+
+		return tree_dict
+
+	def build_report(self):
+		return {
+			"root_url": self.root_url,
+			"category_regex_pattern": self.category["url_pattern"][0],
+			"category_regex_pattern": self.category["article_url_pattern"][0],
+			"category_regex_pattern": self.category["nextpage_url_pattern"][0] if self.is_category_multipage() else "",
+			"results": self.build_tree_dict
+		}
+	
 	def launch(self):
 		"""
 		Applies the supplied training on the supplied root url.
 		"""
 		self.extract_categories()
 		self.extract_articles()
-		return self.build_tree_dict()
+		return self.build_report()
 
 	def extract_categories(self):
 		"""
@@ -155,7 +184,7 @@ class Worm:
 
 		catlinks  = []
 		for category in categories:
-			href = category.attr("href")
+			href = self.apply_filter(category.attr("href"))
 			cu_pattern = self.category["url_pattern"]
 			if cu_pattern is not None:
 				if cu_pattern[1].match(href):
@@ -163,7 +192,8 @@ class Worm:
 			else:
 				safety_flag = False
 
-			self.append_categories(catlinks)
+		# Add the crawled categories links to the sitemap as children
+		self.append_categories(catlinks)
 		
 		if self.is_category_multipage() and safety_flag:
 			self.extract_categories_pages()
@@ -171,56 +201,61 @@ class Worm:
 
 	def extract_categories_pages(self):
 		for category in self.sitemap.children:
-			nextpage_dom = self.crawl(category.content, self.category["nextpage_dom_path"])
+			nextpage_dom = self.crawl(self.root_url + "/" + category.content, self.category["nextpage_dom_path"])
 			safety_flag = True
 			pages = []
 			
-			for page in nextpage_dom:
-				href = page.attr("href")
+			for i, page in enumerate(nextpage_dom):
+				href = self.apply_filter(page.attr("href"))
 				npurl_pattern = self.category["nextpage_url_pattern"]
 				if npurl_pattern is not None: # Safety check
 					if npurl_pattern[1].match(href):
 						pages.append(href)
+					else:
+						print("page did not match")
 				else:
 					safety_flag = False
-
+			
 			if safety_flag:
-				category.add_child(Tree(category.depth + 1, pages))
+				if not helpers.is_empty(pages) :
+					print("Page %d in %s has : %s" % (i, category.content, pages))
+					for page in pages:
+						category.add_child(Tree(category.depth + 1, page))
 
 
 	def extract_articles(self):
-
 		if self.is_category_multipage():
 			for category in self.sitemap.children:
 				for page in category.children:
-					articles_links = crawl(self.root_url + "/" + page.content, self.category["article_dom_path"])
+					articles_links = self.crawl(self.root_url + "/" + page.content, self.category["article_dom_path"])
 
 					# From the links crawled from the category page, extract the one's who match the provided regex only
 					matched_urls = []
 					for article_link in articles_links:
-						href = article_link.attr("href")
+						href = self.apply_filter(article_link.attr("href"))
 						au_pattern = self.category["article_url_pattern"]
 						if au_pattern is not None: # Safety check
 							if au_pattern[1].match(href):
 								matched_urls.append(href)
 
 					# Add the crawled article links to their respective category
-					self.append_articles_to_category(page, matched_urls)
+					if not helpers.is_empty(matched_urls):
+						self.append_articles_to_category(page, matched_urls)
 		else:
 			# Get all the links in the page of the category
 			for category in self.sitemap.children:
-				articles_links = crawl(self.root_url + "/" + category.content, self.category["article_dom_path"])
+				articles_links = self.crawl(self.root_url + "/" + category.content, self.category["article_dom_path"])
 
 				# From the links crawled from the category page, extract the one's who match the provided regex only
 				matched_urls = []
 				for article_link in articles_links:
-					href = article_link.attr("href")
+					href = self.apply_filter(article_link.attr("href"))
 					au_pattern = self.category["article_url_pattern"]
 					if au_pattern is not None: # Safety check
 						if au_pattern[1].match(href):
 							matched_urls.append(href)
 
-					# Add the crawled article links to their respective category
+				# Add the crawled article links to their respective category
 				self.append_articles_to_category(category, matched_urls)
 
 
@@ -240,8 +275,13 @@ class Worm:
 				links.append(full_link)
 
 		for link in links:
-			self.sitemap.add_child(Tree(self.sitemap.depth + 1, link,None))
+			self.sitemap.add_child(Tree(self.sitemap.depth + 1, link))
 
+	def remove_categoy(self, tbr_category):
+		for index, category in enumerate(self.sitemap.children):
+			if category.content == tbr_category.content:
+				del category.children[:]
+				del self.sitemap.children[index]
 
 	def append_articles_to_category(self, catnode, artlinks):
 		"""
@@ -249,16 +289,17 @@ class Worm:
 		This function adds the second level that is of categories.
 		"""
 		assert isinstance(artlinks, list)
+		if not len(artlinks) > 0 :
+			self.remove_categoy(catnode)
+		else:
+			links = []
+			for link in artlinks:
+				full_link = self.root_url + "/" + link
+				if self.is_link_valid(full_link):
+					links.append(full_link)
 
-		links = []
-		for link in artlinks:
-			full_link = self.root_url + "/" + link
-			if self.is_link_valid(full_link):
-				links.append(full_link)
-
-		for link in links:
-			catnode.add_child(Tree(self.sitemap.increment_size(), link))
-
+			for link in links:
+				catnode.add_child(Tree(self.sitemap.tree_depth_size + 2, link))
 
 	def is_link_valid(self, link):
 		r = requests.get(link)
@@ -271,7 +312,6 @@ class Worm:
 		"""
 		This method will extract the regex pattern of the url as to get all similar links.
 		"""
-
 		if isinstance(urls, list):
 			patterns = "("
 			if len(urls) > 1:
@@ -284,10 +324,10 @@ class Worm:
 
 				return [patterns, re.compile(patterns, re.IGNORECASE|re.DOTALL)]
 			else:
-				return self.regexr.make_pattern(url[0], True)
+				return self.regexr.make_pattern(urls[0], True)
 
-		elif isinstance(url, str):
-			return self.regexr.make_pattern(url[0], True)
+		elif isinstance(urls, str):
+			return self.regexr.make_pattern(urls, True)
 
 		else:
 			return None
