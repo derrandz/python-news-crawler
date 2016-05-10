@@ -15,6 +15,15 @@ def is_url(url):
 		return True
 	return False
 
+def has_http_prefix(url):
+	regxr = RegexrClass()
+	matches = regxr.compile("(http:\/\/)").search(url)
+	if matches:
+		if matches.group(0) == 'http://':
+			return True
+	
+	return False
+
 def is_empty(object):
 	if isinstance(object, list):
 		return not len(object) > 0

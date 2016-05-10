@@ -8,6 +8,7 @@ from newspaper import Article
 from htmldom import htmldom
 from .tree import Tree
 from .regexr import RegexrClass
+from .dom_parser import WormDomParser as WDom
 
 from . import helpers as helpers
 import re, requests
@@ -27,7 +28,7 @@ class Worm:
 		url_pattern = regxr.compile(regxr._regex_url_pattern)
 
 		if url_pattern.match(url):
-			DOM = htmldom.HtmlDom(url).createDom()
+			DOM = WDom(url)
 			if dom_path is not None:
 				_dom_path_elements = DOM.find(dom_path)
 				return _dom_path_elements
@@ -87,9 +88,9 @@ class Worm:
 		are_strings_empty(expected_as_strings)
 
 
-		self.regexr   = RegexrClass()
-
 		self.root_url = root_url
+		self.regexr   = RegexrClass()
+		self.cdom     = self.crawl(self.root_url)
 		self.category = {
 							"url": category["category_url"],
 							"dom_path": category["category_dom_path"], 
@@ -164,9 +165,9 @@ class Worm:
 			"category_regex_pattern": self.category["url_pattern"][0],
 			"category_regex_pattern": self.category["article_url_pattern"][0],
 			"category_regex_pattern": self.category["nextpage_url_pattern"][0] if self.is_category_multipage() else "",
-			"results": self.build_tree_dict
+			"results": self.build_tree_dict()
 		}
-	
+
 	def launch(self):
 		"""
 		Applies the supplied training on the supplied root url.
@@ -180,11 +181,11 @@ class Worm:
 		Gets the links that are specified in the provided dom path
 		"""
 		safety_flag = True
-		categories = self.crawl(self.root_url, self.category["dom_path"])
+		categories = self.cdom.find(self.category["dom_path"])
 
 		catlinks  = []
 		for category in categories:
-			href = self.apply_filter(category.attr("href"))
+			href = self.apply_filter(category.get("href"))
 			cu_pattern = self.category["url_pattern"]
 			if cu_pattern is not None:
 				if cu_pattern[1].match(href):
@@ -206,7 +207,7 @@ class Worm:
 			pages = []
 			
 			for i, page in enumerate(nextpage_dom):
-				href = self.apply_filter(page.attr("href"))
+				href = self.apply_filter(page.get("href"))
 				npurl_pattern = self.category["nextpage_url_pattern"]
 				if npurl_pattern is not None: # Safety check
 					if npurl_pattern[1].match(href):
@@ -232,7 +233,7 @@ class Worm:
 					# From the links crawled from the category page, extract the one's who match the provided regex only
 					matched_urls = []
 					for article_link in articles_links:
-						href = self.apply_filter(article_link.attr("href"))
+						href = self.apply_filter(article_link.get("href"))
 						au_pattern = self.category["article_url_pattern"]
 						if au_pattern is not None: # Safety check
 							if au_pattern[1].match(href):
@@ -249,7 +250,7 @@ class Worm:
 				# From the links crawled from the category page, extract the one's who match the provided regex only
 				matched_urls = []
 				for article_link in articles_links:
-					href = self.apply_filter(article_link.attr("href"))
+					href = self.apply_filter(article_link.get("href"))
 					au_pattern = self.category["article_url_pattern"]
 					if au_pattern is not None: # Safety check
 						if au_pattern[1].match(href):
