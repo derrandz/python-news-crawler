@@ -14,7 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+NEWSLINE_DIR = BASE_DIR + "/newsline"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -37,8 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'newsline.apps.newsworm'
+    'newsline.apps.utility.logger',
+    'newsline.apps.web.newsworm'
 ]
+
+NEWSWORM_APPLICATION = 'newsline.apps.web.newsworm'
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -126,7 +129,7 @@ DATABASES = {
 # the order in which the routers are specified is significant.
 # the newsworm database router is processed first, unless the models aren't those of his, other routers will proceed.
 
-DATABASE_ROUTERS = ['newsline.apps.newsworm.database.database_router.NewswormDatabaseRouter','newsline.database_router.MainDatabaseRouter']
+DATABASE_ROUTERS = ['newsline.apps.web.newsworm.database.database_router.NewswormDatabaseRouter','newsline.scripts.database_router.MainDatabaseRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -166,6 +169,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# This indicates if the app is in test mode
 import sys
 
 TESTING = sys.argv[1:2] == ['test']
+
+# The logging application and log files storage path
+LOG_FILES_STORAGE = NEWSLINE_DIR + "/logs"
+
+# Logger Instance
+from newsline.apps.utility.logger.log_tools import LoggerResolver
+LOGGER = LoggerResolver.resolve_logger()

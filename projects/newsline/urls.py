@@ -17,6 +17,6 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^newsworm/', include('newsline.apps.newsworm.urls')),
+    url(r'^newsworm/', include('newsline.apps.web.newsworm.urls')),
     url(r'^admin/', admin.site.urls),
 ]
