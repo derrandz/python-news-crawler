@@ -11,12 +11,11 @@ class LoggerTestCase(BaseSimpleTestCase):
 		directory_path = logSession.directory_path
 
 		from newsline.helpers import helpers
-		if helpers.path_exists(directory_path) and helpers.isdir(directory_path):
+		if not (helpers.path_exists(directory_path) and helpers.isdir(directory_path)):
 			self.print_success("Directory %s has been created successfully" % logSession.directory_name)
-		
 			logSession.commit_active_logfile()
 		
-			if helpers.path_exists(logSession.active_logfile_path):
+			if not helpers.path_exists(logSession.active_logfile_path):
 				self.print_success("Log file %s has been successfully created" % logSession.active_logfile_name)
 			else:
 				self.print_failure("Failed to create log file %s" % logSession.active_logfile_name)

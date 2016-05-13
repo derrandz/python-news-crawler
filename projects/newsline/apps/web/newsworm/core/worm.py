@@ -10,7 +10,9 @@ from .tree import Tree
 from .regexr import RegexrClass
 from .dom_parser import WormDomParser as WDom
 
-from newsline.helpers import helpers as helpers
+from newsline.helpers import helpers
+from newsline.helpers import loghelpers
+
 import re, requests
 
 class Worm:
@@ -18,12 +20,19 @@ class Worm:
 	This class is the core of the newsworm app.
 	It is responsible for discovering the right paths to crawl, and extracting the articles from the websites properly.
 	"""
-	from django.conf import settings
-	logger = LOGGER.register_class("Worm")
+	
+	logger = loghelpers.getLogger("Worm")
 	
 	def is_category_multipage(self):
+		Worm.logger.log("Worm.is_category_multipage")
 		npup = self.category["nextpage_url"]
-		return isinstance(npup, list) and len(npup) > 0
+		iscat_multi = isinstance(npup, list) and len(npup) > 0
+		if iscat_multi:
+			Worm.logger.log("True", newline=False, indent=True)
+		else:
+			Worm.logger.log("False", newline=False, indent=True)
+
+		return iscat_multi
 
 	def crawl(self, url, dom_path=None):
 		regxr = self.regexr
@@ -105,6 +114,11 @@ class Worm:
 							"article_url_pattern": ""
 						}
 
+		Worm.logger.log("Worm.__init__ : Instantiation passed successfully.")
+		Worm.logger.log("Instantiation parameters:")
+		logparams = (self.category["url"], self.category["dom_path"], self.category["article_url"], self.category["article_dom_path"], self.category["nextpage_url"], self.category["nextpage_dom_path"])
+		Worm.logger.log("url: %s,\n\t dom_path: %s\n\t, article_url: %s\n\t, article_dom_path: %s\n\t, nextpage_url: %s\n\t, nextpage_dom_path: %s" % logparams, indent=True)
+		
 		self.apply_filter()
 		self.patternize()
 		self.sitemap  = Tree(0, self.root_url, None, True, 0)
@@ -120,9 +134,13 @@ class Worm:
 
 	def apply_filter(self, urls=None):
 		def url_extractor(_substring, _string):
+			Worm.logger.log("Worm.apply_filter.url_extractor")
+			Worm.logger.log("Extracting %s from %s" % (_substring, _string), indent=True)
 			return self.regexr.del_substring(_substring, _string)
 
 		def rooturl_extractor(_string):
+			Worm.logger.log("Worm.apply_filter.rooturl_extractor")
+			Worm.logger.log("Extracting %s from %s" % (self.root_url, _string), indent=True)
 			return url_extractor(self.root_url, _string)
 
 		if urls is not None:
@@ -130,7 +148,7 @@ class Worm:
 				return list(map(rooturl_extractor, urls))
 			else:
 				if helpers.is_str(urls):
-					print("Extracting %s from %s"% (self.root_url, urls))
+					Worm.logger.log("Extracting %s from %s"% (self.root_url, urls))
 					return rooturl_extractor(urls)
 				else:
 					raise ValueError("The url must be a list of urls or a string.")
@@ -142,8 +160,9 @@ class Worm:
 				self.category["nextpage_url"] = list(map(rooturl_extractor, self.category["nextpage_url"]))
 
 	def build_tree_dict(self):
-		tree_dict = {}
+		Worm.logger.log("Worm.build_tree_dict")
 
+		tree_dict = {}
 		if self.is_category_multipage():
 			for category in self.sitemap.children:
 				pages_list = {}
@@ -182,11 +201,13 @@ class Worm:
 		return self.build_report()
 
 	def extract_categories(self):
+		Worm.logger.log("Worm.extract_categories")
 		"""
 		Gets the links that are specified in the provided dom path
 		"""
 		safety_flag = True
 		categories = self.cdom.find(self.category["dom_path"])
+		Worm.logger.log("Crawled urls: %s" % categories)
 
 		catlinks  = []
 		for category in categories:
@@ -199,6 +220,7 @@ class Worm:
 				safety_flag = False
 
 		# Add the crawled categories links to the sitemap as children
+		Worm.logger.log("Matched urls: %s" % catlinks)
 		self.append_categories(catlinks)
 		
 		if self.is_category_multipage() and safety_flag:
@@ -230,9 +252,12 @@ class Worm:
 
 
 	def extract_articles(self):
+		Worm.logger.log("Worm.extract_articles")
 		if self.is_category_multipage():
 			for category in self.sitemap.children:
+				Worm.logger.log("Category: %s" % category.content, indent=True)
 				for page in category.children:
+					Worm.logger.log("\tPage: %s" % page.content, indent=True)
 					articles_links = self.crawl(self.root_url + "/" + page.content, self.category["article_dom_path"])
 
 					# From the links crawled from the category page, extract the one's who match the provided regex only
@@ -244,12 +269,18 @@ class Worm:
 							if au_pattern[1].match(href):
 								matched_urls.append(href)
 
+
 					# Add the crawled article links to their respective category
 					if not helpers.is_empty(matched_urls):
+						Worm.logger.log("Matched urls [articles]: %s" % matched_urls, indent=True)
 						self.append_articles_to_category(page, matched_urls)
+					else:
+						Worm.logger.log("No url was found in this page", indent=True)
+
 		else:
 			# Get all the links in the page of the category
 			for category in self.sitemap.children:
+				Worm.logger.log("Category: %s" % category.content, indent=True)
 				articles_links = self.crawl(self.root_url + "/" + category.content, self.category["article_dom_path"])
 
 				# From the links crawled from the category page, extract the one's who match the provided regex only
@@ -261,6 +292,8 @@ class Worm:
 						if au_pattern[1].match(href):
 							matched_urls.append(href)
 
+				Worm.logger.log("Matched urls [articles]: %s" % matched_urls, indent=True)
+
 				# Add the crawled article links to their respective category
 				self.append_articles_to_category(category, matched_urls)
 
@@ -270,6 +303,7 @@ class Worm:
 		Builds a hiarchical view of the site, a map of links.
 		This function adds the second level that is of categories.
 		"""
+		Worm.logger.log("Worm.append_categories")
 		assert isinstance(catlinks, list)
 
 		if url_prefix is None: url_prefix = self.root_url
@@ -277,12 +311,14 @@ class Worm:
 		links = []
 		for link in catlinks:
 			full_link = url_prefix + "/" + link
-			print("Is link valid : %s from %s"%(full_link, link))
 			if self.is_link_valid(full_link):
 				links.append(link)
 
-		print("Appending: OK!")
+		Worm.logger.log("Links to append (the valid links): %s" % links)
+		Worm.logger.log("Adding valid links to tree")
+
 		for link in links:
+			Worm.logger.log("Link : %s" % link, newline=False, indent=True)
 			self.sitemap.add_child(Tree(self.sitemap.depth + 1, link))
 
 	def remove_categoy(self, tbr_category):
@@ -296,6 +332,7 @@ class Worm:
 		Builds a hiarchical view of the site, a map of links.
 		This function adds the second level that is of categories.
 		"""
+		Worm.logger.log("Worm.append_articles_to_category")
 		assert isinstance(artlinks, list)
 		if not len(artlinks) > 0 :
 			self.remove_categoy(catnode)
@@ -306,7 +343,9 @@ class Worm:
 				if self.is_link_valid(full_link):
 					links.append(link)
 
+			Worm.logger.log("Links to append (the valid links): %s" % links)
 			for link in links:
+				Worm.logger.log("Link : %s" % link, newline=False, indent=True)
 				catnode.add_child(Tree(self.sitemap.tree_depth_size + 2, link))
 
 	def is_link_valid(self, link):
@@ -320,6 +359,7 @@ class Worm:
 		"""
 		This method will extract the regex pattern of the url as to get all similar links.
 		"""
+		Worm.logger.log("Worm.patternize_url")
 		if isinstance(urls, list):
 			patterns = "("
 			if len(urls) > 1:
@@ -330,14 +370,21 @@ class Worm:
 						patterns += self.regexr.make_pattern(url)[0] + "|"
 					index += 1
 
-				return [patterns, re.compile(patterns, re.IGNORECASE|re.DOTALL)]
+				patternsReturn = [patterns, re.compile(patterns, re.IGNORECASE|re.DOTALL)]
+				Worm.logger.log("%s" % (patternsReturn))
+				return patternsReturn
 			else:
-				return self.regexr.make_pattern(urls[0], True)
+				patternsReturn = self.regexr.make_pattern(urls[0], True)
+				Worm.logger.log("%s" % (patternsReturn))
+				return patternsReturn
 
 		elif isinstance(urls, str):
-			return self.regexr.make_pattern(urls, True)
+			patterns = self.regexr.make_pattern(urls, True)
+			Worm.logger.log("%s" % (patternsReturn))
+			return patterns
 
 		else:
+			Worm.logger.log("Returning None")
 			return None
 
 	def patternize_url_category(self):

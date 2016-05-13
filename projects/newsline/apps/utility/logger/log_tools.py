@@ -59,6 +59,8 @@ class LogSession:
 			self.buffer.pushind(data)
 		elif indent and newline:
 			self.buffer.pushnl("\t"+data)
+		elif not ident and not newline:
+			self.buffer.push(data)
 
 
 	def __init__(self, name):
@@ -82,8 +84,8 @@ class LogSession:
 		return self
 
 	def close_logging_session(self):
-		self.commit_active_logfile()
 		self.close()
+		self.commit_active_logfile()
 		return None
 
 	def abandon_logging_session(self):
@@ -138,6 +140,7 @@ class Logger:
 		self.sessions.update({logging_class: [
 			LogSession(logging_class).start_logging_session()
 		]})
+		
 		from newsline.helpers import helpers
 		active_session = helpers.last_element(self.sessions[logging_class])
 		if active_session is not None:
