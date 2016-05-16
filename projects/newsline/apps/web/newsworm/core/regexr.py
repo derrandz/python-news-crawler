@@ -4,13 +4,24 @@ class RegexrClass:
 	"""
 	A class that handles regex operations for our purposes.
 	"""
-	_regex_digit_only  = "(\\d+)"
-	_regex_alphanum    = "((?:[a-z][a-z]*[0-9]+[a-z0-9]*))"
-	_regex_alpha_only  = "((?:[a-z][a-z]+))"
-	_regex_word        = "((?:\w+))"
-	_regex_string      = "((?:[^?:#/=0-9])+)" # A string signifies any word contaning any character except /?#
-	_regex_url_pattern = "((http|https)\:\/\/)(||www)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?"
-	
+	_regex_digit_only        = "(\\d+)"
+	_regex_alphanum          = "((?:[a-z][a-z]*[0-9]+[a-z0-9]*))"
+	_regex_alpha_only        = "((?:[a-z][a-z]+))"
+	_regex_word              = "((?:\w+))"
+	_regex_string            = "((?:[^?:#/=0-9])+)" # A string signifies any word contaning any character except /?#
+	_regex_url_pattern       = "((http|https)\:\/\/)(||www)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?"
+	_regex_arabic_characters = "([\u0621-\u064A\u0660-\u0669])"
+
+	def parse_arabic_urls(self, url):
+		import urllib.parse
+		return urllib.parse.unquote(url)
+
+	def is_arabic(self, _str):
+		from alphabet_detector import AlphabetDetector
+		ad = AlphabetDetector()
+
+		return ad.only_alphabet_chars(u'%s' % _str, 'ARABIC')
+
 	def compile(self, pattern):
 		return re.compile(pattern, re.IGNORECASE|re.DOTALL)
 			
@@ -29,7 +40,9 @@ class RegexrClass:
 			string_split = self.split(_string)
 
 			for part in string_split:
-				if part.isdigit():
+				if self.is_arabic(part):
+					pattern += self._regex_arabic_characters
+				elif part.isdigit():
 					pattern += self._regex_digit_only
 				elif part.isalpha():
 					pattern += self._regex_alpha_only
@@ -40,7 +53,9 @@ class RegexrClass:
 
 			return pattern
 		else:
-			if _string.isdigit():
+			if self.is_arabic(part):
+				return self._regex_arabic_characters
+			elif _string.isdigit():
 				return self._regex_digit_only
 			elif _string.isalpha():
 				return self._regex_alpha_only
@@ -70,11 +85,16 @@ class RegexrClass:
 							is_delim = True
 
 					if not is_delim:
-						pattern += self._regex_string
+						if self.is_arabic(part):
+							pattern += self._regex_arabic_characters
+						else:
+							pattern += self._regex_string
 
 			return pattern
 		else:
-			if _string.isdigit():
+			if self.is_arabic(_string):
+				pattern += self._regex_arabic_characters
+			elif _string.isdigit():
 				return self._regex_digit_only
 			elif _string.isalpha():
 				return self._regex_alpha_only
@@ -83,7 +103,7 @@ class RegexrClass:
 
 		return None;
 
-	def make_pattern(self, string, noslash=None):
+	def make_pattern(self, _string, noslash=None):
 		"""
 		Makes a pattern
 		"""
@@ -91,23 +111,25 @@ class RegexrClass:
 		if noslash is not None:
 			_noslash = noslash
 
-		if string == '' :
+		if _string == '' :
 			return [None, None]
-		elif string.isalpha():
-			return [self._regex_word, re.compile(self._regex_word)]
-		elif string.isdigit():
-			return [self._regex_digit_only, re.compile(self._regex_digit_only)]
-		elif string.isalnum():
-			return [self._regex_alphanum, re.compile(self._regex_alphanum)]
-		else: # This case is when the string contains any kind of symbols
+		else:
+			_string = self.parse_arabic_urls(_string)
+			if _string.isalpha():
+				return [self._regex_word, re.compile(self._regex_word)]
+			elif _string.isdigit():
+				return [self._regex_digit_only, re.compile(self._regex_digit_only)]
+			elif _string.isalnum():
+				return [self._regex_alphanum, re.compile(self._regex_alphanum)]
+			else: # This case is when the _string contains any kind of symbols
 
-			# In this sectiion, we will provide a regular expression as follows:
-			# An exact regular expression to match all the likes of this string
-			# and a general one.
-			# Example : /category-name/article_1.html
-			# (slash word dash word slash word underscore digit dot word)|(slash string slash word digit word)
-			gpattern = "(" + self.make_exact_pattern(string) + ")|(" + self.make_general_pattern(string) + ")"
-			return [gpattern, re.compile(gpattern, re.IGNORECASE|re.DOTALL)]
+				# In this sectiion, we will provide a regular expression as follows:
+				# An exact regular expression to match all the likes of this _string
+				# and a general one.
+				# Example : /category-name/article_1.html
+				# (slash word dash word slash word underscore digit dot word)|(slash _string slash word digit word)
+				gpattern = "(" + self.make_exact_pattern(_string) + ")|(" + self.make_general_pattern(_string) + ")"
+				return [gpattern, re.compile(gpattern, re.IGNORECASE|re.DOTALL)]
 
 	def _regexr_word_spchars(self, spchars, noslash=None):
 		# ((?:\w*((\spchar_1)|(\spchar_2)|(\spchar_3)))*\w+)

@@ -1,0 +1,241 @@
+# 5/13/2016 [17:17]: INIT PUSH, BEGIN
+
+######## Worm.__init__ : Instantiation passed successfully.
+
+######## Instantiation parameters:
+	
+######## url: ['category/تصنيفات/20/أخبار الحوادث.html'],
+	 dom_path: div.navbarr > ul > li > a
+	, article_url: ['شعب بريس/الشعب الرياضي/43612/نتائج الملتقى الدولي لألعاب القوى الخاص بالمعاقين.html']
+	, article_dom_path: td > center > a
+	, nextpage_url: ['category/تصنيفات/28/2/الشعب الرياضي.html']
+	, nextpage_dom_path: center > font > a
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/تصنيفات/20/أخبار الحوادث.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/تصنيفات/20/أخبار الحوادث.html
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from شعب بريس/الشعب الرياضي/43612/نتائج الملتقى الدولي لألعاب القوى الخاص بالمعاقين.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from شعب بريس/الشعب الرياضي/43612/نتائج الملتقى الدولي لألعاب القوى الخاص بالمعاقين.html
+
+######## Worm.is_category_multipage
+
+######## True
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/تصنيفات/28/2/الشعب الرياضي.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/تصنيفات/28/2/الشعب الرياضي.html
+
+######## Worm.is_category_multipage
+
+######## True
+
+######## Worm.patternize_url
+
+######## ['(((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])((?:[a-z][a-z]+)))|(((?:[^?:#/=0-9])+)(\\/)([ء-ي٠-٩])(\\/)(\\d+)(\\/)([ء-ي٠-٩])(\\.)((?:[^?:#/=0-9])+))', re.compile('(((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])((?:[a-z][a-z]+)))|(((?:[^?:#/=0-9])+)(\\/)([ء-ي٠-٩])(\\/)(\\d+)(\\/)([ء-ي٠-٩])(\\.)((?:[^?, re.IGNORECASE|re.DOTALL)]
+
+######## Worm.patternize_url
+
+######## ['(([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])((?:[a-z][a-z]+)))|(([ء-ي٠-٩])(\\/)([ء-ي٠-٩])(\\/)(\\d+)(\\/)([ء-ي٠-٩])(\\.)((?:[^?:#/=0-9])+))', re.compile('(([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩, re.IGNORECASE|re.DOTALL)]
+
+######## Worm.is_category_multipage
+
+######## True
+
+######## Worm.patternize_url
+
+######## ['(((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])((?:[a-z][a-z]+)))|(((?:[^?:#/=0-9])+)(\\/)([ء-ي٠-٩])(\\/)(\\d+)(\\/)(\\d+)(\\/)([ء-ي٠-٩])(\\.)((?:[^?:#/=0-9])+))', re.compile('(((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])((?:[a-z][a-z]+)))|(((?:[^?:#/=0-9])+)(\\/)([ء-ي٠-٩])(\\/)(\\d+)(\\/)(\, re.IGNORECASE|re.DOTALL)]
+
+######## Worm.extract_categories
+
+######## Crawled urls: [<a class="currentnav" href="homepage">ÇáÑÆíÓíÉ </a>, <a href="category/ÊÕäíÝÇÊ/20/ÃÎÈÇÑ ÇáÍæÇÏË.html"> ÃÎÈÇÑ ÇáÍæÇÏË </a>, <a href="category/ÊÕäíÝÇÊ/21/ÇáÔÚÈ ÇáÓíÇÓí.html">ÇáÔÚÈ ÇáÓíÇÓí</a>, <a href="category/ÊÕäíÝÇÊ/28/ÇáÔÚÈ ÇáÑíÇÖí.html"> ÑíÇÖÉ</a>, <a href="category/ÊÕäíÝÇÊ/78/ ÊÑÈíÉ ÌäÓíÉ.html">  ÊÑÈíÉ ÌäÓíÉ  </a>, <a href="category/ÊÕäíÝÇÊ/47/Íæá ÇáÚÇáã.html"> Íæá ÇáÚÇáã</a>, <a href="category/ÊÕäíÝÇÊ/27/ ËÞÇÝÉ æÝäæä.html"> ËÞÇÝÉ æÝäæä  </a>, <a href="category/ÊÕäíÝÇÊ/36/  Ïíä æÝßÑ.html">  Ïíä æÝßÑ</a>, <a href="category/ÊÕäíÝÇÊ/38/ÝÖÇÁ ÇáãÑÃÉ.html">ÝÖÇÁ ÇáãÑÃÉ  </a>, <a href="category/ÊÕäíÝÇÊ/46/  ÂÑÇÁ æãÞÇáÇÊ.html"> ÂÑÇÁ æãÞÇáÇÊ</a>, <a href="category/ÊÕäíÝÇÊ/45/ ãÈÇÑíÇÊ ÇáÊæÙíÝ.html"> ãÈÇÑíÇÊ ÇáÊæÙíÝ </a>, <a href="category/ÊÕäíÝÇÊ/57/ ÊÇãÇÒíÛÊ.html"> ÊÇãÇÒíÛÊ </a>, <a href="contactus"> ÇÊÕá ÈäÇ </a>]
+
+######## Extracting http://www.chaabpress.com/ from homepage
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from homepage
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from homepage
+
+######## Decoding url homepage
+
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/20/ÃÎÈÇÑ ÇáÍæÇÏË.html
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/20/ÃÎÈÇÑ ÇáÍæÇÏË.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/20/ÃÎÈÇÑ ÇáÍæÇÏË.html
+
+######## Decoding url category/ÊÕäíÝÇÊ/20/ÃÎÈÇÑ ÇáÍæÇÏË.html
+
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/21/ÇáÔÚÈ ÇáÓíÇÓí.html
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/21/ÇáÔÚÈ ÇáÓíÇÓí.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/21/ÇáÔÚÈ ÇáÓíÇÓí.html
+
+######## Decoding url category/ÊÕäíÝÇÊ/21/ÇáÔÚÈ ÇáÓíÇÓí.html
+
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/28/ÇáÔÚÈ ÇáÑíÇÖí.html
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/28/ÇáÔÚÈ ÇáÑíÇÖí.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/28/ÇáÔÚÈ ÇáÑíÇÖí.html
+
+######## Decoding url category/ÊÕäíÝÇÊ/28/ÇáÔÚÈ ÇáÑíÇÖí.html
+
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/78/ ÊÑÈíÉ ÌäÓíÉ.html
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/78/ ÊÑÈíÉ ÌäÓíÉ.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/78/ ÊÑÈíÉ ÌäÓíÉ.html
+
+######## Decoding url category/ÊÕäíÝÇÊ/78/ ÊÑÈíÉ ÌäÓíÉ.html
+
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/47/Íæá ÇáÚÇáã.html
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/47/Íæá ÇáÚÇáã.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/47/Íæá ÇáÚÇáã.html
+
+######## Decoding url category/ÊÕäíÝÇÊ/47/Íæá ÇáÚÇáã.html
+
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/27/ ËÞÇÝÉ æÝäæä.html
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/27/ ËÞÇÝÉ æÝäæä.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/27/ ËÞÇÝÉ æÝäæä.html
+
+######## Decoding url category/ÊÕäíÝÇÊ/27/ ËÞÇÝÉ æÝäæä.html
+
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/36/  Ïíä æÝßÑ.html
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/36/  Ïíä æÝßÑ.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/36/  Ïíä æÝßÑ.html
+
+######## Decoding url category/ÊÕäíÝÇÊ/36/  Ïíä æÝßÑ.html
+
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/38/ÝÖÇÁ ÇáãÑÃÉ.html
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/38/ÝÖÇÁ ÇáãÑÃÉ.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/38/ÝÖÇÁ ÇáãÑÃÉ.html
+
+######## Decoding url category/ÊÕäíÝÇÊ/38/ÝÖÇÁ ÇáãÑÃÉ.html
+
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/46/  ÂÑÇÁ æãÞÇáÇÊ.html
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/46/  ÂÑÇÁ æãÞÇáÇÊ.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/46/  ÂÑÇÁ æãÞÇáÇÊ.html
+
+######## Decoding url category/ÊÕäíÝÇÊ/46/  ÂÑÇÁ æãÞÇáÇÊ.html
+
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/45/ ãÈÇÑíÇÊ ÇáÊæÙíÝ.html
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/45/ ãÈÇÑíÇÊ ÇáÊæÙíÝ.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/45/ ãÈÇÑíÇÊ ÇáÊæÙíÝ.html
+
+######## Decoding url category/ÊÕäíÝÇÊ/45/ ãÈÇÑíÇÊ ÇáÊæÙíÝ.html
+
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/57/ ÊÇãÇÒíÛÊ.html
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/57/ ÊÇãÇÒíÛÊ.html
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from category/ÊÕäíÝÇÊ/57/ ÊÇãÇÒíÛÊ.html
+
+######## Decoding url category/ÊÕäíÝÇÊ/57/ ÊÇãÇÒíÛÊ.html
+
+######## Extracting http://www.chaabpress.com/ from contactus
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.chaabpress.com/ from contactus
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.chaabpress.com/ from contactus
+
+######## Decoding url contactus
+
+######## Matched urls: []
+
+######## Worm.append_categories
+
+######## Links to append (the valid links): []
+
+######## Adding valid links to tree
+
+######## Worm.is_category_multipage
+
+######## True
+
+######## Worm.extract_categories_pages
+
+######## Worm.extract_articles
+
+######## Worm.is_category_multipage
+
+######## True
+# 5/13/2016 [17:17]: FINAL PUSH, FINISH

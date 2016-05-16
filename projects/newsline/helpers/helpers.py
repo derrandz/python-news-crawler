@@ -45,7 +45,7 @@ def file_get_contents(path):
 		file.close()	
 		return json_string
 	else:
-		raise ValueError("Provided path does not exist")
+		raise ValueError("Provided path does not exist\npath : %s" % path)
 
 def parse_json_file(path):
 	import json
@@ -65,9 +65,9 @@ def prettify_json_file(path):
 
 def last_element(_list):
 	assert(_list, list)
+	print("%s is list" % _list)
 	lp = len(_list) - 1
 	if lp >= 0:
 		return _list[lp]
 	else:
 		return None
-

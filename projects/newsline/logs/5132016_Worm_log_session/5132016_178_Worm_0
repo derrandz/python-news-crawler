@@ -1,0 +1,337 @@
+# 5/13/2016 [17:8]: INIT PUSH, BEGIN
+
+######## Worm.__init__ : Instantiation passed successfully.
+
+######## Instantiation parameters:
+	
+######## url: ['http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/'],
+	 dom_path: ul > li.menu-item > a
+	, article_url: ['http://www.barlamane.com/%d8%86-%b1%d9%86-%d9%d9%85-%d8%ad8%a9-%d8%a%d9%87-%d8%%85-%d8%8%a7/']
+	, article_dom_path: ul.unstyle-list.posts > li.post > a
+	, nextpage_url: ['http://www.barlamane.com/category/%D8%A7%D9%88%B1/%D8%BD88%A9/page/3/']
+	, nextpage_dom_path: div.next-posts.arrows > a
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/%d8%86-%b1%d9%86-%d9%d9%85-%d8%ad8%a9-%d8%a%d9%87-%d8%%85-%d8%8%a7/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/%d8%86-%b1%d9%86-%d9%d9%85-%d8%ad8%a9-%d8%a%d9%87-%d8%%85-%d8%8%a7/
+
+######## Worm.is_category_multipage
+
+######## True
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%D8%A7%D9%88%B1/%D8%BD88%A9/page/3/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%D8%A7%D9%88%B1/%D8%BD88%A9/page/3/
+
+######## Worm.is_category_multipage
+
+######## True
+
+######## Worm.patternize_url
+
+######## ['(((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩]))|(((?:[^?:#/=0-9])+)(\\/)([ء-ي٠-٩])(\\/)([ء-ي٠-٩])(\\/))', re.compile('(((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩]))|(((?:[^?:#/=0-9])+)(\\/)([ء-ي٠-٩])(\\/)([ء-ي٠-٩])(\\/))', re.IGNORECASE|re.DOTALL)]
+
+######## Worm.patternize_url
+
+######## ['(([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩]))|(((?:[^?:#/=0-9])+)(\\/))', re.compile('(([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])(, re.IGNORECASE|re.DOTALL)]
+
+######## Worm.is_category_multipage
+
+######## True
+
+######## Worm.patternize_url
+
+######## ['(((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩]))|(((?:[^?:#/=0-9])+)(\\/)([ء-ي٠-٩])(\\/)([ء-ي٠-٩])(\\/)((?:[^?:#/=0-9])+)(\\/)(\\d+)(\\/))', re.compile('(((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩]))|(((?:[^?:#/=0-9])+)(\\/)([ء-ي٠-٩])(\\/)([ء-ي٠-٩])(\\/)((?:[^?:, re.IGNORECASE|re.DOTALL)]
+
+######## Worm.extract_categories
+
+######## Crawled urls: [<a href="http://www.barlamane.com/" title="الرئيسية">الرئيسية</a>, <a aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown" href="#" title="الأخبار">الأخبار<i class="fa fa-caret-down"></i></a>, <a href="http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86-tv/" title="صوت و صورة">صوت و صورة</a>, <a href="http://www.barlamane.com/category/%d8%b1%d8%a8%d9%88%d8%b1%d8%b7%d8%a7%d8%ac%d8%a7%d8%aa/" title="ربورطاجات">ربورطاجات</a>, <a href="http://www.barlamane.com/type/%d8%b1%d8%a3%d9%8a-%d9%81%d9%8a-%d9%82%d8%b6%d9%8a%d8%a9/" title="رأي في قضية">رأي في قضية</a>, <a aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown" href="#" title="برلمانيات">برلمانيات<i class="fa fa-caret-down"></i></a>, <a href="http://www.barlamane.com/contact/" title="إتصل بنا">إتصل بنا</a>, <a href="http://www.barlamane.com/evenements/all/" title="أجندا">أجندا</a>, <a href="http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/" title="سياسة">سياسة</a>, <a href="http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%ac%d8%aa%d9%85%d8%b9/" title="مجتمع">مجتمع</a>, <a href="http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%a7%d9%84-%d9%88-%d8%a3%d8%b9%d9%85%d8%a7%d9%84/" title="إقتصاد">إقتصاد</a>, <a href="http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b1%d9%8a%d8%a7%d8%b6%d8%a9/" title="رياضة">رياضة</a>, <a href="http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%81%d9%86/" title="فن">فن</a>, <a href="http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/" title="ثقافة">ثقافة</a>, <a href="http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%a8%d9%8a%d8%a6%d8%a9-%d9%88%d8%b9%d9%84%d9%88%d9%85/" title="بيئة وعلوم">بيئة وعلوم</a>, <a href="http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%ae%d8%a7%d8%b1%d8%ac-%d8%a7%d9%84%d8%ad%d8%af%d9%88%d8%af/" title="خارج الحدود">خارج الحدود</a>, <a href="http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%aa%d9%81%d8%b1%d9%82%d8%a7%d8%aa/" title="متفرقات">متفرقات</a>, <a href="http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d9%83%d9%88%d8%a7%d9%84%d9%8a%d8%b3/" title="كواليس">كواليس</a>, <a href="http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d8%a7%d9%84%d8%ac%d9%84%d8%b3%d8%a7%d8%aa-%d8%a7%d9%84%d8%b9%d8%a7%d9%85%d8%a9/" title="الجلسات العامة">الجلسات العامة</a>, <a href="http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d8%a3%d8%b4%d8%ba%d8%a7%d9%84-%d8%a7%d9%84%d9%84%d8%ac%d9%86-%d8%a7%d9%84%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a9/" title="أشغال اللجن البرلمانية">أشغال اللجن البرلمانية</a>, <a href="http://www.barlamane.com/%d9%85%d8%ac%d9%84%d8%b3-%d8%a7%d9%84%d9%86%d9%88%d8%a7%d8%a8/" title="مجلس النواب">مجلس النواب</a>]
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/
+
+######## Decoding url 
+
+######## Extracting http://www.barlamane.com/ from #
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from #
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from #
+
+######## Decoding url #
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86-tv/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86-tv/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86-tv/
+
+######## Decoding url category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86-tv/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%b1%d8%a8%d9%88%d8%b1%d8%b7%d8%a7%d8%ac%d8%a7%d8%aa/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%b1%d8%a8%d9%88%d8%b1%d8%b7%d8%a7%d8%ac%d8%a7%d8%aa/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%b1%d8%a8%d9%88%d8%b1%d8%b7%d8%a7%d8%ac%d8%a7%d8%aa/
+
+######## Decoding url category/%d8%b1%d8%a8%d9%88%d8%b1%d8%b7%d8%a7%d8%ac%d8%a7%d8%aa/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/type/%d8%b1%d8%a3%d9%8a-%d9%81%d9%8a-%d9%82%d8%b6%d9%8a%d8%a9/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/type/%d8%b1%d8%a3%d9%8a-%d9%81%d9%8a-%d9%82%d8%b6%d9%8a%d8%a9/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/type/%d8%b1%d8%a3%d9%8a-%d9%81%d9%8a-%d9%82%d8%b6%d9%8a%d8%a9/
+
+######## Decoding url type/%d8%b1%d8%a3%d9%8a-%d9%81%d9%8a-%d9%82%d8%b6%d9%8a%d8%a9/
+
+######## Extracting http://www.barlamane.com/ from #
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from #
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from #
+
+######## Decoding url #
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/contact/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/contact/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/contact/
+
+######## Decoding url contact/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/evenements/all/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/evenements/all/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/evenements/all/
+
+######## Decoding url evenements/all/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/
+
+######## Decoding url category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%ac%d8%aa%d9%85%d8%b9/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%ac%d8%aa%d9%85%d8%b9/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%ac%d8%aa%d9%85%d8%b9/
+
+######## Decoding url category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%ac%d8%aa%d9%85%d8%b9/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%a7%d9%84-%d9%88-%d8%a3%d8%b9%d9%85%d8%a7%d9%84/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%a7%d9%84-%d9%88-%d8%a3%d8%b9%d9%85%d8%a7%d9%84/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%a7%d9%84-%d9%88-%d8%a3%d8%b9%d9%85%d8%a7%d9%84/
+
+######## Decoding url category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%a7%d9%84-%d9%88-%d8%a3%d8%b9%d9%85%d8%a7%d9%84/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b1%d9%8a%d8%a7%d8%b6%d8%a9/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b1%d9%8a%d8%a7%d8%b6%d8%a9/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b1%d9%8a%d8%a7%d8%b6%d8%a9/
+
+######## Decoding url category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b1%d9%8a%d8%a7%d8%b6%d8%a9/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%81%d9%86/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%81%d9%86/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%81%d9%86/
+
+######## Decoding url category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%81%d9%86/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/
+
+######## Decoding url category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%a8%d9%8a%d8%a6%d8%a9-%d9%88%d8%b9%d9%84%d9%88%d9%85/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%a8%d9%8a%d8%a6%d8%a9-%d9%88%d8%b9%d9%84%d9%88%d9%85/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%a8%d9%8a%d8%a6%d8%a9-%d9%88%d8%b9%d9%84%d9%88%d9%85/
+
+######## Decoding url category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%a8%d9%8a%d8%a6%d8%a9-%d9%88%d8%b9%d9%84%d9%88%d9%85/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%ae%d8%a7%d8%b1%d8%ac-%d8%a7%d9%84%d8%ad%d8%af%d9%88%d8%af/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%ae%d8%a7%d8%b1%d8%ac-%d8%a7%d9%84%d8%ad%d8%af%d9%88%d8%af/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%ae%d8%a7%d8%b1%d8%ac-%d8%a7%d9%84%d8%ad%d8%af%d9%88%d8%af/
+
+######## Decoding url category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%ae%d8%a7%d8%b1%d8%ac-%d8%a7%d9%84%d8%ad%d8%af%d9%88%d8%af/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%aa%d9%81%d8%b1%d9%82%d8%a7%d8%aa/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%aa%d9%81%d8%b1%d9%82%d8%a7%d8%aa/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%aa%d9%81%d8%b1%d9%82%d8%a7%d8%aa/
+
+######## Decoding url category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%85%d8%aa%d9%81%d8%b1%d9%82%d8%a7%d8%aa/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d9%83%d9%88%d8%a7%d9%84%d9%8a%d8%b3/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d9%83%d9%88%d8%a7%d9%84%d9%8a%d8%b3/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d9%83%d9%88%d8%a7%d9%84%d9%8a%d8%b3/
+
+######## Decoding url category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d9%83%d9%88%d8%a7%d9%84%d9%8a%d8%b3/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d8%a7%d9%84%d8%ac%d9%84%d8%b3%d8%a7%d8%aa-%d8%a7%d9%84%d8%b9%d8%a7%d9%85%d8%a9/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d8%a7%d9%84%d8%ac%d9%84%d8%b3%d8%a7%d8%aa-%d8%a7%d9%84%d8%b9%d8%a7%d9%85%d8%a9/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d8%a7%d9%84%d8%ac%d9%84%d8%b3%d8%a7%d8%aa-%d8%a7%d9%84%d8%b9%d8%a7%d9%85%d8%a9/
+
+######## Decoding url category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d8%a7%d9%84%d8%ac%d9%84%d8%b3%d8%a7%d8%aa-%d8%a7%d9%84%d8%b9%d8%a7%d9%85%d8%a9/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d8%a3%d8%b4%d8%ba%d8%a7%d9%84-%d8%a7%d9%84%d9%84%d8%ac%d9%86-%d8%a7%d9%84%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a9/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d8%a3%d8%b4%d8%ba%d8%a7%d9%84-%d8%a7%d9%84%d9%84%d8%ac%d9%86-%d8%a7%d9%84%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a9/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d8%a3%d8%b4%d8%ba%d8%a7%d9%84-%d8%a7%d9%84%d9%84%d8%ac%d9%86-%d8%a7%d9%84%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a9/
+
+######## Decoding url category/%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a7%d8%aa/%d8%a3%d8%b4%d8%ba%d8%a7%d9%84-%d8%a7%d9%84%d9%84%d8%ac%d9%86-%d8%a7%d9%84%d8%a8%d8%b1%d9%84%d9%85%d8%a7%d9%86%d9%8a%d8%a9/
+
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/%d9%85%d8%ac%d9%84%d8%b3-%d8%a7%d9%84%d9%86%d9%88%d8%a7%d8%a8/
+
+######## Worm.apply_filter.rooturl_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/%d9%85%d8%ac%d9%84%d8%b3-%d8%a7%d9%84%d9%86%d9%88%d8%a7%d8%a8/
+
+######## Worm.apply_filter.url_extractor
+	
+######## Extracting http://www.barlamane.com/ from http://www.barlamane.com/%d9%85%d8%ac%d9%84%d8%b3-%d8%a7%d9%84%d9%86%d9%88%d8%a7%d8%a8/
+
+######## Decoding url %d9%85%d8%ac%d9%84%d8%b3-%d8%a7%d9%84%d9%86%d9%88%d8%a7%d8%a8/
+
+######## Matched urls: []
+
+######## Worm.append_categories
+
+######## Links to append (the valid links): []
+
+######## Adding valid links to tree
+
+######## Worm.is_category_multipage
+
+######## True
+
+######## Worm.extract_categories_pages
+
+######## Worm.extract_articles
+
+######## Worm.is_category_multipage
+
+######## True
+# 5/13/2016 [17:8]: FINAL PUSH, FINISH

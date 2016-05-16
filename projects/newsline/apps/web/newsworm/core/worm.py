@@ -22,28 +22,6 @@ class Worm:
 	"""
 	
 	logger = loghelpers.getLogger("Worm")
-	
-	def is_category_multipage(self):
-		Worm.logger.log("Worm.is_category_multipage")
-		npup = self.category["nextpage_url"]
-		iscat_multi = isinstance(npup, list) and len(npup) > 0
-		if iscat_multi:
-			Worm.logger.log("True", newline=False, indent=True)
-		else:
-			Worm.logger.log("False", newline=False, indent=True)
-
-		return iscat_multi
-
-	def crawl(self, url, dom_path=None):
-		regxr = self.regexr
-		url_pattern = regxr.compile(regxr._regex_url_pattern)
-
-		if url_pattern.match(url):
-			DOM = WDom(url)
-			if dom_path is not None:
-				_dom_path_elements = DOM.find(dom_path)
-				return _dom_path_elements
-			return DOM
 
 	def __init__(self, root_url=None, category=None):
 		"""
@@ -120,9 +98,32 @@ class Worm:
 		Worm.logger.log("url: %s,\n\t dom_path: %s\n\t, article_url: %s\n\t, article_dom_path: %s\n\t, nextpage_url: %s\n\t, nextpage_dom_path: %s" % logparams, indent=True)
 		
 		self.apply_filter()
+		self.decode_arabic_urls()
 		self.patternize()
 		self.sitemap  = Tree(0, self.root_url, None, True, 0)
 
+	
+	def is_category_multipage(self):
+		Worm.logger.log("Worm.is_category_multipage")
+		npup = self.category["nextpage_url"]
+		iscat_multi = isinstance(npup, list) and len(npup) > 0
+		if iscat_multi:
+			Worm.logger.log("True", newline=False, indent=True)
+		else:
+			Worm.logger.log("False", newline=False, indent=True)
+
+		return iscat_multi
+
+	def crawl(self, url, dom_path=None):
+		regxr = self.regexr
+		url_pattern = regxr.compile(regxr._regex_url_pattern)
+
+		if url_pattern.match(url):
+			DOM = WDom(url)
+			if dom_path is not None:
+				_dom_path_elements = DOM.find(dom_path)
+				return _dom_path_elements
+			return DOM
 
 	def patternize(self):
 		self.category["url_pattern"] = self.patternize_url_category() 
@@ -131,6 +132,23 @@ class Worm:
 		if self.is_category_multipage() :
 			self.category["nextpage_url_pattern"] = self.patternize_url_category_nextpage() 
 
+	def decode_arabic_urls(self, urls=None):
+		if urls is not None:
+			if helpers.is_list(urls):
+				Worm.logger.log("Decoding url %s" % urls)
+				return list(map(self.regexr.parse_arabic_urls, urls))
+			else:
+				if helpers.is_str(urls):
+					Worm.logger.log("Decoding url %s" % urls)
+					return self.regexr.parse_arabic_urls(urls)
+				else:
+					raise ValueError("The url must be a list of urls or a string.")
+		else:
+			self.category["url"] = list(map(self.regexr.parse_arabic_urls, self.category["url"]))
+			self.category["article_url"] = list(map(self.regexr.parse_arabic_urls, self.category["article_url"]))
+
+			if self.is_category_multipage() :
+				self.category["nextpage_url"] = list(map(self.regexr.parse_arabic_urls, self.category["nextpage_url"]))
 
 	def apply_filter(self, urls=None):
 		def url_extractor(_substring, _string):
@@ -184,6 +202,7 @@ class Worm:
 		return tree_dict
 
 	def build_report(self):
+		Worm.logger.close_logging_session()
 		return {
 			"root_url": self.root_url,
 			"category_regex_pattern": self.category["url_pattern"][0],
@@ -211,7 +230,7 @@ class Worm:
 
 		catlinks  = []
 		for category in categories:
-			href = self.apply_filter(category.get("href"))
+			href = self.decode_arabic_urls(self.apply_filter(category.get("href")))
 			cu_pattern = self.category["url_pattern"]
 			if cu_pattern is not None:
 				if cu_pattern[1].match(href):
@@ -228,25 +247,28 @@ class Worm:
 
 
 	def extract_categories_pages(self):
+		Worm.logger.log("Worm.extract_categories_pages")
 		for category in self.sitemap.children:
+			Worm.logger.log("Extracting pages for category: %s" % category.content)
 			nextpage_dom = self.crawl(self.root_url + "/" + category.content, self.category["nextpage_dom_path"])
 			safety_flag = True
 			pages = []
-			
+			Worm.logger.log("Crawled pages links: %s" % nextpage_dom)
+
 			for i, page in enumerate(nextpage_dom):
-				href = self.apply_filter(page.get("href"))
+				href = self.decode_arabic_urls(self.apply_filter(page.get("href")))
 				npurl_pattern = self.category["nextpage_url_pattern"]
 				if npurl_pattern is not None: # Safety check
 					if npurl_pattern[1].match(href):
 						pages.append(href)
-					else:
-						print("page did not match")
 				else:
 					safety_flag = False
-			
+
+			Worm.logger.log("Matched pages links: %s" % pages)
+
 			if safety_flag:
 				if not helpers.is_empty(pages) :
-					print("Page %d in %s has : %s" % (i, category.content, pages))
+					Worm.logger.log("Page %d in %s has : %s" % (i, category.content, pages))
 					for page in pages:
 						category.add_child(Tree(category.depth + 1, page))
 
@@ -263,7 +285,7 @@ class Worm:
 					# From the links crawled from the category page, extract the one's who match the provided regex only
 					matched_urls = []
 					for article_link in articles_links:
-						href = self.apply_filter(article_link.get("href"))
+						href = self.decode_arabic_urls(self.apply_filter(article_link.get("href")))
 						au_pattern = self.category["article_url_pattern"]
 						if au_pattern is not None: # Safety check
 							if au_pattern[1].match(href):
@@ -286,7 +308,7 @@ class Worm:
 				# From the links crawled from the category page, extract the one's who match the provided regex only
 				matched_urls = []
 				for article_link in articles_links:
-					href = self.apply_filter(article_link.get("href"))
+					href = self.decode_arabic_urls(self.apply_filter(article_link.get("href")))
 					au_pattern = self.category["article_url_pattern"]
 					if au_pattern is not None: # Safety check
 						if au_pattern[1].match(href):
@@ -310,9 +332,9 @@ class Worm:
 
 		links = []
 		for link in catlinks:
-			full_link = url_prefix + "/" + link
-			if self.is_link_valid(full_link):
-				links.append(link)
+			# full_link = url_prefix + "/" + link
+			# if self.is_link_valid(full_link):
+			links.append(self.decode_arabic_urls(link))
 
 		Worm.logger.log("Links to append (the valid links): %s" % links)
 		Worm.logger.log("Adding valid links to tree")
@@ -339,9 +361,9 @@ class Worm:
 		else:
 			links = []
 			for link in artlinks:
-				full_link = self.root_url + "/" + link
-				if self.is_link_valid(full_link):
-					links.append(link)
+				# full_link = self.root_url + "/" + link
+				# if self.is_link_valid(full_link):
+				links.append(self.decode_arabic_urls(link))
 
 			Worm.logger.log("Links to append (the valid links): %s" % links)
 			for link in links:
@@ -349,7 +371,8 @@ class Worm:
 				catnode.add_child(Tree(self.sitemap.tree_depth_size + 2, link))
 
 	def is_link_valid(self, link):
-		r = requests.get(link)
+		print("Checking validity of link: %s" % link)
+		r = requests.get(self.decode_arabic_urls(link))
 		if r.status_code != 200:
 			return False
 		else:

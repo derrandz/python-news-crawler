@@ -17,6 +17,7 @@ help(){
 # No database test runner
 nd_test_app(){
 	if [ ! -z "$1" -a "$1" != " " ]; then
+		printf "\n\033[95mTesting for newsline.apps.$1\033[0m\n"
   		eval "python3 manage.py test newsline.apps.$1 --testrunner=newsline.scripts.no_db_test_runner.NoDbTestRunner"
 	else
 		echo "You have to specify the test path [without using newsline.apps.]";

@@ -13,13 +13,13 @@ class WormDomParser:
 		if helpers.is_url(url):
 			if helpers.has_http_prefix(url):
 				self.url = url
-				r = requests.get(url)
 			else:
 				self.url = "http://" + url
-				r = requests.get("http://"+url)
 		else:
 			raise ValueError("Url not valid.")
-
+			
+		r = requests.get(self.url)
+		# except requests.exceptions.ConnectionError as e:
 
 		if r is not None:
 			if r.status_code == 200 :

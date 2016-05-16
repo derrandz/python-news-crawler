@@ -50,9 +50,9 @@ class LogSession:
 
 	def close(self):
 		self.buffer.close()
-		self.logfiles.append("\0")
 
 	def log(self, data, newline=True, indent=False):
+		data = "\n######## " + data
 		if not indent and newline:
 			self.buffer.pushnl(data)
 		elif indent and not newline:

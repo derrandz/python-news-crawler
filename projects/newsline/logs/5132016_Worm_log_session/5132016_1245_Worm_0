@@ -1,0 +1,308 @@
+# 5/13/2016 [12:45]: INIT PUSH, BEGIN
+Worm.__init__ : Instantiation passed successfully.
+Instantiation parameters:
+	url: ['http://www.goud.ma/topics/d9%83%d8%a7-8%af%d8%a7%d9%83%d8%a9', 'http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7'],
+	 dom_path: ul.main-menu > li.menu-item > a
+	, article_url: ['http://www.goud.ma/d-d-d-df200-oksdf-217436', 'http://www.goud.ma/dsdfsdfsdf']
+	, article_dom_path: h2 > a
+	, nextpage_url: ['http://www.goud.ma/topics/word-8%af%d8%a7%d9%83%d8%a9/page/2', 'http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/2']
+	, nextpage_dom_path: div.pagination > a
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/d9%83%d8%a7-8%af%d8%a7%d9%83%d8%a9
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/d9%83%d8%a7-8%af%d8%a7%d9%83%d8%a9
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/d-d-d-df200-oksdf-217436
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/d-d-d-df200-oksdf-217436
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/dsdfsdfsdf
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/dsdfsdfsdf
+Worm.is_category_multipage
+True
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/word-8%af%d8%a7%d9%83%d8%a9/page/2
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/word-8%af%d8%a7%d9%83%d8%a9/page/2
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/2
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/2
+Worm.patternize_url
+['((([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])((?:[a-z][a-z]*[0-9]+[a-z0-9]*))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩]))|((\\/)((?:[^?:#/=0-9])+)(\\/)((?:[^?:#/=0-9])+))|(([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩]))|((\\/)((?:[^?:#/=0-9])+)(\\/)([ء-ي٠-٩])))', re.compile('((([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])((?:[a-z][a-z]*[0-9]+[a-z0-9]*))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩]))|((\\/)((?:[^?:#/=0-9])+)(\\/)((?:[^?:#/=0-9])+))|(([ء-ي٠-٩])((?:[a, re.IGNORECASE|re.DOTALL)]
+Worm.patternize_url
+['((([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])((?:[a-z][a-z]*[0-9]+[a-z0-9]*))([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩]))|((\\/)((?:[^?:#/=0-9])+))|(([ء-ي٠-٩])((?:[a-z][a-z]+)))|((\\/)((?:[^?:#/=0-9])+)))', re.compile('((([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])((?:[a-z][a-z]*[0-9]+[a-z0-9]*))([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩]))|((\\/)((?:[^?:#/=0-9])+)), re.IGNORECASE|re.DOTALL)]
+Worm.is_category_multipage
+True
+Worm.patternize_url
+['((([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩]))|((\\/)((?:[^?:#/=0-9])+)(\\/)((?:[^?:#/=0-9])+)(\\/)((?:[^?:#/=0-9])+)(\\/)(\\d+))|(([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩]))|((\\/)((?:[^?:#/=0-9])+)(\\/)([ء-ي٠-٩])(\\/)((?:[^?:#/=0-9])+)(\\/)(\\d+)))', re.compile('((([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])([ء-ي٠-٩])((?:[a-z][a-z]+))([ء-ي٠-٩])([ء-ي٠-٩]))|((\\/)((?:[^?:#/=0-9])+)(\\/)((?:[^?:#/=0-9])+)(\\/)((, re.IGNORECASE|re.DOTALL)]
+Worm.extract_categories
+Crawled urls: [<a href="http://www.goud.ma"><i class="momizat-icon-home3"></i>الأولى</a>, <a href="http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/">آش واقع</a>, <a href="http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/">تبركيك</a>, <a href="http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/">آراء</a>, <a href="http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/">ثقافة</a>, <a href="http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/">ميديا</a>, <a href="http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/">الزين والحداكة</a>, <a href="http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/">كازانيكرا</a>, <a href="http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/">فضايح</a>, <a href="http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/">كود سبور</a>, <a href="#">المزيد</a>]
+Extracting http://www.goud.ma from http://www.goud.ma
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/
+Extracting http://www.goud.ma from #
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from #
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from #
+Matched urls: ['/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/', '/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/', '/topics/%d8%a2%d8%b1%d8%a7%d8%a1/', '/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/', '/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/', '/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/', '/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/', '/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/', '/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/']
+Worm.append_categories
+Links to append (the valid links): ['/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/', '/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/', '/topics/%d8%a2%d8%b1%d8%a7%d8%a1/', '/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/', '/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/', '/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/', '/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/', '/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/', '/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/']
+Adding valid links to tree
+Link : /topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/
+Link : /topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/
+Link : /topics/%d8%a2%d8%b1%d8%a7%d8%a1/
+Link : /topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/
+Link : /topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/
+Link : /topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/
+Link : /topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/
+Link : /topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/
+Link : /topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/
+Worm.is_category_multipage
+True
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/page/3/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/page/3/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/page/3/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/page/2749/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/page/2749/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/page/2749/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/3/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/3/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/3/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/315/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/315/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/315/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/page/3/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/page/3/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/page/3/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/page/362/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/page/362/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a2%d8%b1%d8%a7%d8%a1/page/362/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/page/3/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/page/3/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/page/3/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/page/25/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/page/25/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/page/25/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/page/3/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/page/3/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/page/3/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/page/199/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/page/199/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/page/199/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/page/3/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/page/3/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/page/3/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/page/103/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/page/103/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/page/103/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/3/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/3/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/3/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/98/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/98/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/98/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/page/3/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/page/3/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/page/3/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/page/504/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/page/504/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/page/504/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/page/3/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/page/3/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/page/3/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/page/2/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/page/2/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/page/2/
+Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/page/341/
+Worm.apply_filter.rooturl_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/page/341/
+Worm.apply_filter.url_extractor
+	Extracting http://www.goud.ma from http://www.goud.ma/topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/page/341/
+Worm.extract_articles
+Worm.is_category_multipage
+True
+	Category: /topics/%d8%a2%d8%b4-%d9%88%d8%a7%d9%82%d8%b9/
+	Category: /topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/
+	Category: /topics/%d8%a2%d8%b1%d8%a7%d8%a1/
+	Category: /topics/%d8%ab%d9%82%d8%a7%d9%81%d8%a9/
+	Category: /topics/%d9%85%d9%8a%d8%af%d9%8a%d8%a7/
+	Category: /topics/%d8%a7%d9%84%d8%b2%d9%8a%d9%86-%d9%88%d8%a7%d9%84%d8%ad%d8%af%d8%a7%d9%83%d8%a9/
+	Category: /topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/
+	Category: /topics/%d9%81%d8%b6%d8%a7%d9%8a%d8%ad/
+	Category: /topics/%d9%83%d9%88%d8%af-%d8%b3%d8%a8%d9%88%d8%b1/
+# 5/13/2016 [12:46]: FINAL PUSH, FINISH
