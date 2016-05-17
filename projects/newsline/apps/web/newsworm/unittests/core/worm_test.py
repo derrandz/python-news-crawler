@@ -38,7 +38,8 @@ class WormTestCase(BaseSimpleTestCase):
 
 	def read_from_training_data(self):
 		from newsline.helpers import helpers
-		return helpers.parse_json_file("./newsline/apps/web/newsworm/unittests/core/_files/_input/training_set.json")
+		from django.conf import settings
+		return helpers.parse_json_file(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_input/training_set.json")
 
 	def test_crawl(self, index):
 		_data = self.read_from_training_data()
@@ -48,22 +49,16 @@ class WormTestCase(BaseSimpleTestCase):
 			raise ValueError("Training data dictionary does not contain key: %s" % index)
 
 		worm = Worm(_data["root_url"], _data)
+
 		_crawl_results = worm.launch()
 
-		if __name__ == "__main__" :
-			try:
-				_crawl_results = worm.launch()
-			except:
-				worm.logger.close_logging_session()
-		else:
-			_crawl_results = worm.launch()
-
 		self.print_results(_crawl_results, worm.is_category_multipage())
-		self.save_crawl_results("./newsline/apps/web/newsworm/unittests/core/_files/_output/%s_crawl_results.json" % index, _crawl_results)
+		from django.conf import settings
+		self.save_crawl_results(settings.NEWSLINE_DIR + "/apps/web/newsworm/unittests/core/_files/_output/%s_crawl_results.json" % index, _crawl_results)
 
 	def test_save(self):
 		from newsline.helpers import helpers
 		# helpers.prettify_json_file("./newsline/apps/newsworm/unittests/core/_files/_input/training_set.json")
 
 	def test_website(self):
-		self.test_crawl("horiapress") # open ./_files/input/training_data.json for precise info
+		self.test_crawl("chaabpress") # open ./_files/input/training_data.json for precise info

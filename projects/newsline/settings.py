@@ -176,7 +176,3 @@ TESTING = sys.argv[1:2] == ['test']
 
 # The logging application and log files storage path
 LOG_FILES_STORAGE = NEWSLINE_DIR + "/logs"
-
-# Logger Instance
-from newsline.apps.utility.logger.log_tools import LoggerResolver
-LOGGER = LoggerResolver.resolve_logger()

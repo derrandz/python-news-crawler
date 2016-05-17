@@ -17,8 +17,10 @@ class WormDomParser:
 				self.url = "http://" + url
 		else:
 			raise ValueError("Url not valid.")
-			
-		r = requests.get(self.url)
+
+		headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+
+		r = requests.get(self.url, headers=headers)
 		# except requests.exceptions.ConnectionError as e:
 
 		if r is not None:
