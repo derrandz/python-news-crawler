@@ -1,6 +1,7 @@
 class ColorsClass:
 	
 	colors = {
+		"BOLD"          :    "\033[1m",
 		"BLACK"			:	 "\033[0;30m",
 		"BLUE"			:	 "\033[0;34m",
 		"GREEN"			:	 "\033[0;32m",
@@ -11,13 +12,18 @@ class ColorsClass:
 		"GRAY"			:	 "\033[0;37m",
 		"BOLDGRAY"		:	 "\033[1;30m",
 		"BOLDBLUE"		:	 "\033[1;34m",
+		"BOLDBLUE"		:	 "\033[1;34m",
 		"BOLDGREEN"		:	 "\033[1;32m",
 		"BOLDCYAN"		:	 "\033[1;36m",
 		"BOLDRED"		:	 "\033[1;31m",
 		"BOLDPURPLE"	:	 "\033[1;35m",
 		"BOLDYELLOW"	:	 "\033[1;33m",
 		"WHITE"			:	 "\033[1;37m",
-		"NORMAL"		:	 "\033[0m"
+		"YELLOW" 		: 	 "\033[93m",
+		"DARKCYAN"  	:    "\033[36m",
+		"NORMAL"		:	 "\033[0m",
+		"UNDERLINE"     :    "\033[4m",
+		"END"           :    "\033[0m"
 	}
 
 	@classmethod

@@ -8,10 +8,17 @@ from newsline.apps.utility.logger.core import logger
 class LoggerTestCase(BaseSimpleTestCase):
 
 	@logger.log_class
-	class TestCaseClass(logger.WorkflowStep):
+	class TestCaseClass(logger.ClassUsesLog):
 
 		log_directory_name = "testcaseclass_logs"
 		log_name = "TestCaseClass"
+	
+			
+		def __init__(self, param=None):
+			if param is None:
+				raise ValueError("Param is required")
+			else:
+				self.param = param
 		
 		@logger.log_method
 		def TestCaseMethod(self, a, b):
@@ -24,6 +31,6 @@ class LoggerTestCase(BaseSimpleTestCase):
 
 	def hello_world(self):
 
-		LogTestCase = self.TestCaseClass()
+		LogTestCase = self.TestCaseClass(123)
 		LogTestCase.TestCaseMethod(7, 2)
 		LogTestCase.close_logging_session()

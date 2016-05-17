@@ -16,8 +16,7 @@ class Tree:
 		if content is not None:
 			self.content = content
 		else:
-			print('The node expect a string content, None given.')
-			assert False
+			raise ValueError('The node expects a string content, %s given.' % content)
 
 		self.children = [] 
 		if children is not None:
@@ -25,7 +24,7 @@ class Tree:
 				self.add_child(child)
 
 	def __repr__(self):
-		return 'The depth of this node is : %d ' % self.depth
+		return '%s ' % self.content
 
 	def increment_size(self):
 		assert self.is_root

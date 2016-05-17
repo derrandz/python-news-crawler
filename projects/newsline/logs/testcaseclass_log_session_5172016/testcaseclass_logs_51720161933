@@ -1,0 +1,5 @@
+[5-17-2016] [19-33-5] : [0m <newsline.apps.utility.logger.tests.logger_test.LoggerTestCase.TestCaseClass object at 0x7fa9164823c8>.[0;33mTestCaseMethod - TestCaseMethod[0m (7, 2)
+[5-17-2016] [19-33-5] : [0m     Received arg a: 7
+[5-17-2016] [19-33-5] : [0m     Received arg b: 2
+[5-17-2016] [19-33-5] : [0m     Returning a + b: 7 + 2
+DONE

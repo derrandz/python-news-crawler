@@ -1,11 +1,11 @@
-import re
-
 from htmldom import htmldom
-from newsline.apps.web.newsworm.core.worm import Worm
 from django.test import SimpleTestCase
+from newsline.apps.web.newsworm.core.worm import Worm
 from newsline.helpers.colors_class import ColorsClass
 from newsline.functionalities.tests.base_simple_test import BaseSimpleTestCase
 from newsline.apps.web.newsworm.core.regexr import RegexrClass
+
+import re
 
 class WormTestCase(BaseSimpleTestCase):
 	'''
@@ -44,21 +44,26 @@ class WormTestCase(BaseSimpleTestCase):
 	def test_crawl(self, index):
 		_data = self.read_from_training_data()
 		if index in _data:
-			_data = _data[index]
+			_data = _data[index] # Fetches the dictionary at the specified index
 		else:
 			raise ValueError("Training data dictionary does not contain key: %s" % index)
 
 		worm = Worm(_data["root_url"], _data)
-
 		_crawl_results = worm.launch()
 
+		if _crawl_results["status"]:
+			self.print_success("Crawled %s with success."% _data["root_url"])
+		else:
+			self.print_failure("Failed to crawl %s."% _data["root_url"])
+
 		self.print_results(_crawl_results, worm.is_category_multipage())
+
 		from django.conf import settings
 		self.save_crawl_results(settings.NEWSLINE_DIR + "/apps/web/newsworm/unittests/core/_files/_output/%s_crawl_results.json" % index, _crawl_results)
 
 	def test_save(self):
 		from newsline.helpers import helpers
-		# helpers.prettify_json_file("./newsline/apps/newsworm/unittests/core/_files/_input/training_set.json")
+		helpers.prettify_json_file(settings.NEWSLINE_DIR + "/newsline/apps/newsworm/unittests/core/_files/_input/training_set.json")
 
 	def test_website(self):
-		self.test_crawl("chaabpress") # open ./_files/input/training_data.json for precise info
+		self.test_crawl("hespress") # open ./_files/input/training_data.json for precise info

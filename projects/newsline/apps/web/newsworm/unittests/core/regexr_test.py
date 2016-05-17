@@ -2,7 +2,8 @@ import re
 
 from htmldom import htmldom
 from django.test import SimpleTestCase
-from .base_test import BaseSimpleTestCase, ColorsClass
+from newsline.functionalities.tests.base_simple_test import BaseSimpleTestCase
+from newsline.helpers.colors_class import ColorsClass
 from newsline.apps.web.newsworm.core.regexr import RegexrClass
 
 class RegexrTestCase(BaseSimpleTestCase):
@@ -85,3 +86,13 @@ class RegexrTestCase(BaseSimpleTestCase):
 				self.print_success("OK!")
 			else:
 				self.print_failure("Test failed.")
+
+	def test_remove_double_slash(self):
+		examples = ["//alink", "//alink//", "/alink/", "alink//", "///link///link"]
+		results = ["/alink", "/alink/", "/alink/", "alink/", "/link/link"]
+
+		regexr = RegexrClass()
+		rresults = list(map(regexr.remove_double_slash, examples))
+
+		for i, el in enumerate(results):
+			self.print_with_color("BOLD", "Arg Supplied: %s, Result: %s, Expected: %s"% (examples[i], el, rresults[i]))

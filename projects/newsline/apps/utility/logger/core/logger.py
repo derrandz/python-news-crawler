@@ -135,7 +135,7 @@ class Logger(object):
 
     def log(self, message, color=None, log_level='info', indent_level=None, *args, **kwargs):
         msg_params = {
-            'color': color or ColorsClass.get("NORMAL"),
+            'color': ColorsClass.get(color) if color is not None else ColorsClass.get("NORMAL"),
             'indent': self.indent_string * (indent_level or self.indent_level),
             'msg': message
         }
@@ -226,20 +226,20 @@ def log_class(cls, log_match=".*", log_no_match="asdfnomatch", display_name=None
     cls.start_logging_session()
     return cls
     
-class WorkflowStep:
+class ClassUsesLog:
+    from newsline.helpers.decorators import classproperty
+
     singleInstance = None
     SessionPath    = ''
     LoggedClass    = ''
     DirectoryName  = ''
+    __logger       = None
 
-    def __init__(self, *args, **kwargs):
-        self.__logger = None
-
-    @property
-    def logger_instance(self):
-        if not self.__logger:
-            self.__logger = Logger()
-        return self.__logger
+    @classproperty
+    def logger_instance(cls):
+        if not cls.__logger:
+            cls.__logger = Logger()
+        return cls.__logger
 
     def log(self, message, *args, **kwargs):
         self.logger_instance.log(message, *args, **kwargs)
@@ -262,9 +262,8 @@ class WorkflowStep:
     @classmethod
     def start_logging_session(cls):
         cls.format_directoryname()
-        LogManagerInstance = cls.resolveInstance()
-        LogManagerInstance.mkdir()
-        LogManagerInstance.logger_instance.start_buffer()
+        cls.mkdir()
+        cls.logger_instance.start_buffer()
 
     def close_logging_session(self):
         self.commit_logbuffer()
@@ -272,11 +271,12 @@ class WorkflowStep:
     def formatfilename(self):
         return "%s_logs_%s%s" % (self.LoggedClass.lower(), formatdate(nodel=True), formattime(nodel=True))
 
-    def mkdir(self):
+    @classmethod
+    def mkdir(cls):
         import os
         from django.conf import settings
-        if self.DirectoryName is not None:
-            path = settings.LOG_FILES_STORAGE + "/" + self.DirectoryName
+        if cls.DirectoryName is not None:
+            path = settings.LOG_FILES_STORAGE + "/" + cls.DirectoryName
             if not os.path.exists(path):
                 os.makedirs(path)
 
@@ -285,3 +285,4 @@ class WorkflowStep:
         from newsline.helpers import helpers
         filepath = self.SessionPath + "/" + self.formatfilename()
         helpers.file_put_contents(filepath, str(self.logger_instance.getbuffer()))
+

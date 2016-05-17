@@ -71,3 +71,7 @@ def last_element(_list):
 		return _list[lp]
 	else:
 		return None
+
+def get_base_class(derived_class):
+	import inspect
+	return inspect.getmro(derived_class)[1]

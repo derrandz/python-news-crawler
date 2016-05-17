@@ -12,6 +12,19 @@ class RegexrClass:
 	_regex_url_pattern       = "((http|https)\:\/\/)(||www)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?"
 	_regex_arabic_characters = "([\u0621-\u064A\u0660-\u0669])"
 
+	def remove_double_slash(self, url):
+		urlbuffer = ""
+		for i in range(0, len(url)):
+			if i < len(url) - 1:
+				chars_not_same = url[i] != url[i+1]
+				chars_same     = url[i] == url[i+1]
+				chars_slash    = url[i] == "/" and url[i+1] == "/"
+				if  chars_not_same or (chars_same and not chars_slash):
+					urlbuffer += url[i]
+			else:
+				urlbuffer += url[i]
+		return urlbuffer
+
 	def parse_arabic_urls(self, url):
 		import urllib.parse
 		return urllib.parse.unquote(url)
