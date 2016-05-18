@@ -26,25 +26,51 @@ class Worm(logger.ClassUsesLog):
 	It is responsible for discovering the right paths to crawl, and extracting the articles from the websites properly.
 	"""
 	
-	Worm("http://google.com", [ {"url", "selector", "nested_item": {}}])
 	def __init__(self, rooturl=None, domitems=None):
 		self.rooturl = rooturl
+		self.domitems = domitems
 
-		expected_keys       = ["category_url","category_dom_path", "category_nextpage_url", "category_nextpage_dom_path", "category_article_url", "category_article_dom_path"]
-		expected_as_lists   = ["category_url", "category_nextpage_url", "category_article_url"]
-		expected_as_strings = ["category_dom_path", "category_nextpage_dom_path", "category_article_dom_path"]
+		self.cdom     = self.crawl(self.root_url) if not nocrawl else ""
+		
+		self.apply_filter()
+		self.decode_arabic_urls()
+		self.patternize()
 
-		# self.cdom     = self.crawl(self.root_url) if not nocrawl else ""
+		self.sitemap  = Tree(0, self.root_url, None, True, 0)
 
-		# self.apply_filter()
-		# self.decode_arabic_urls()
-		# self.patternize()
+	@property
+	def rooturl(self):
+		return self._rooturl
 
-		# self.sitemap  = Tree(0, self.root_url, None, True, 0)
+	@rooturl.setter
+	def rooturl(self, url):
+		if not url or url is None: raise Exception("rooturl cannot be empty or None")
+		if helpers.is_str(url): 
+			if not helpers.is_url(url): 
+				raise Exception("rooturl should respect the form a url e.g: http://google.com\n\t url: %s"% url)
+		if helpers.is_list(url):
+			if helpers.is_empty(url):
+				raise Exception("rooturl list can not be empty")
+			elif not all(helpers.is_str(u) for u in url):
+				raise Exception("rooturl is list, expecting all list elements to be str, however an element (or more) is not")
+			elif not helpers.is_url(url, root=True):
+				raise Exception("rooturl list given, however an element does not respect url pattern. e.g: http://google.com\n\t url: %s"% url)
 
-	def is_category_multipage(self):
-		npup = self.category["nextpage_url"]
-		return isinstance(npup, list) and len(npup) > 0
+		self._rooturl = url
+
+	@property
+	def domitems(self):
+		return self._domitems
+
+	@domitems.setter
+	def domitems(self, domitems):
+		if heplers.is_list(domitems):
+			if not all(helpers.is_dict(domitem) for domitem in domitems):
+				raise Exception("The domitems list expects all elements to be dictionaries, some aren't")
+			else:
+				self._domitems = [DomItem(i['name'], i['url'], i['selector'], i['nested_items']) if 'nested_items' in i else DomItem(i['name'], i['url'], i['selector']) for i in domitems]
+		elif helpers.is_dict(domitems):
+			self._domitems = DomItem(domitems['name'], domitems['url'], domitems['selector'], domitems['nested_items']) if 'nested_items' in domitems else DomItem(domitems['name'], domitems['url'], domitems['selector'])
 
 	@logger.log_method
 	def crawl(self, url, dom_path=None):

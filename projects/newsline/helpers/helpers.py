@@ -15,25 +15,35 @@ def is_none(object):
 def is_true(object):
 	return object == True
 
-def is_url(url):
-	def _is_url(url):
+def is_url(url, root=False):
+	def _is_url(url, root):
 		regxr = RegexrClass()
-		if regxr.is_url(url):
-			return True
-		return False
+		if not root:
+			if regxr.is_url(url):
+				return True
+			return False
+		else:
+			if regxr.is_rooturl(url):
+				return True
+			return False
 
 	if is_list(url):
 		if is_empty(url):
 			raise ValueError("url list should not be empty")
 		if not all(is_str(a) for a in url):
 			raise ValueError("url list items should be strings")
-			
-		return all(is_true(a) for a in list(map(_is_url, url)))
+		from functools import partial
+		mapfunc = partial(_is_url, root=root)
+		return all(is_true(a) for a in list(map(mapfunc, url)))
 	elif is_str(url):
-		return _is_url(url)
+		return _is_url(url, root)
 	else:
 		raise ValueError("url is expected to be an str or a list or str, %s given" % type(url))
 
+def is_retype(object):
+	import re
+	retype = type(re.compile("[a-z]"))
+	return isinstance(object, retype)
 
 def has_http_prefix(url):
 	regxr = RegexrClass()

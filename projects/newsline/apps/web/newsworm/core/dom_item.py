@@ -7,7 +7,6 @@ class DomItem:
 		self.url = url
 		self.name = name
 		self.domselector = domselector
-		self.regex_pattern = self.patternize(self.url)
 		self.nested_items = nested_items
 	
 	@property
@@ -76,7 +75,7 @@ class DomItem:
 			elif not all(helpers.is_dict(i) for i in ni):
 				raise Exception("nested_items received as list expects all elements to be dict, some aren't")
 			try:
-				self._nested_items = [DomItem(ni['name'], i['url'], i['selector'], i['nested_items']) if 'nested_items' in i else DomItem(ni['name'], i['url'], i['selector']) for i in ni]
+				self._nested_items = [DomItem(i['name'], i['url'], i['selector'], i['nested_items']) if 'nested_items' in i else DomItem(i['name'], i['url'], i['selector']) for i in ni]
 			except Exception as e:
 				raise Exception("DomItem nested element exception : %s" % str(e))
 
@@ -84,9 +83,24 @@ class DomItem:
 	def has_nested_items(self):
 		return self.nested_items if not self.nested_items else True
 	
-	def patternize(self, urls):
+	@property
+	def regexpattern(self):
+		return self._regexpattern
+
+	@regexpattern.setter
+	def regexpattern(self, rp):
+		if rp is None: raise Exception("Regex pattern can not be none")
+		if not helpers.is_list(rp): raise Exception("Regex pattern should be a list with two elements, one represneting the regex and second representing its compiled version")
+		else:
+			if len(rp) > 2: raise Exception("Regex pattern should be a list with two elements, one represneting the regex and second representing its compiled version")
+			if not helpers.is_str(rp[0]): raise Exception("Regex pattern's first element should be a string containing the actual regex")
+			if not helpers.is_retype(rp[1]):raise Exception("Regex pattern's second element should be a compiled re type")
+
+		self._regexpattern = rp
+
+	def patternize(self):
 		"""
 		This method will extract the regex pattern of the url as to get all similar links.
 		"""
 		from . import regexr	
-		return regexr.RegexrClass().patternize(urls)
+		self.regexpattern = regexr.RegexrClass().patternize(self.url)

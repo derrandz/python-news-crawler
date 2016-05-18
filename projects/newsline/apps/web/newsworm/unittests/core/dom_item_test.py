@@ -250,6 +250,22 @@ class DomItemTestCase(BaseSimpleTestCase):
 			self.print_success("# 7: Test passed for : %s, %s, %s, %s"%(name, url, selector, nested_items))
 			self.print_seperator()
 
+	def testCasePatternize(self):
+		domitem = DomItem('category_item', '/category/politics', 'nav > ul > li > a')
+		raised = False
+		try:
+			domitem.patternize()
+		except Exception as e:
+			raised = True
+			self.print_failure("Test failed with :%s"%str(e))
+			self.print_seperator()
+			raise e
+
+		if not raised:
+			self.print_success("Test passed for : %s, %s, %s, %s"%(domitem.name, domitem.url, domitem.domselector, domitem.regexpattern))
+			self.print_seperator()
+
+
 	def realCaseTest(self):
 		raised = False
 		domitem = None
