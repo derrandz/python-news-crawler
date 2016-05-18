@@ -26,37 +26,21 @@ class Worm(logger.ClassUsesLog):
 	It is responsible for discovering the right paths to crawl, and extracting the articles from the websites properly.
 	"""
 	
-	def __init__(self, root_url=None, category=None, ignore_validation=False, nocrawl=False):
+	Worm("http://google.com", [ {"url", "selector", "nested_item": {}}])
+	def __init__(self, rooturl=None, domitems=None):
+		self.rooturl = rooturl
 
 		expected_keys       = ["category_url","category_dom_path", "category_nextpage_url", "category_nextpage_dom_path", "category_article_url", "category_article_dom_path"]
 		expected_as_lists   = ["category_url", "category_nextpage_url", "category_article_url"]
 		expected_as_strings = ["category_dom_path", "category_nextpage_dom_path", "category_article_dom_path"]
 
-		self.root_url = root_url.strip("/")
-		self.regexr   = RegexrClass()
-		self.cdom     = self.crawl(self.root_url) if not nocrawl else ""
+		# self.cdom     = self.crawl(self.root_url) if not nocrawl else ""
 
-		self.category = {
-							"url": category["category_url"],
-							"dom_path": category["category_dom_path"], 
-							"url_pattern": "", 
-							"nextpage_url": category["category_nextpage_url"] , # That is a list containing one or more url
-							"nextpage_dom_path": category["category_nextpage_dom_path"] if not helpers.is_empty(category["category_nextpage_url"]) else "", 
-							"nextpage_url_pattern": "", 
-							"article_url": category["category_article_url"], 
-							"article_dom_path": category["category_article_dom_path"], 
-							"article_url_pattern": ""
-						}
+		# self.apply_filter()
+		# self.decode_arabic_urls()
+		# self.patternize()
 
-		self.log("Worm has been initialized with following parameters \n:")
-		for key, value in self.category.items():
-			self.log("%s  : \n%s" % (key, value))
-		
-		self.apply_filter()
-		self.decode_arabic_urls()
-		self.patternize()
-
-		self.sitemap  = Tree(0, self.root_url, None, True, 0)
+		# self.sitemap  = Tree(0, self.root_url, None, True, 0)
 
 	def is_category_multipage(self):
 		npup = self.category["nextpage_url"]

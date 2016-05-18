@@ -1,11 +1,14 @@
+from newsline.helpers import helpers
 
 class DomItem:
 	"""A doc item is a crawlable item that is identified by a link, a dom path, and a general regex to match all the similar links"""
 
-	def __init__(self, url, domselector):
+	def __init__(self, name, url, domselector, nested_items=None):
 		self.url = url
+		self.name = name
 		self.domselector = domselector
 		self.regex_pattern = self.patternize(self.url)
+		self.nested_items = nested_items
 	
 	@property
 	def url(self):
@@ -13,18 +16,29 @@ class DomItem:
 
 	@url.setter
 	def url(self, url):
-		from newsline.helpers import helpers
 		if not url or url is None: raise Exception("url cannot be empty or None")
 		if helpers.is_str(url): 
 			if not helpers.is_url(url): 
-				raise Exception("url should respect the form a url e.g: http://google.com")
+				raise Exception("url should respect the form a url e.g: http://google.com\n\t url: %s"% url)
 		if helpers.is_list(url):
-			if not all(helpers.is_str(u) for u in url):
+			if helpers.is_empty(url):
+				raise Exception("url list can not be empty")
+			elif not all(helpers.is_str(u) for u in url):
 				raise Exception("url is list, expecting all list elements to be str, however an element (or more) is not")
 			elif not helpers.is_url(url):
-				raise Exception("url list given, however an element does not respect url pattern. e.g: http://google.com")
+				raise Exception("url list given, however an element does not respect url pattern. e.g: http://google.com\n\t url: %s"% url)
 
 		self._url = url
+
+	@property
+	def name(self):
+		return self._name
+	
+	@name.setter
+	def name(self, name):
+		if not name or name is None: raise Exception("name cannot be empty or None")
+		if not helpers.is_str(name): raise Exception("name is expected to be string, %s given" % type(name))
+		self._name = name
 
 	@property
 	def domselector(self):
@@ -32,10 +46,44 @@ class DomItem:
 
 	@domselector.setter
 	def domselector(self, ds):
-		if not ds or ds is None: raise Exception("domselector cannot be empty or None")
-		if not isinstance(ds, str): raise Exception("domselector is expected to be a string, %s given"%type(ds))
+		if ds is None: raise Exception("domselector cannot be empty or None")
+		if helpers.is_list(ds):
+			if helpers.is_empty(ds): raise Exception("domselector received an empty list, domselector can not be empty")
+			if not all(helpers.is_str(d) for d in ds): raise Exception("domselector received an empty list, but not all elements are strings")
+		elif helpers.is_str(ds) and not ds: raise Exception("domselector is expected to be a string, %s given"%type(ds))
+		if not helpers.is_str(ds) and not helpers.is_list(ds): raise Exception("domselector is expected to be a string or list of strings, %s given"%type(ds))
+
 		self._domselector = ds
 
+	@property
+	def nested_items(self):
+		return self._nested_items
+
+	@nested_items.setter
+	def nested_items(self, ni):
+		from newsline.helpers import helpers
+
+		if ni is None: self._nested_items = False
+		elif helpers.is_dict(ni):
+			try:
+				self._nested_items = DomItem(ni['name'], ni['url'], ni['selector'], ni['nested_items']) if 'nested_items' in ni else DomItem(ni['name'], ni['url'], ni['selector'])
+			except Exception as e:
+				raise Exception("DomItem nested element exception : %s" % str(e))
+
+		elif helpers.is_list(ni):
+			if helpers.is_empty(ni):
+				raise Exception("nested_items can not be empty")
+			elif not all(helpers.is_dict(i) for i in ni):
+				raise Exception("nested_items received as list expects all elements to be dict, some aren't")
+			try:
+				self._nested_items = [DomItem(ni['name'], i['url'], i['selector'], i['nested_items']) if 'nested_items' in i else DomItem(ni['name'], i['url'], i['selector']) for i in ni]
+			except Exception as e:
+				raise Exception("DomItem nested element exception : %s" % str(e))
+
+	@property
+	def has_nested_items(self):
+		return self.nested_items if not self.nested_items else True
+	
 	def patternize(self, urls):
 		"""
 		This method will extract the regex pattern of the url as to get all similar links.

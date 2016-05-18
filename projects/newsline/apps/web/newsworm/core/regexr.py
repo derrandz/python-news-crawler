@@ -9,7 +9,7 @@ class RegexrClass:
 	_regex_alpha_only        = "((?:[a-z][a-z]+))"
 	_regex_word              = "((?:\w+))"
 	_regex_string            = "((?:[^?:#/=0-9])+)" # A string signifies any word contaning any character except /?#
-	_regex_url_pattern       = "((http|https)\:\/\/)(||www)[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?"
+	_regex_url_pattern       = "((?:(?:https?:\/\/)|(?:www\.))?[-a-zA-Z0-9@:%._\+~#=]{4,256}\.[a-z]{2,4}(\/|\.|\=|\?|\#|\?|\+|\&|\~)?(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)|(\/(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)"
 	_regex_arabic_characters = "([\u0621-\u064A\u0660-\u0669])"
 
 	def remove_double_slash(self, url):
@@ -37,7 +37,10 @@ class RegexrClass:
 
 	def compile(self, pattern):
 		return re.compile(pattern, re.IGNORECASE|re.DOTALL)
-			
+	
+	def is_url(self, url):
+		return True if self.compile(self._regex_url_pattern).match(url) else False
+
 	def escape(self, char):
 		"""
 		escapes any provided character

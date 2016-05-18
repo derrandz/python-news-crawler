@@ -6,6 +6,9 @@ def is_list(object):
 def is_str(object):
 	return isinstance(object, str)
 
+def is_dict(object):
+	return isinstance(object, dict)
+
 def is_none(object):
 	return object is None
 
@@ -15,11 +18,16 @@ def is_true(object):
 def is_url(url):
 	def _is_url(url):
 		regxr = RegexrClass()
-		if regxr.compile(regxr._regex_url_pattern).match(url):
+		if regxr.is_url(url):
 			return True
 		return False
 
 	if is_list(url):
+		if is_empty(url):
+			raise ValueError("url list should not be empty")
+		if not all(is_str(a) for a in url):
+			raise ValueError("url list items should be strings")
+			
 		return all(is_true(a) for a in list(map(_is_url, url)))
 	elif is_str(url):
 		return _is_url(url)
