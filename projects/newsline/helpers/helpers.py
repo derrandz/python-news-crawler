@@ -9,11 +9,23 @@ def is_str(object):
 def is_none(object):
 	return object is None
 
+def is_true(object):
+	return object == True
+
 def is_url(url):
-	regxr = RegexrClass()
-	if regxr.compile(regxr._regex_url_pattern).match(url):
-		return True
-	return False
+	def _is_url(url):
+		regxr = RegexrClass()
+		if regxr.compile(regxr._regex_url_pattern).match(url):
+			return True
+		return False
+
+	if is_list(url):
+		return all(is_true(a) for a in list(map(_is_url, url)))
+	elif is_str(url):
+		return _is_url(url)
+	else:
+		raise ValueError("url is expected to be an str or a list or str, %s given" % type(url))
+
 
 def has_http_prefix(url):
 	regxr = RegexrClass()
@@ -63,12 +75,12 @@ def write_json(path, dictionary):
 def prettify_json_file(path):	
 	write_json(path, parse_json_file(path))
 
-def last_element(_list):
-	assert(_list, list)
-	print("%s is list" % _list)
-	lp = len(_list) - 1
+def last_element(arglist):
+	assert is_list(arglist, list)
+	print("%s is list" % arglist)
+	lp = len(arglist) - 1
 	if lp >= 0:
-		return _list[lp]
+		return arglist[lp]
 	else:
 		return None
 

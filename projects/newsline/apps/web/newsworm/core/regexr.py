@@ -44,6 +44,30 @@ class RegexrClass:
 		"""
 		return "(\\" + char + ")"
 
+	def patternize(self, items):
+		from newsline.helpers import helpers
+
+		if helpers.is_list(items):
+			if helpers.is_empty(items): 
+				raise Exception("items cannot be an empty list")
+			else:
+				if not all(isinstance(i, str) for i in items):
+					raise Exception("items must be a list of strings, an element is not string")
+				else:
+					if len(items) == 1:
+						return self.make_pattern(urls[0])
+					elif len(items) > 1:
+						pattern = "("
+						for i, item in enumerate(items):
+							if i == len(items) - 1:
+								pattern += self.make_pattern(item)[0] + ")"
+							else:
+								pattern += self.make_pattern(item)[0] + "|"
+						return [pattern, re.compile(pattern, re.IGNORECASE|re.DOTALL)]
+
+		elif isinstance(items, str):
+			return self.make_pattern(items)
+
 	def make_exact_pattern(self, _string):
 		"""
 		Generates the exact provided pattern in terms of words, digits, special characters, and alphanumerics
@@ -75,7 +99,7 @@ class RegexrClass:
 			elif _string.isalnum():
 				return self._regex_alphanum
 
-		return None;
+		return None
 
 	def make_general_pattern(self, _string):
 		"""
@@ -114,16 +138,12 @@ class RegexrClass:
 			elif _string.isalnum():
 				return self._regex_alphanum
 
-		return None;
-
-	def make_pattern(self, _string, noslash=None):
+		return None
+		
+	def make_pattern(self, _string):
 		"""
 		Makes a pattern
 		"""
-		_noslash = False
-		if noslash is not None:
-			_noslash = noslash
-
 		if _string == '' :
 			return [None, None]
 		else:

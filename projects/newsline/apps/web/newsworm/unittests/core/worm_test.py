@@ -67,3 +67,13 @@ class WormTestCase(BaseSimpleTestCase):
 
 	def test_website(self):
 		self.test_crawl("hespress") # open ./_files/input/training_data.json for precise info
+
+	def test_addrooturl(self):
+		rooturl ="http://www.root.com/"
+		worm = Worm(rooturl, None, ignore_validation=True, nocrawl=True)
+		examples = ["/cat1/cat2", "cat2/cat3", "//cat23/cat22//"]
+		expected = ["/cat1/cat2", "/cat2/cat3", "/cat23/cat22"]
+
+		l = list(map(worm.add_rooturl, examples))
+		for i, el in enumerate(l):
+			self.print_with_color("BOLD", "Arg Supplied: %s, Result: %s, Expected: %s"% (examples[i], el, rooturl.strip("/")+expected[i]))

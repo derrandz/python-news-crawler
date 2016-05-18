@@ -26,63 +26,16 @@ class Worm(logger.ClassUsesLog):
 	It is responsible for discovering the right paths to crawl, and extracting the articles from the websites properly.
 	"""
 	
-	def __init__(self, root_url=None, category=None):
-		"""
-		Worm.__init__ instantiates a worm instance with a target url.
-		Using this url, the worm will perform a recursive crawl to draw a hiarchical map of the website's gateways.
-		The recursive crawl will detect the "article depth", the depth at which the articles reside.
+	def __init__(self, root_url=None, category=None, ignore_validation=False, nocrawl=False):
 
-		Make sure the url provided is a root url, or something of the kind subdomain.url.com
-		Make sure the prefix of the url is http://
-		"""
-		def has_expected_keys(keys):
-			for key in keys:
-				if not key in category:
-					raise ValueError("The key %s was not found, make sure you specified it." % key)
-
-		def are_lists(keys):
-			for key in keys:
-				if not isinstance(category[key], list):
-					if key != "category_nextpage_url":
-						raise ValueError("%s is not a list, list expected" % key)
-
-		def are_lists_empty(keys):
-			for key in keys:
-				if not len(category[key]) > 0 : 
-					if key != "category_nextpage_url": 
-						raise ValueError("list %s can not be empty" % key)
-
-		def are_strings(keys):
-			for key in keys:
-				if not isinstance(category[key], str):
-					raise ValueError("%s is not a string, string expected" % key)
-
-		def are_strings_empty(keys):
-			for key in keys:
-				if category[key] == "":
-					if key != "category_nextpage_dom_path":
-						raise ValueError("You cannot supply an empty string at %s " % key)
-		
 		expected_keys       = ["category_url","category_dom_path", "category_nextpage_url", "category_nextpage_dom_path", "category_article_url", "category_article_dom_path"]
 		expected_as_lists   = ["category_url", "category_nextpage_url", "category_article_url"]
 		expected_as_strings = ["category_dom_path", "category_nextpage_dom_path", "category_article_dom_path"]
 
-		if root_url is None:
-			raise ValueError("root_url can not be None.")
-		else:
-			if root_url == "":
-				raise ValueError("root_url can not be an empty string")
-
-		has_expected_keys(expected_keys)
-		are_lists(expected_as_lists)
-		are_lists_empty(expected_as_lists)
-		are_strings(expected_as_strings)
-		are_strings_empty(expected_as_strings)
-
-
 		self.root_url = root_url.strip("/")
 		self.regexr   = RegexrClass()
-		self.cdom     = self.crawl(self.root_url)
+		self.cdom     = self.crawl(self.root_url) if not nocrawl else ""
+
 		self.category = {
 							"url": category["category_url"],
 							"dom_path": category["category_dom_path"], 
@@ -435,41 +388,6 @@ class Worm(logger.ClassUsesLog):
 						return False
 		return True
 
-	def get_report(self):
-		crawled_categories_count = len(self.sitemap.children)
-		crawled_pages_count      = 0
-		crawled_articles_count   = 0
-
-		failed_categories_count  = 0
-		success_categories_count = 0
-
-		if self.is_category_multipage():
-			failed_pages_count  = 0
-			success_pages_count = 0
-			if not helpers.is_empty(self.sitemap.children):
-				for category in self.sitemap.children:
-					if helpers.is_empty(category.children):
-						failed_categories_count += 1
-					else:
-						crawled_pages_count += len(category.children)
-						for page in category.children:
-							if helpers.is_empty(page.children):
-								failed_pages_count += 1
-							else:
-								success_pages_count += 1
-								crawled_articles_count += len(page.children)
-
-			return ""
-		else:
-			if not helpers.is_empty(self.sitemap.children):
-				for category in self.sitemap.children:
-					if helpers.is_empty(category.children):
-						failed_categories_count += 1
-					else:
-						success_categories_count += 1
-						crawled_articles_count += len(category.children)
-
-
 	def build_report(self):
 		tree_dict = self.build_tree_dict()
 		self.close_logging_session()
@@ -484,4 +402,8 @@ class Worm(logger.ClassUsesLog):
 		}
 
 	def add_rooturl(self, url):
-		return self.root_url + self.regexr.remove_double_slash(url)
+		url = self.regexr.remove_double_slash(url)
+		if url[0] == "/" :
+			return self.root_url + url
+		else:
+			return self.root_url + "/" + url 
