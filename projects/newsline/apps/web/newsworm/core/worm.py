@@ -3,9 +3,7 @@
 # 
 # My sincere gratitude to anyone that have had a hand in developing these two libraries.
 
-# from newsline.apps.web.newsworm.submodels. import NewswormArticle
 from newspaper import Article
-from htmldom import htmldom
 from .tree import Tree
 from .regexr import RegexrClass
 from .dom_parser import WormDomParser as WDom
@@ -30,11 +28,12 @@ class Worm(logger.ClassUsesLog):
 		self.regexr = RegexrClass()
 		self.rooturl = rooturl
 
-		# cleans and normalizes the data that will create the dom items
-		self.domitems = self.clean(self.decode(self.normalize(domitems)))
+		# This is called the normalization phase
+		# The nesting of the function calls is very important
+		self.domitems = self.clean(self.decode(self.normalize(self.validate(domitems))))
 		self.patternize()
 
-		self.sitemap  = Tree(0, self.rooturl, None, True, 0)
+		# self.sitemap  = Tree(self.rooturl, )
 		# self.cdom = self.crawl(self.root_url)
 
 	@property
@@ -92,6 +91,18 @@ class Worm(logger.ClassUsesLog):
 
 	def remove_rooturl(self, url):
 		return self.regexr.del_substring(self.rooturl, url)
+
+	def validate(self, domitems):
+		if helpers.is_list(domitems):
+			if not all(helpers.is_dict(di) for di in domitems):
+				raise Exception("The domitems list expects all elements to be dictionaries, some aren't")
+			else:
+				return domitems
+		else:
+			if not helpers.is_dict(domitems):
+				raise Exception("The domitems expects a dictionary element, %s given" % type(domitems))
+			else:
+				return domitems
 
 	def normalize(self, domitems):
 		""" removes the rooturl from the domitem urls if they have it"""

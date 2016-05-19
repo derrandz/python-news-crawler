@@ -13,25 +13,6 @@ class WormTestCase(BaseSimpleTestCase):
 	
 	Not the best tests in the world, codewise, but they test wsup.
 	'''
-	def print_results(self, results, multipage=False):
-		self.print_with_color("CYAN", "---------------------- Results ----------------------")
-		self.print_with_color("CYAN", "- Category Regex ----------------------:\n\t%s"%results["category_regex_pattern"])
-		self.print_with_color("CYAN", "- Article Regex ----------------------:\n\t%s"%results["article_regex_pattern"])
-		self.print_with_color("CYAN", "- NextPage Regex ----------------------:\n\t%s"%results["nextpage_regex_pattern"])
-		if multipage:
-			for ckey, category in results["results"].items():
-				self.print_with_color("CYAN", "\nCategory: %s" % ckey)
-				for pkey, page in category.items():
-					self.print_with_color("YELLOW", "\n\tPage: %s" % pkey)
-					for article in page:
-						self.print_with_color("GREEN", "\n\t\tArticle: %s" % article)
-		else:
-			for ckey, category in results["results"].items():
-				self.print_with_color("CYAN", "\nCategory: %s" % ckey)
-				for article in category:
-					self.print_with_color("GREEN", "\n\tArticle: %s" % article)
-
-
 	def save_crawl_results(self, name, results):
 		from newsline.helpers import helpers
 		helpers.write_json(name, results)
@@ -41,44 +22,100 @@ class WormTestCase(BaseSimpleTestCase):
 		from django.conf import settings
 		return helpers.parse_json_file(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_input/training_set.json")
 
-	def test_crawl(self, index):
-		_data = self.read_from_training_data()
-		if index in _data:
-			_data = _data[index] # Fetches the dictionary at the specified index
-		else:
-			raise ValueError("Training data dictionary does not contain key: %s" % index)
+	def wormTestValidate(self):
+		class WormTestClass(Worm):
+			def __init__(self, rooturl=None, domitems=None):
+				self.regexr = RegexrClass()
+				self.rooturl = rooturl
+				self.temp = self.validate(domitems)
+		
 
-		worm = Worm(_data["root_url"], _data)
-		_crawl_results = worm.launch()
+		# 0
+		raised = False
+		try:
+			self.print_info("# 0: The following test should fail.")
+			from copy import deepcopy
+			worm = WormTestClass("http://www.goud.ma/", 1)
+		except Exception as e:
+			raised = True
+			self.print_failure("# 0: Test failed with :%s"%str(e))
 
-		if _crawl_results["status"]:
-			self.print_success("Crawled %s with success."% _data["root_url"])
-		else:
-			self.print_failure("Failed to crawl %s."% _data["root_url"])
+		if not raised:
+			self.print_success("# 0: Test passed")
 
-		self.print_results(_crawl_results, worm.is_category_multipage())
 
-		from django.conf import settings
-		self.save_crawl_results(settings.NEWSLINE_DIR + "/apps/web/newsworm/unittests/core/_files/_output/%s_crawl_results.json" % index, _crawl_results)
+		# 1
+		raised = False
+		self.print_seperator()
+		try:
+			self.print_info("# 1: The following test should fail.")
+			from copy import deepcopy
+			worm = WormTestClass("http://www.goud.ma/", [1, {}])
+		except Exception as e:
+			raised = True
+			self.print_failure("# 1: Test failed with :%s"%str(e))
 
-	def test_save(self):
-		from newsline.helpers import helpers
-		helpers.prettify_json_file(settings.NEWSLINE_DIR + "/newsline/apps/newsworm/unittests/core/_files/_input/training_set.json")
+		if not raised:
+			self.print_success("# 1: Test passed")
 
-	def test_website(self):
-		self.test_crawl("hespress") # open ./_files/input/training_data.json for precise info
+		# 2
+		raised = False
+		self.print_seperator()
+		try:
+			self.print_info("# 2: The following test should pass.")
+			from copy import deepcopy
+			worm = WormTestClass("http://www.goud.ma/", [{}, {}])
+		except Exception as e:
+			raised = True
+			self.print_failure("# 2: Test failed with :%s"%str(e))
 
-	def test_addrooturl(self):
-		rooturl ="http://www.root.com/"
-		worm = Worm(rooturl, None, ignore_validation=True, nocrawl=True)
-		examples = ["/cat1/cat2", "cat2/cat3", "//cat23/cat22//"]
-		expected = ["/cat1/cat2", "/cat2/cat3", "/cat23/cat22"]
+		if not raised:
+			self.print_success("# 3: Test passed")
 
-		l = list(map(worm.add_rooturl, examples))
-		for i, el in enumerate(l):
-			self.print_with_color("BOLD", "Arg Supplied: %s, Result: %s, Expected: %s"% (examples[i], el, rooturl.strip("/")+expected[i]))
 
-	def wormTestN(self):
+	def wormTestNormalize(self):
+
+		class WormTestClass(Worm):
+			def __init__(self, rooturl=None, domitems=None):
+				self.regexr = RegexrClass()
+				self.rooturl = rooturl
+
+				self.temp = self.normalize(domitems)
+		
+		domitems = {
+			"url": "http://www.goud.ma/", 
+			"selector": "", 
+			"nested_items":{
+				"url": "http://www.goud.ma/topics/1/",
+				"selector": "",
+				"nested_items": {
+					"url": "http://www.goud.ma/topics/2/",
+					"selector": "",
+					"nested_items":{
+						"url": "http://www.goud.ma/topics/3/",
+						"selector": ""
+					}
+				}
+			}
+		}
+
+		from copy import deepcopy
+		worm = WormTestClass("http://www.goud.ma/", deepcopy(domitems))
+		self.print_info("'\n\nThe following should contain links with the rooturl as a prefix:")
+		self.print_with_color("DARKCYAN", "\n[PreNormaliziation]: %s"% domitems)
+
+		self.print_info("\n\nThe following should contain links without the rooturl as a prefix:")
+		self.print_with_color("DARKCYAN", "\n[PostNormalization]: %s"% worm.temp)
+
+	def wormTestDecode(self):
+
+		class WormTestClass(Worm):
+			def __init__(self, rooturl=None, domitems=None):
+				self.regexr = RegexrClass()
+				self.rooturl = rooturl
+
+				self.temp = self.decode(domitems)
+		
 		domitems = {
 			"url": "http://www.goud.ma/", 
 			"selector": "", 
@@ -95,7 +132,79 @@ class WormTestCase(BaseSimpleTestCase):
 				}
 			}
 		}
+
 		from copy import deepcopy
-		worm = Worm("http://www.goud.ma/", deepcopy(domitems))
+		worm = WormTestClass("http://www.goud.ma/", deepcopy(domitems))
+		self.print_info("'\n\nThe following should contain links with non readable utf-8 characters:")
 		self.print_with_color("DARKCYAN", "\n[PreNormaliziation]: %s"% domitems)
+
+		self.print_info("\n\nThe following should contain links with readable arabic unicode characters:")
+		self.print_with_color("DARKCYAN", "\n[PostNormalization]: %s"% worm.temp)
+
+	def wormTestClean(self):
+
+		class WormTestClass(Worm):
+			def __init__(self, rooturl=None, domitems=None):
+				self.regexr = RegexrClass()
+				self.rooturl = rooturl
+
+				self.temp = self.clean(domitems)
+		
+		domitems = {
+			"url": "http://www.goud.ma/", 
+			"selector": "", 
+			"nested_items":{
+				"url": "http://www.goud.ma/",
+				"selector": "",
+				"nested_items": {
+					"url": "http://www.goud.ma/topics//1",
+					"selector": "",
+					"nested_items":{
+						"url": "http://www.goud.ma///topics//123//page2/",
+						"selector": ""
+					}
+				}
+			}
+		}
+
+		from copy import deepcopy
+		worm = WormTestClass("http://www.goud.ma/", deepcopy(domitems))
+		self.print_info("'\n\nThe following should contain links trailing slashes and double slashes:")
+		self.print_with_color("DARKCYAN", "\n[PreNormaliziation]: %s"% domitems)
+
+		self.print_info("\n\nThe following should contain links cleaned from trailing slashes and double slashes:")
+		self.print_with_color("DARKCYAN", "\n[PostNormalization]: %s"% worm.temp)
+
+	def wormTestNormalizationPhase(self):
+
+		class WormTestClass(Worm):
+			def __init__(self, rooturl=None, domitems=None):
+				self.regexr = RegexrClass()
+				self.rooturl = rooturl
+
+				self.temp = self.clean(self.decode(self.normalize(self.validate(domitems))))
+		
+		domitems = {
+			"url": "http://www.goud.ma/", 
+			"selector": "", 
+			"nested_items":{
+				"url": "http://www.goud.ma////topics///%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/",
+				"selector": "",
+				"nested_items": {
+					"url": "http://www.goud.ma/topics///%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/",
+					"selector": "",
+					"nested_items":{
+						"url": "http://www.goud.ma///topics///%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/",
+						"selector": ""
+					}
+				}
+			}
+		}
+
+		from copy import deepcopy
+		worm = WormTestClass("http://www.goud.ma/", deepcopy(domitems))
+		self.print_info("'\n\nThe following should contain links trailing slashes and double slashes, non-readable utf-8 characters and rooturl prefix:")
+		self.print_with_color("DARKCYAN", "\n[PreNormaliziation]: %s"% domitems)
+
+		self.print_info("\n\nThe following should contain links cleaned from trailing slashes and double slashes, readable unicode arabic characters and clean from rooturl prefix:")
 		self.print_with_color("DARKCYAN", "\n[PostNormalization]: %s"% worm.temp)

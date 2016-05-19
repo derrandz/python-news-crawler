@@ -6,9 +6,6 @@ from newsline.apps.web.newsworm.core.dom_item import DomItem
 
 class DomItemTestCase(BaseSimpleTestCase):
 	''' A test suit for the DomItem class. '''
-
-	def print_seperator(self):
-		self.print_with_bold_color("YELLOW","\n\n--------------------------------------------------------------------------------\n\n")
 	
 	def setUpFailTest(self):
 		raised = False
