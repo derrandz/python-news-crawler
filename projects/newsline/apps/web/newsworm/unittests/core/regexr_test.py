@@ -39,7 +39,7 @@ class RegexrTestCase(BaseSimpleTestCase):
 									"www.hespress.com/something/index.1.html",]
 
 		regexr = RegexrClass()
-		pattern = regexr.make_pattern(url_example, True)
+		pattern = regexr.make_pattern(url_example)
 		compiled_pattern = pattern[1]
 		print("The provided url : %s" % url_example)
 		print("The extracted pattern is : %s" % pattern[0])
@@ -89,10 +89,14 @@ class RegexrTestCase(BaseSimpleTestCase):
 
 	def test_remove_double_slash(self):
 		examples = ["//alink", "//alink//", "/alink/", "alink//", "///link///link"]
-		results = ["/alink", "/alink/", "/alink/", "alink/", "/link/link"]
+		results = ["/alink", "/alink", "/alink", "alink", "/link/link"]
 
 		regexr = RegexrClass()
 		rresults = list(map(regexr.remove_double_slash, examples))
 
 		for i, el in enumerate(results):
-			self.print_with_color("BOLD", "Arg Supplied: %s, Result: %s, Expected: %s"% (examples[i], el, rresults[i]))
+			self.print_with_color("BOLD", "Arg Supplied: %s, Expected: %s, Result: %s"% (examples[i], el, rresults[i]))
+			if el == rresults[i]:
+				self.print_success("OK!")
+			else:
+				self.print_failure("FAILED!")

@@ -105,3 +105,33 @@ def last_element(arglist):
 def get_base_class(derived_class):
 	import inspect
 	return inspect.getmro(derived_class)[1]
+
+def map_dictionary(func, dictionary, key=None):
+	""" loops through a dictionary's value recursively and applies whatever supplied function"""
+
+	if not func or func is None: raise Exception("map_dictionary expects a function, %s given"%type(dictionary))
+	if not is_dict(dictionary): raise Exception("map_dictionary expects a dictionary, %s given"%type(dictionary))
+
+	for k, v in dictionary.items():
+		if is_dict(v):
+			map_dictionary(func, v, key)
+		elif is_list(v):
+			def _mpdictionary(_dct, _key=key, _func=func):
+				return map_dictionary(func=_func, dictionary=_dct, key=_key)
+			dictionary[k] = list(map(_mpdictionary, v))
+		else:
+			if key is not None:
+				key_found = False
+				if is_list(key):
+					if k in key:
+						key_found = True
+				elif is_str(key):
+					if k == key: 
+						key_found = True
+
+				if key_found:
+					dictionary[k] = func(v)
+			else:
+				dictionary[k] = func(k)
+
+	return dictionary

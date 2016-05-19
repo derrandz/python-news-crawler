@@ -77,3 +77,25 @@ class WormTestCase(BaseSimpleTestCase):
 		l = list(map(worm.add_rooturl, examples))
 		for i, el in enumerate(l):
 			self.print_with_color("BOLD", "Arg Supplied: %s, Result: %s, Expected: %s"% (examples[i], el, rooturl.strip("/")+expected[i]))
+
+	def wormTestN(self):
+		domitems = {
+			"url": "http://www.goud.ma/", 
+			"selector": "", 
+			"nested_items":{
+				"url": "http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/",
+				"selector": "",
+				"nested_items": {
+					"url": "http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/",
+					"selector": "",
+					"nested_items":{
+						"url": "http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/",
+						"selector": ""
+					}
+				}
+			}
+		}
+		from copy import deepcopy
+		worm = Worm("http://www.goud.ma/", deepcopy(domitems))
+		self.print_with_color("DARKCYAN", "\n[PreNormaliziation]: %s"% domitems)
+		self.print_with_color("DARKCYAN", "\n[PostNormalization]: %s"% worm.temp)

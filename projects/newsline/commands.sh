@@ -8,6 +8,7 @@ commands_and_desc["nd_test_utility_app"]="nd_test_utlity_app appname.path.to.tes
 commands_and_desc["nd_test_web_app"]="nd_test_web_app appname.path.to.test.method"
 commands_and_desc["nd_test_newsworm"]="nd_test_newsworm unitests.path.to.subtests"
 commands_and_desc["nd_test_newsworm_core"]="nd_test_newsworm_core path.to.subtests"
+commands_and_desc["nd_test"]="nd_test_ test any path in newsline project"
 
 help(){
     printf '\n\n\n\033[92mThe newsline project management commands:\n'
@@ -19,6 +20,15 @@ help(){
 }
 
 # No database test runner
+nd_test(){
+	if [ ! -z "$1" -a "$1" != " " ]; then
+		printf "\n\033[95mTesting for newsline.$1\033[0m\n"
+  		eval "python3 ../manage.py test newsline.$1 --testrunner=newsline.scripts.no_db_test_runner.NoDbTestRunner"
+	else
+		echo "You have to specify the test path [without using newsline.]";
+	fi	
+}
+
 nd_test_app(){
 	if [ ! -z "$1" -a "$1" != " " ]; then
 		printf "\n\033[95mTesting for newsline.apps.$1\033[0m\n"

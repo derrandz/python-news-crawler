@@ -44,5 +44,3 @@ class WormDomParser(logger.ClassUsesLog):
 	def find(self, css_selector_path):
 		self.log("Looking for dom path: %s" % css_selector_path)
 		return self.dom.select(css_selector_path)
-
-

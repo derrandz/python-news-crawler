@@ -23,7 +23,9 @@ class RegexrClass:
 				if  chars_not_same or (chars_same and not chars_slash):
 					urlbuffer += url[i]
 			else:
-				urlbuffer += url[i]
+				if url[i] != "/":
+					urlbuffer += url[i]
+
 		return urlbuffer
 
 	def parse_arabic_urls(self, url):
