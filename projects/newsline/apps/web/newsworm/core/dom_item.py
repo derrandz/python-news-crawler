@@ -104,3 +104,27 @@ class DomItem:
 		"""
 		from . import regexr	
 		self.regexpattern = regexr.RegexrClass().patternize(self.url)
+
+		if self.has_nested_items:
+			if helpers.is_list(self.nested_items):
+				for item in self.nested_items:
+					item.patternize()
+			else:
+				self.nested_items.patternize()
+
+	def getattr_recursive(self, attr, depth=0):
+		if not hasattr(self, attr): raise Exception("DomItem object has no attribute %s", str(attr))
+		if attr == 'nested_items': raise Exception("nested_items key is not allowed to be fetched recursively")
+		if self.has_nested_items:
+			if helpers.is_list(self.nested_items):
+				return {
+					"level_%d"%depth		: getattr(self, attr), 
+					"nested_item_%s"%attr   : [ni.getattr_recursive(attr, depth+1) for ni in self.nested_items] 
+				}
+			else: 
+				return {
+					"level_%d"%depth		: getattr(self, attr), 
+					"nested_item_%s"%attr   : self.nested_items.getattr_recursive(attr, depth+1) 
+				}
+		else:
+			return {"level_%d"%depth: getattr(self, attr)}

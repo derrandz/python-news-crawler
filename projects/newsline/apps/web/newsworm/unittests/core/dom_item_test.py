@@ -11,8 +11,6 @@ class DomItemTestCase(BaseSimpleTestCase):
 		self.print_with_bold_color("YELLOW","\n\n--------------------------------------------------------------------------------\n\n")
 	
 	def setUpFailTest(self):
-		import sys
-
 		raised = False
 
 		# 0
@@ -320,3 +318,39 @@ class DomItemTestCase(BaseSimpleTestCase):
 		if not raised:
 			self.print_success("Test passed successfully")
 			self.print_seperator()
+
+	def domItemPatternizeTestCase(self):
+		raised = False
+		domitem = None
+		try:
+			domitem = DomItem('category_item', '/category/politics', 'nav > ul > li > a', {
+					"name": 'pagination',
+					"url": '/category/politics/page1',
+					"selector": 'div.pagination > ul > li > a',
+					"nested_items": {
+						"name": 'articles',
+						"url": '/article/123123.html',
+						"selector": 'h2 > a',
+						"nested_items":[
+							{"name": 'nesteditem1', "url": '/nesteditem/count1', "selector": 'span > p'},
+							{"name": 'nesteditem2', "url": '/nesteditem/count2', "selector": 'span > p'},
+							{"name": 'nesteditem3', "url": '/nesteditem/count3', "selector": 'span > p'}
+						]
+					}
+				})
+		except Exception as e:
+			raised = True
+			self.print_failure("Test failed @instantiation with :%s"%str(e))
+			self.print_seperator()
+
+		if not raised:
+			try:
+				domitem.patternize()
+			except Exception as e:
+				raised = True
+				self.print_failure("Test failed @patternize with :%s"%str(e))
+				self.print_seperator()
+
+		if not raised:
+			self.print_success("patternize succeeded.")
+			self.print_success("\nResult:\n\t%s" % domitem.getattr_recursive("regexpattern"))

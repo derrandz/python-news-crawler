@@ -34,7 +34,7 @@ class Worm(logger.ClassUsesLog):
 		self.domitems = self.clean(self.decode(self.normalize(domitems)))
 		self.patternize()
 
-		# self.sitemap  = Tree(0, self.root_url, None, True, 0)
+		self.sitemap  = Tree(0, self.rooturl, None, True, 0)
 		# self.cdom = self.crawl(self.root_url)
 
 	@property
@@ -125,6 +125,7 @@ class Worm(logger.ClassUsesLog):
 
 	def patternize(self):
 		if helpers.is_list(self.domitems):
-			useless_container = [ x.method_call() for x in a_list_of_objects ]
+			for item in self.domitems:
+				item.patternize()
 		elif isinstance(self.domitems, DomItem):
 			self.domitems.patternize()

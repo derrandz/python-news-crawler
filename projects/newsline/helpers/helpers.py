@@ -135,3 +135,12 @@ def map_dictionary(func, dictionary, key=None):
 				dictionary[k] = func(k)
 
 	return dictionary
+
+def indent(times):
+	if not times: return ""
+
+	indbuf = ""
+	for i in range(0, times):
+		indbuf += "\t"
+
+	return indbuf
