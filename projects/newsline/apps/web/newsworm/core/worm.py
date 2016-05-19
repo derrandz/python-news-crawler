@@ -3,10 +3,11 @@
 # 
 # My sincere gratitude to anyone that have had a hand in developing these two libraries.
 
-from newspaper import Article
+# from newspaper import Article
 from .tree import Tree
 from .regexr import RegexrClass
 from .dom_parser import WormDomParser as WDom
+from .dom_item import DomItem
 
 from newsline.apps.utility.logger.core import logger
 from newsline.helpers import helpers

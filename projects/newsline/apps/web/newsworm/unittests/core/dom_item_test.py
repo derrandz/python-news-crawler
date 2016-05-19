@@ -170,10 +170,10 @@ class DomItemTestCase(BaseSimpleTestCase):
 		raised = False
 		url = ["http://www.google.com", "www.google.com"]
 		selector = ["div.class > ul#id > li > a", "div.class > ul#id > li > a"]
-		nested_items = {"url":'www.google.com', "selector":'div.class > li > a'}
+		nested_items = {"name": 'nesteditem',"url":'www.google.com', "selector":'div.class > li > a'}
 
 		try:
-			dom_item = DomItem(name, url, selector, nested_items)
+			dom_item = DomItem("myname", url, selector, nested_items)
 		except Exception as e:
 			raised = True
 			self.print_failure("# 5: Test failed with :%s"%str(e))
@@ -188,13 +188,14 @@ class DomItemTestCase(BaseSimpleTestCase):
 		url = ["http://www.google.com", "www.google.com"]
 		selector = ["div.class > ul#id > li > a", "div.class > ul#id > li > a"]
 		nested_items = [
-			{"url":'www.google.com', "selector":'div.class > li > a'},
-			{"url":'/sub/url1', "selector":'div.class > li > a'},
-			{"url":'/sub/url2', "selector":'div.class > li > a'},
+			{"name": 'nesteditem', "url":'www.google.com', "selector":'div.class > li > a'},
+			{"name": 'nesteditem', "url":'/sub/url1', "selector":'div.class > li > a'},
+			{"name": 'nesteditem', "url":'/sub/url2', "selector":'div.class > li > a'},
 			{
+				"name": 'nesteditem',
 				"url":'/sub/url3', 
 				"selector":'div.class > li > a', 
-				"nested_items": {"url":'/page1', "selector":'div.class > li > a'}
+				"nested_items": {"name": 'nesteditem', "url":'/page1', "selector":'div.class > li > a'}
 			}
 		]
 
@@ -215,19 +216,21 @@ class DomItemTestCase(BaseSimpleTestCase):
 		selector = ["div.class > ul#id > li > a", "div.class > ul#id > li > a"]
 		nested_items = [
 			{
+				"name": 'nesteditem', 
 				"url":'/sub/url3', 
 				"selector":'div.class > li > a', 
 				"nested_items": [
-					{"url":'/page1', "selector":'div.class > li > a'},
-					{"url":'/page2', "selector":'div.class > li > a'},
-					{"url":'/page3', "selector":'div.class > li > a'},
+					{"name": 'nesteditem', "url":'/page1', "selector":'div.class > li > a'},
+					{"name": 'nesteditem', "url":'/page2', "selector":'div.class > li > a'},
+					{"name": 'nesteditem', "url":'/page3', "selector":'div.class > li > a'},
 					{
+						"name": 'nesteditem', 
 						"url":'/page4', 
 						"selector":'div.class > li > a',
 						"nested_items":[
-							{"url":'/page4/page1', "selector":'div.class > li > a'},
-							{"url":'/page4/page2', "selector":'div.class > li > a'},
-							{"url":'/page4/page3', "selector":'div.class > li > a'}
+							{"name": 'nesteditem', "url":'/page4/page1', "selector":'div.class > li > a'},
+							{"name": 'nesteditem', "url":'/page4/page2', "selector":'div.class > li > a'},
+							{"name": 'nesteditem', "url":'/page4/page3', "selector":'div.class > li > a'}
 						]
 					},
 				]

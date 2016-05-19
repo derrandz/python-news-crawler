@@ -49,7 +49,8 @@ class DomItem:
 		if helpers.is_list(ds):
 			if helpers.is_empty(ds): raise Exception("domselector received an empty list, domselector can not be empty")
 			if not all(helpers.is_str(d) for d in ds): raise Exception("domselector received an empty list, but not all elements are strings")
-		elif helpers.is_str(ds) and not ds: raise Exception("domselector is expected to be a string, %s given"%type(ds))
+		elif not helpers.is_str(ds): raise Exception("domselector is expected to be a string, %s given"%type(ds))
+		
 		if not helpers.is_str(ds) and not helpers.is_list(ds): raise Exception("domselector is expected to be a string or list of strings, %s given"%type(ds))
 
 		self._domselector = ds

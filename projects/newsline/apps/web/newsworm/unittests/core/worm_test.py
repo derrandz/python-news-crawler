@@ -208,3 +208,76 @@ class WormTestCase(BaseSimpleTestCase):
 
 		self.print_info("\n\nThe following should contain links cleaned from trailing slashes and double slashes, readable unicode arabic characters and clean from rooturl prefix:")
 		self.print_with_color("DARKCYAN", "\n[PostNormalization]: %s"% worm.temp)
+
+	def wormTestDomItemCreation(self):
+
+		class WormTestClass(Worm):
+			def __init__(self, rooturl=None, domitems=None):
+				self.regexr = RegexrClass()
+				self.rooturl = rooturl
+
+				self.domitems = self.clean(self.decode(self.normalize(self.validate(domitems))))
+		
+		domitems = {
+			"name": "category",
+			"url": "/category1/", 
+			"selector": "ul > li > a", 
+			"nested_items":{
+				"name": "article",
+				"url": "/category1/article",
+				"selector": "h2 > a",
+				"nested_items": [
+					{
+						"name": "article_image",
+						"url": "/category1/article/image",
+						"selector": "span > img"
+					},
+					{
+						"name": "article_video",
+						"url": "/category1/article/video",
+						"selector": "span > video"
+					}
+				]
+			}
+		}
+
+		from copy import deepcopy
+		raised = False
+		worm = None
+		try:
+			worm = WormTestClass("http://www.goud.ma/", deepcopy(domitems))
+		except Exception as e:
+			raised = True
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+
+		if not raised:
+			self.print_success("Test passed without raising any exception!")
+			self.print_success("Testing further more")
+
+			if worm.domitems.name == "category":
+				self.print_success("Dom item category has been created successfully with:")
+				self.print_with_color("CYAN", "url: %s, domselector: %s" % (worm.domitems.url, worm.domitems.domselector))
+
+				if worm.domitems.has_nested_items:
+					self.print_success("Dom item category has nested items:")
+					nesteditem = worm.domitems.nested_items
+
+					if nesteditem.name == "article":
+						self.print_success("Dom item article has been created successfully with:")
+						self.print_with_color("CYAN", "url: %s, domselector: %s" % (nesteditem.url, nesteditem.domselector))
+
+						if nesteditem.has_nested_items:
+							self.print_success("Dom item category has nested items:")
+							nesteditems = nesteditem.nested_items
+
+							for a in nesteditems:
+								if a.name == "article_image":
+									self.print_success("Dom item article_image has been created successfully with:")
+									self.print_with_color("CYAN", "url: %s, domselector: %s" % (a.url, a.domselector))
+								elif a.name == "article_video":
+									self.print_success("Dom item article_video has been created successfully with:")
+									self.print_with_color("CYAN", "url: %s, domselector: %s" %(a.url, a.domselector))
+
+			self.print_seperator()
+
