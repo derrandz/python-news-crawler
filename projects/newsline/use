@@ -40,7 +40,7 @@ nd_test_app(){
 
 nd_test_utility_app(){
 	if [ ! -z "$1" -a "$1" != " " ]; then
-  		eval "./commands.sh nd_test_app utility.$1 --testrunner=newsline.scripts.no_db_test_runner.NoDbTestRunner"
+  		eval ". use nd_test_app utility.$1 --testrunner=newsline.scripts.no_db_test_runner.NoDbTestRunner"
 	else
 		echo "You have to specify the test path [without using newsline.apps.utility]";
 	fi
@@ -48,7 +48,7 @@ nd_test_utility_app(){
 
 nd_test_web_app(){
 	if [ ! -z "$1" -a "$1" != " " ]; then
-  		eval "./commands.sh nd_test_app web.$1 --testrunner=newsline.scripts.no_db_test_runner.NoDbTestRunner"
+  		eval ". use nd_test_app web.$1 --testrunner=newsline.scripts.no_db_test_runner.NoDbTestRunner"
 	else
 		echo "You have to specify the test path [without using newsline.apps.web]";
 	fi
@@ -56,7 +56,7 @@ nd_test_web_app(){
 
 nd_test_newsworm(){
 	if [ ! -z "$1" -a "$1" != " " ]; then
-  		eval "./commands.sh nd_test_web_app newsworm.unittests.$1 --testrunner=newsline.scripts.no_db_test_runner.NoDbTestRunner"
+  		eval ". use nd_test_web_app newsworm.unittests.$1 --testrunner=newsline.scripts.no_db_test_runner.NoDbTestRunner"
 	else
 		echo "You have to specify the test path [without using newsline.apps.web.newsworm.unitests]";
 	fi
@@ -64,7 +64,7 @@ nd_test_newsworm(){
 
 nd_test_newsworm_core(){
 	if [ ! -z "$1" -a "$1" != " " ]; then
-  		eval "./commands.sh nd_test_newsworm core.$1 --testrunner=newsline.scripts.no_db_test_runner.NoDbTestRunner"
+  		eval ". use nd_test_newsworm core.$1 --testrunner=newsline.scripts.no_db_test_runner.NoDbTestRunner"
 	else
 		echo "You have to specify the test path [without using newsline.apps.web.newsworm.unittests.core]";
 	fi

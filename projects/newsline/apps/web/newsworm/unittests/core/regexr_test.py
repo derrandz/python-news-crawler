@@ -43,6 +43,27 @@ class RegexrTestCase(BaseSimpleTestCase):
 		print(split_string)
 
 	def patternizeTest(self):
+		def _match(regexr, urls):
+			for url in urls:
+				self.print_with_color("YELLOW", "\nMatching for %s" % url)
+				if regexr.strongmatch(url):
+					self.print_success("\tMatches!")
+				elif regexr.shallowmatch(url):
+					self.print_warning("\t Matched a part of it, but only shallow")
+				else:
+					self.print_failure("\tDoes not match!")
+
+		def _match_smart(regexr, urls):
+			for url in urls:
+				self.print_with_color("YELLOW", "\nMatching for %s" % url)
+				sm = regexr.smartmatch(url)
+				if sm == 0 : self.print_success("\tMatches!")
+				elif sm == 1 : self.print_with_color("CYAN", "\tMatched a part of it, but it seems it contain more!")
+				elif sm == -1:
+					self.print_with_color("DARKCYAN", "\tMatched a part of it, but it seems to contain less!")
+				else:
+					self.print_failure("\tDoes not match!")
+
 		def _patternize_test(url_examples, matcheables, unmatcheables):
 			self.print_seperator()
 			try:
@@ -55,25 +76,29 @@ class RegexrTestCase(BaseSimpleTestCase):
 				print("The extracted pattern is : %s" % regexr.pattern)
 
 				self.print_info("\nThese tests should all succeed!\n")
-				for url in matcheables:
-					self.print_with_color("YELLOW", "\nMatching for %s" % url)
-					if regexr.strongmatch(url):
-						self.print_success("\tMatch succeeded!")
-					elif regexr.shallowmatch(url):
-						self.print_with_color("DARKCYAN", "\t Matched a part of it, but only shallow")
-					else:
-						self.print_failure("\tMatch failed!")
+				_match(regexr, matcheables)
 
 				self.print_info("\nThese tests should all fail!\n")
-				for url in unmatcheables:
-					self.print_with_color("YELLOW", "\nMatching for %s" % url)
-					if regexr.strongmatch(url):
-						self.print_success("\tMatch succeeded!")
-					elif regexr.shallowmatch(url):
-						self.print_with_color("DARKCYAN", "\t Matched a part of it, but only shallow")
-					else:
-						self.print_failure("\tMatch failed!")
+				_match(regexr, unmatcheables)
 
+			self.print_seperator()
+
+		def _patternize_test_smart(url_examples, matcheables, unmatcheables):
+			self.print_seperator()
+			try:
+				regexr = RegexrClass(url_examples)
+			except Exception as e:
+				self.print_failure("Test failed with %s" % str(e))
+				raise e
+			else:
+				print("The provided urls : %s" % url_examples)
+				print("The extracted pattern is : %s" % regexr.pattern)
+
+				self.print_info("\nThese tests should all succeed!\n")
+				_match_smart(regexr,matcheables)
+
+				self.print_info("\nThese tests should all fail!\n")
+				_match_smart(regexr, unmatcheables)
 			self.print_seperator()
 
 		_patternize_test([
@@ -104,6 +129,47 @@ class RegexrTestCase(BaseSimpleTestCase):
 			"/subscribe/win",
 			"/123page"
 		])
+
+		_patternize_test(
+			"/news/politics?page=1" 
+		,[
+			"/news/art-et-culture?page=1",
+			"/news/articles_and_news?page=2",
+			"/news/stuff?page=2"
+		], 
+		[
+			"/what/what",
+			"/subscribe/win",
+			"/123page"
+		])
+
+		_patternize_test(
+			"/news/politics" 
+		,[
+			"/news/art-et-culture",
+			"/news/articles_and_news",
+			"/news/stuff?page=2"
+		], 
+		[
+			"/news/politics/article1.html",
+			"/news",
+			"/123page"
+		])
+
+		_patternize_test_smart(
+			"/news/politics?page=1" 
+		,[
+			"/news/art-et-culture?page=1",
+			"/news/articles_and_news?page=2",
+			"/news/stuff?page=2"
+		], 
+		[
+			"/news/sports",
+			"/news/sports?page=1#nav_item_tab",
+			"/news"
+		])
+
+
 
 	def test_regexr_split(self):
 		regexr = RegexrClass()

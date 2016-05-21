@@ -56,6 +56,17 @@ class RegexrClass:
 	def comppattern(self, comppat):
 		self._comppattern = comppat
 
+	def smartmatch(self, item):
+		if self.strongmatch(item) : return 0
+		if self.shallowmatch(item):
+			from functools import partial
+			from operator import is_not	
+			match = list(filter(partial(is_not, ''), re.findall(self.comppattern, item)[0])).pop(0)
+
+			return 1 if match else -1
+
+		return None
+
 	def strongmatch(self, item):
 		match = self._match(item)
 		return match.group() == item if match is not None else False
