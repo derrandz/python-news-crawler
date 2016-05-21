@@ -166,6 +166,8 @@ class RegexrTestCase(BaseSimpleTestCase):
 		[
 			"/news/sports",
 			"/news/sports?page=1#nav_item_tab",
+			"/news/sports?page=1/something",
+			"/news/sports?page=1/news/sports?page=1",
 			"/news"
 		])
 
