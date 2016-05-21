@@ -83,11 +83,12 @@ class RegexrTestCase(BaseSimpleTestCase):
 		[
 			"/fait-divers/index.1.html",
 			"/fait_divers/index.1.html",
-			"/news/index.1.html"
+			"/news/index.1.html",
 		], 
 		[
 			"www.dabanite.com",
 			"/videos",
+			"/news",	
 			"/politique/index.1.html/articles"
 		])
 

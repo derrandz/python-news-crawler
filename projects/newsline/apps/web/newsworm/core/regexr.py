@@ -98,20 +98,16 @@ class RegexrClass:
 		print("exactpattern: %s" % self._strongpat(item))
 		print("generalpattern: %s" % self._shallowpat(item))
 
-		return "(%s)|(%s)|(%s)" % (self._strongpat(item), self._mediumpat(item), self._shallowpat(item))
+		return "(%s)|(%s)" % (self._strongpat(item), self._shallowpat(item))
 
 	def _strongpat(self, _string):
 		""" Generates an exact pattern for the provided string in terms of words, digits, special characters, and alphanumerics"""
 		if self.contains_spchars(_string): return ''.join([self.__getatompat(part) for part in self.split(_string)])
 		return self.__getatompat(_string)
 
-	def _mediumpat(self, _string):
-		""" Generates an exact pattern for the provided string in terms of strings, digits, and symbols like / ? = . #"""
-		return self._generalpat(_string, [":", "?", "=", "#", "_"])
-
 	def _shallowpat(self, _string):
 		""" Generates an shallow pattern for the provided string in terms of strings, digits, and symbols like / ? =  #"""
-		return self._generalpat(_string, [":", "?", "=", ".", "#", "_"])
+		return self._generalpat(_string, [":", "-", "@", "_"]) # 
 
 	def _generalpat(self, _string, ignored_delimiters):
 		""" Generates an shallow pattern for the provided string in terms of strings, digits, and symbols like / ? =  #"""
