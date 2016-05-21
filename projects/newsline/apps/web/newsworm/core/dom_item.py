@@ -85,26 +85,17 @@ class DomItem:
 		return self.nested_items if not self.nested_items else True
 	
 	@property
-	def regexpattern(self):
-		return self._regexpattern
+	def regexr(self):
+		return self._regexr
 
-	@regexpattern.setter
-	def regexpattern(self, rp):
-		if rp is None: raise Exception("Regex pattern can not be none")
-		if not helpers.is_list(rp): raise Exception("Regex pattern should be a list with two elements, one represneting the regex and second representing its compiled version")
-		else:
-			if len(rp) > 2: raise Exception("Regex pattern should be a list with two elements, one represneting the regex and second representing its compiled version")
-			if not helpers.is_str(rp[0]): raise Exception("Regex pattern's first element should be a string containing the actual regex")
-			if not helpers.is_retype(rp[1]):raise Exception("Regex pattern's second element should be a compiled re type")
-
-		self._regexpattern = rp
+	@regexr.setter
+	def regexr(self, rp):
+		self._regexr = rp
 
 	def patternize(self):
-		"""
-		This method will extract the regex pattern of the url as to get all similar links.
-		"""
-		from . import regexr	
-		self.regexpattern = regexr.RegexrClass().patternize(self.url)
+		""" This method will extract the regex pattern of the url as to get all similar links."""
+		from .regexr import RegexrClass
+		self.regexr = RegexrClass(self.url)
 
 		if self.has_nested_items:
 			if helpers.is_list(self.nested_items):
@@ -130,8 +121,10 @@ class DomItem:
 		else:
 			return {"level_%d"%depth: getattr(self, attr)}
 
-	def matches(self, url):
-		if hasattr(self, "_regexpattern"):
-			if self.regexpattern[1].match(url): return True
-			return False
+	def match(self, url, strength=0):
+		if hasattr(self, "_regexr"):
+			if strength == 'smart': return self.regexr.smartmatch(url)
+			if strength == 0: return True if self.regexr.strongmatch(url) else False
+			if strength == 1: return True if self.regexr.shallowmatch(url) else False
+			raise Exception("strength attribute expects 0 for strong [default], 1 for shallow, 'smart' for smart, do not specify other than that.")
 		return None

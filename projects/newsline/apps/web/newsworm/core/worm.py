@@ -26,7 +26,7 @@ class Worm(logger.ClassUsesLog):
 	"""
 	
 	def __init__(self, rooturl=None, domitems=None):
-		self.regexr = RegexrClass()
+		self.regexr = RegexrClass([]) # Explicitly passing an empty list to indicate that this instance will be used for helpers method only.
 		self.rooturl = rooturl
 
 		# This is called the normalization phase
@@ -34,8 +34,16 @@ class Worm(logger.ClassUsesLog):
 		self.domitems = self.clean(self.decode(self.normalize(self.validate(domitems))))
 		self.patternize()
 
-		# self.sitemap  = Tree(self.rooturl, )
-		# self.cdom = self.crawl(self.root_url)
+		self.init_sitemap()
+
+	@property
+	def sitemap(self):
+		return self._sitemap
+	
+	@sitemap.setter
+	def sitemap(self, sm):
+		if not isinstance(sm, Tree): raise Exception("Sitemap expects a tree node object, %s given" % type(sm))
+		self._sitemap = sm
 
 	@property
 	def regexr(self):
@@ -48,7 +56,6 @@ class Worm(logger.ClassUsesLog):
 		regexrType = type(RegexrClass())
 		if not isinstance(value, regexrType): raise Exception("You can not reinitialize the regexr to something other than RegexrClass")
 		self._regexr = value
-
 
 	@property
 	def rooturl(self):
@@ -141,3 +148,29 @@ class Worm(logger.ClassUsesLog):
 				item.patternize()
 		elif isinstance(self.domitems, DomItem):
 			self.domitems.patternize()
+
+	def init_sitemap(self):
+		self.sitemap = Tree(self.rooturl, 0)
+
+	def _extract(self, url):
+		if not isinstance(url, str): raise Exception("url must be str")
+		return WDom(self.rooturl + "/" + url)
+
+	def _crawl(self, domitem):
+		if not isinstance(domitem, DomItem): raise Exception("__crawl expects to crawl a DomItem Object, %s given" % type(domitem))
+		return self._extract(domitem.url).find(domitem.domselector)
+
+	def _crawl_hyperlinks(self, domitem):
+		if not isinstance(domitem, DomItem): raise Exception("__crawl expects to crawl a DomItem Object, %s given" % type(domitem))
+		return [hyperlink_tag.get("href") for hyperlink_tag in self._crawl(domitem)]
+
+	def _crawl_similar_hyperlinks(self, domitem, strength=0):
+		if not isinstance(domitem, DomItem): raise Exception("__crawl expects to crawl a DomItem Object, %s given" % type(domitem))
+		from functools import partial
+		from operator import is_not
+		if strength != 'smart':
+			return list(filter(partial(is_not, ''), [href if domitem.match(href, strength) else '' for href in self._crawl_hyperlinks(domitem)]))
+
+		def _matches(val): return True if (val == 0 ) or (val == 1) else False
+		return list(filter(partial(is_not, ''), [href if _matches(domitem.match(href, strength)) else '' for href in self._crawl_hyperlinks(domitem)]))
+

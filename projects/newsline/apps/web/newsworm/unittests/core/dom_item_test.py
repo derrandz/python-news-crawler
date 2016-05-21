@@ -8,17 +8,13 @@ class DomItemTestCase(BaseSimpleTestCase):
 	''' A test suit for the DomItem class. '''
 	
 	def setUpFailTest(self):
-		raised = False
-
 		# 0
 		try:
 			DomItem("", "google.com", 1)
 		except Exception as e:
 			self.print_failure("# 0: Test failed with :%s"%str(e))
 			self.print_seperator()
-			raised = True
-
-		if not raised:
+		else:
 			self.print_success("# 0: Test passed.")
 			self.print_seperator()
 
@@ -28,74 +24,57 @@ class DomItemTestCase(BaseSimpleTestCase):
 		except Exception as e:
 			self.print_failure("# 1: Test failed with :%s"%str(e))
 			self.print_seperator()
-			raised = True
-
-		if not raised:
+		else:
 			self.print_success("# 1: Test passed.")
 			self.print_seperator()
 
 		# 2
-		raised = False
 		try:
 			DomItem("clickablebutton", "http://google.com", 1)
 		except Exception as e:
 			self.print_failure("# 2: Test failed with :%s"%str(e))
 			self.print_seperator()
-			raised = True
-
-		if not raised:
+		else:
 			self.print_success("# 2: Test passed.")
 			self.print_seperator()
 
 		# 3
-		raised = False
 		try:
 			DomItem("clickablebutton", ["google.com", "googlecom"], "something")
 		except Exception as e:
 			self.print_failure("# 3: Test failed with :%s"%str(e))
 			self.print_seperator()
-			raised = True
-
-		if not raised:
+		else:
 			self.print_success("# 3: Test passed.")
 			self.print_seperator()
 
 		# 4
-		raised = False
 		try:
 			DomItem("clickablebutton", ["http://google.com", "http://www.googlecom"], "something")
 		except Exception as e:
 			self.print_failure("# 4: Test failed with :%s"%str(e))
 			self.print_seperator()
-			raised = True
-
-		if not raised:
+		else:
 			self.print_success("# 4: Test passed.")
 			self.print_seperator()
 
 		# 5
-		raised = False
 		try:
 			DomItem("clickablebutton", ["http://google.com", "http://www.google.com", 1], "something")
 		except Exception as e:
 			self.print_failure("# 5: Test failed with :%s"%str(e))
 			self.print_seperator()
-			raised = True
-
-		if not raised:
+		else:
 			self.print_success("# 5: Test passed.")
 			self.print_seperator()
 
 		# 6
-		raised = False
 		try:
 			DomItem("clickablebutton", "http://google.com","div.class > a", {"url": 'http://google.com', "selector":'div.class', 'nested_items': []})
 		except Exception as e:
 			self.print_failure("# 6: Test failed with :%s"%str(e))
 			self.print_seperator()
-			raised = True
-
-		if not raised:
+		else:
 			self.print_success("# 6: Test passed.")
 			self.print_seperator()
 
@@ -104,87 +83,66 @@ class DomItemTestCase(BaseSimpleTestCase):
 		url = "http://www.google.com"
 		selector = "div.class > ul#id > li > a"
 
-		raised = False
-
 		# 1
 		try:
 			dom_item = DomItem(name, url, selector)
 		except Exception as e:
-			raised = True
 			self.print_failure("# 1: Test failed with :%s"%str(e))
 			self.print_seperator()
-
-		if not raised:
+		else:
 			self.print_success("Test passed for : %s, %s, %s"%(name, url, selector))
 			self.print_seperator()
 
 		# 2
-		raised = False
 		url = ["http://www.google.com", "http://www.google.com"]
 		selector = "div.class > ul#id > li > a"
-		
 		try:
 			dom_item = DomItem(name, url, selector)
 		except Exception as e:
-			raised = True
 			self.print_failure("# 2: Test failed with :%s"%str(e))
 			self.print_seperator()
-
-		if not raised:
+		else:
 			self.print_success("# 2: Test passed for : %s, %s, %s"%(name, url, selector))
 			self.print_seperator()
 
 		# 3
-		raised = False
 		url = ["http://www.google.com", "www.google.com"]
 		selector = "div.class > ul#id > li > a"
-		
 		try:
 			dom_item = DomItem(name, url, selector)
 		except Exception as e:
-			raised = True
 			self.print_failure("# 3: Test failed with :%s"%str(e))
 			self.print_seperator()
-
-		if not raised:
+		else:
 			self.print_success("# 3: Test passed for : %s, %s, %s"%(name, url, selector))
 			self.print_seperator()
-
 		# 4
-		raised = False
 		url = ["http://www.google.com", "www.google.com"]
 		selector = ["div.class > ul#id > li > a", "div.class > ul#id > li > a"]
 		
 		try:
 			dom_item = DomItem(name, url, selector)
 		except Exception as e:
-			raised = True
 			self.print_failure("# 4: Test failed with :%s"%str(e))
 			self.print_seperator()
-
-		if not raised:
+		else:
 			self.print_success("# 4: Test passed for : %s, %s, %s"%(name, url, selector))
 			self.print_seperator()
 
 		# 5
-		raised = False
 		url = ["http://www.google.com", "www.google.com"]
 		selector = ["div.class > ul#id > li > a", "div.class > ul#id > li > a"]
 		nested_items = {"name": 'nesteditem',"url":'www.google.com', "selector":'div.class > li > a'}
-
 		try:
 			dom_item = DomItem("myname", url, selector, nested_items)
 		except Exception as e:
-			raised = True
 			self.print_failure("# 5: Test failed with :%s"%str(e))
 			self.print_seperator()
-
-		if not raised:
+		else:
 			self.print_success("# 5: Test passed for : %s, %s, %s, %s"%(name, url, selector, nested_items))
 			self.print_seperator()
 
 		# 6
-		raised = False
 		url = ["http://www.google.com", "www.google.com"]
 		selector = ["div.class > ul#id > li > a", "div.class > ul#id > li > a"]
 		nested_items = [
@@ -198,20 +156,16 @@ class DomItemTestCase(BaseSimpleTestCase):
 				"nested_items": {"name": 'nesteditem', "url":'/page1', "selector":'div.class > li > a'}
 			}
 		]
-
 		try:
 			dom_item = DomItem(name, url, selector, nested_items)
 		except Exception as e:
-			raised = True
 			self.print_failure("# 6: Test failed with :%s"%str(e))
 			self.print_seperator()
-
-		if not raised:
+		else:
 			self.print_success("# 6: Test passed for : %s, %s, %s, %s"%(name, url, selector, nested_items))
 			self.print_seperator()
 
 		# 7
-		raised = False
 		url = ["http://www.google.com", "www.google.com"]
 		selector = ["div.class > ul#id > li > a", "div.class > ul#id > li > a"]
 		nested_items = [
@@ -240,27 +194,22 @@ class DomItemTestCase(BaseSimpleTestCase):
 		try:
 			dom_item = DomItem(name, url, selector, nested_items)
 		except Exception as e:
-			raised = True
 			self.print_failure("# 7: Test failed with :%s"%str(e))
 			self.print_seperator()
-
-		if not raised:
+		else:
 			self.print_success("# 7: Test passed for : %s, %s, %s, %s"%(name, url, selector, nested_items))
 			self.print_seperator()
 
 	def testCasePatternize(self):
-		domitem = DomItem('category_item', '/category/politics', 'nav > ul > li > a')
-		raised = False
 		try:
+			domitem = DomItem('category_item', '/category/politics', 'nav > ul > li > a')
 			domitem.patternize()
 		except Exception as e:
-			raised = True
 			self.print_failure("Test failed with :%s"%str(e))
 			self.print_seperator()
 			raise e
-
-		if not raised:
-			self.print_success("Test passed for : %s, %s, %s, %s"%(domitem.name, domitem.url, domitem.domselector, domitem.regexpattern))
+		else:
+			self.print_success("Test passed for : %s, %s, %s, %s"%(domitem.name, domitem.url, domitem.domselector, domitem.regexr.pattern))
 			self.print_seperator()
 
 
@@ -279,7 +228,6 @@ class DomItemTestCase(BaseSimpleTestCase):
 					}
 				})
 		except Exception as e:
-			raised = True
 			self.print_failure("Test failed with :%s"%str(e))
 			self.print_seperator()
 			return
@@ -315,43 +263,50 @@ class DomItemTestCase(BaseSimpleTestCase):
 						self.print_with_color("DARKCYAN","\t\tNested DomItem selector: %s"% nnitem.domselector)
 						self.print_with_color("DARKCYAN","\t\tNested DomItem has_nested_items: %s"% nnitem.has_nested_items)
 
-		if not raised:
-			self.print_success("Test passed successfully")
-			self.print_seperator()
+				self.print_success("Test passed successfully")
+				self.print_seperator()
 
 	def domItemPatternizeAndMatch(self):
-		raised = False
-		domitem = None
+		def _match(matcheables, _type):
+			for url in matcheables:
+				status = domitem.match(url, _type)
+				if status is not None:
+					if isinstance(_type, str):
+						if status == 0:
+							self.print_success("%s Matches!" % url)
+						elif status == 1:
+							self.print_with_color("DARKCYAN", "%s Matches, but only shallow!" % url)
+						else:
+							self.print_failure("%s Does not match!" % url)
+					else:
+						if status:
+							self.print_success("%s Matches!" % url)
+						else:
+							self.print_failure("%s Does not match!" % url)
 		try:
 			domitem = DomItem('category_item', '/category/politics', 'nav > ul > li > a')
 		except Exception as e:
-			raised = True
 			self.print_failure("Test failed @instantiation with :%s"%str(e))
 			self.print_seperator()
-
-		if not raised:
+		else:
 			try:
 				domitem.patternize()
 			except Exception as e:
-				raised = True
 				self.print_failure("Test failed @patternize with :%s"%str(e))
 				self.print_seperator()
+			else:
+				self.print_success("patternize succeeded.")
+				self.print_success("\nResult:\n\t%s" % domitem.regexr.pattern)
+				matcheables = ["/category/news", "/category/something", "/category/accidents", "www.google.com", "/winlottery/subscribe/now"]
+				self.print_seperator()
+				self.print_info("Smart maching")
+				_match(matcheables, 'smart')
 
-		if not raised:
-			self.print_success("patternize succeeded.")
-			self.print_success("\nResult:\n\t%s" % domitem.regexpattern)
-			matches = ["/category/news", "/category/something", "/category/accidents", "www.google.com", "/winlottery/subscribe/now"]
-			for url in matches:
-				status = domitem.matches(url)
-				if status is not None:
-					if status:
-						self.print_success("%s matches!" % url)
-					else:
-						self.print_failure("%s does not matche!" % url)
+				self.print_seperator()
+				self.print_info("Strong matching")
+				_match(matcheables, 0)
 
 	def domItemPatternizeRecursiveTestCase(self):
-		raised = False
-		domitem = None
 		try:
 			domitem = DomItem('category_item', '/category/politics', 'nav > ul > li > a', {
 					"name": 'pagination',
@@ -369,11 +324,9 @@ class DomItemTestCase(BaseSimpleTestCase):
 					}
 				})
 		except Exception as e:
-			raised = True
 			self.print_failure("Test failed @instantiation with :%s"%str(e))
 			self.print_seperator()
-
-		if not raised:
+		else:
 			try:
 				domitem.patternize()
 			except Exception as e:
@@ -381,6 +334,5 @@ class DomItemTestCase(BaseSimpleTestCase):
 				self.print_failure("Test failed @patternize with :%s"%str(e))
 				self.print_seperator()
 
-		if not raised:
-			self.print_success("patternize succeeded.")
-			self.print_success("\nResult:\n\t%s" % domitem.getattr_recursive("regexpattern"))
+				self.print_success("patternize succeeded.")
+				self.print_success("\nResult:\n\t%s" % domitem.getattr_recursive("regexr"))

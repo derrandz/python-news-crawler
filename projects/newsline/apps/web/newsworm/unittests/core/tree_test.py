@@ -5,13 +5,8 @@ from newsline.apps.web.newsworm.core.tree import Tree
 class TreeTestCase(BaseSimpleTestCase):
 	''' A test suit for the Tree class. '''
 
-	def print_seperator(self):
-		self.print_with_bold_color("YELLOW","\n\n--------------------------------------------------------------------------------\n\n")
-	
 	def testDepth(self):
 		# 0 
-		raised = False # I just discovered that I repeated this so much, will DRY it later on. Bad habit
-		tree = None
 		try:
 			tree = Tree("Root")
 			tree.children = Tree("First Element")
@@ -19,9 +14,7 @@ class TreeTestCase(BaseSimpleTestCase):
 		except Exception as e:
 			self.print_failure("\t# 0: Test failed with :%s"%str(e))
 			self.print_seperator()
-			raised = True
-
-		if not raised:
+		else:
 			depth = tree.depth
 			if depth == 3:
 				self.print_success("# 0 Test passed. Depth of tree is %d"% depth)
@@ -33,16 +26,12 @@ class TreeTestCase(BaseSimpleTestCase):
 				self.print_seperator()
 
 		# 1
-		raised = False 
-		tree = None
 		try:
 			tree = Tree("Root", children=Tree("First Element", children=Tree("Second Element")))
 		except Exception as e:
 			self.print_failure("\t# 1: Test failed with :%s"%str(e))
 			self.print_seperator()
-			raised = True
-
-		if not raised:
+		else:
 			depth = tree.depth
 			if depth == 3:
 				self.print_success("# 1 Test passed. Depth of tree is %d"% depth)
@@ -53,9 +42,7 @@ class TreeTestCase(BaseSimpleTestCase):
 				self.print_with_color("DARKCYAN", "%s" % str(tree))
 				self.print_seperator()
 
-		# 3
-		raised = False 
-		tree = None
+		# 2
 		try:
 			tree = Tree("Root", children=[
 				Tree("Branch1 El1"),
@@ -72,9 +59,7 @@ class TreeTestCase(BaseSimpleTestCase):
 		except Exception as e:
 			self.print_failure("\t# 3: Test failed with :%s"%str(e))
 			self.print_seperator()
-			raised = True
-
-		if not raised:
+		else:
 			depth = tree.depth
 			if depth == 5:
 				self.print_success("# 3 Test passed. Depth of tree is %d"% depth)
@@ -86,76 +71,62 @@ class TreeTestCase(BaseSimpleTestCase):
 				self.print_seperator()
 
 	def setUpTest(self):
-		raised = False
-
 		# 0
-		self.print_info("The following test should fail.")
+		self.print_info("The following test should fail. | Supplying None as for data as an argument")
 		try:
 			Tree(None)
 		except Exception as e:
 			self.print_failure("\t# 0: Test failed with :%s"%str(e))
 			self.print_seperator()
 			raised = True
-
-		if not raised:
+		else:
 			self.print_success("\t# 0: Test passed.")
 			self.print_seperator()
 
 		# 1
-		raised = False
-		self.print_info("The following test should fail.")
+		self.print_info("The following test should fail. | supplying empty strings for data and level as arguments")
 		try:
 			Tree("", "")
 		except Exception as e:
 			self.print_failure("\t# 1: Test failed with :%s"%str(e))
 			self.print_seperator()
 			raised = True
-
-		if not raised:
+		else:
 			self.print_success("\t# 1: Test passed.")
 			self.print_seperator()
 
 		# 2
-		raised = False
-		self.print_info("The following test should pass.")
+		self.print_info("The following test should pass. | Supplying proper <str> data and level <int>")
 		try:
 			tree = Tree("TreeElement", 1)
 		except Exception as e:
 			self.print_failure("\t# 2: Test failed with :%s"%str(e))
 			self.print_seperator()
-			raised = True
-
-		if not raised:
+		else:
 			self.print_success("\t# 2: Test passed.")
 			self.print_seperator()
 
 		# 3
-		raised = False
-		self.print_info("The following test should pass with warnings")
+		self.print_info("The following test should fail | Adding a list of children in which an element is not tree <int>")
 		try:
 			tree = Tree("ROOT")
 			tree.children = [Tree("First Child"), Tree("Second Child"), 1]
 		except Exception as e:
 			self.print_failure("\t# 3: Test failed with :%s"%str(e))
 			self.print_seperator()
-			raised = True
-
-		if not raised:
+		else:
 			self.print_success("\t# 3: Test passed.")
 			self.print_seperator()
 
-		# # 4
-		# raised = False
-		# self.print_info("The following test should pass and print correct depths")
-		# try:
-		# 	tree = Tree("ROOT")
-		# 	tree.children = [Tree("First Child"), Tree("Second Child", children=[Tree("First Element")])]
-		# except Exception as e:
-		# 	self.print_failure("\t# 4: Test failed with :%s"%str(e))
-		# 	self.print_seperator()
-		# 	raised = True
-
-		# if not raised:
-		# 	self.print_success("\t# 4: Test passed.")
-		# 	self.print_success("\n\n %s" % str(Tree))
-		# 	self.print_seperator()
+		# 4
+		self.print_info("The following test should pass and print correct depths | supplying list of children with an element having nested node")
+		try:
+			tree = Tree("ROOT")
+			tree.children = [Tree("First Child"), Tree("Second Child", children=[Tree("Second Element's nested node")])]
+		except Exception as e:
+			self.print_failure("\t# 4: Test failed with :%s"%str(e))
+			self.print_seperator()
+		else:
+			self.print_success("\t# 4: Test passed.")
+			self.print_success("\n\n %s" % str(tree))
+			self.print_seperator()

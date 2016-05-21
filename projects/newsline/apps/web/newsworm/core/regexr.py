@@ -105,10 +105,6 @@ class RegexrClass:
 		# Example : /category-name/article_1.html
 		# (/alpha-alpha/alpha_digit.alpha)|(/string/string)
 		# This way we will guarantee to match the links that of the nature : /category/article.html or /cat/article
-		print("item: %s" % item)
-		print("exactpattern: %s" % self._strongpat(item))
-		print("generalpattern: %s" % self._shallowpat(item))
-
 		return "(%s)|(%s)" % (self._strongpat(item), self._shallowpat(item))
 
 	def _strongpat(self, _string):

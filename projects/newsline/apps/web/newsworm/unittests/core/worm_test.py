@@ -31,45 +31,38 @@ class WormTestCase(BaseSimpleTestCase):
 		
 
 		# 0
-		raised = False
 		try:
 			self.print_info("# 0: The following test should fail.")
 			from copy import deepcopy
 			worm = WormTestClass("http://www.goud.ma/", 1)
 		except Exception as e:
-			raised = True
 			self.print_failure("# 0: Test failed with :%s"%str(e))
-
-		if not raised:
+		else:
 			self.print_success("# 0: Test passed")
 
 
 		# 1
-		raised = False
 		self.print_seperator()
 		try:
 			self.print_info("# 1: The following test should fail.")
 			from copy import deepcopy
 			worm = WormTestClass("http://www.goud.ma/", [1, {}])
 		except Exception as e:
-			raised = True
 			self.print_failure("# 1: Test failed with :%s"%str(e))
 
-		if not raised:
+		else:
 			self.print_success("# 1: Test passed")
 
 		# 2
-		raised = False
 		self.print_seperator()
 		try:
 			self.print_info("# 2: The following test should pass.")
 			from copy import deepcopy
 			worm = WormTestClass("http://www.goud.ma/", [{}, {}])
 		except Exception as e:
-			raised = True
 			self.print_failure("# 2: Test failed with :%s"%str(e))
 
-		if not raised:
+		else:
 			self.print_success("# 3: Test passed")
 
 
@@ -242,16 +235,12 @@ class WormTestCase(BaseSimpleTestCase):
 		}
 
 		from copy import deepcopy
-		raised = False
-		worm = None
 		try:
 			worm = WormTestClass("http://www.goud.ma/", deepcopy(domitems))
 		except Exception as e:
-			raised = True
 			self.print_failure("Test failed with error: %s" % str(e))
 			raise e
-
-		if not raised:
+		else:
 			self.print_success("Test passed without raising any exception!")
 			self.print_success("Testing further more")
 
@@ -319,18 +308,14 @@ class WormTestCase(BaseSimpleTestCase):
 			}
 		}
 
-		from copy import deepcopy
-		raised = False
-		worm = None
-
 		try:
+			from copy import deepcopy
 			worm = WormTestClass("http://www.goud.ma/", deepcopy(domitems))
 		except Exception as e:
-			raised = True
 			self.print_failure("Test failed with error: %s" % str(e))
 			raise e
 
-		if not raised:
+		else:
 			self.print_success("Test passed without raising any exception!")
 
 			if worm.domitems.name == "category":
@@ -388,3 +373,67 @@ class WormTestCase(BaseSimpleTestCase):
 												self.print_failure("%s does not matche %s. OK!" % (vid, nesteditem.name))
 
 			self.print_seperator()
+
+	def wormTestExtract(self):
+		domitems = {
+			"name": "category",
+			"url": "/politique/index.1.html", 
+			"selector": "div#mainNav > ul#menu_main > li > a", 
+		}
+
+		try:
+			from copy import deepcopy
+			worm = Worm("http://www.hespress.com/", deepcopy(domitems))
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_success("Extracted data:\n %s" % worm._extract(domitems["url"]))
+
+	def wormTestCrawl(self):
+		domitems = {
+			"name": "category",
+			"url": "/politique/index.1.html", 
+			"selector": "div#mainNav > ul#menu_main > li > a", 
+		}
+
+		try:
+			from copy import deepcopy
+			worm = Worm("http://www.hespress.com/", deepcopy(domitems))
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_success("Extracted data:\n %s" % worm._crawl(worm.domitems))
+
+	def wormTestCrawlHyperLinks(self):
+		domitems = {
+			"name": "category",
+			"url": "/politique/index.1.html", 
+			"selector": "div#mainNav > ul#menu_main > li > a", 
+		}
+
+		try:
+			from copy import deepcopy
+			worm = Worm("http://www.hespress.com/", deepcopy(domitems))
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_success("Extracted data:\n %s" % worm._crawl_hyperlinks(worm.domitems))
+
+	def wormTestCrawlSimilarHyperLinks(self):
+		domitems = {
+			"name": "category",
+			"url": "/politique/index.1.html", 
+			"selector": "div#mainNav > ul#menu_main > li > a", 
+		}
+
+		try:
+			from copy import deepcopy
+			worm = Worm("http://www.hespress.com/", deepcopy(domitems))
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_success("Extracted data:\n %s" % worm._crawl_similar_hyperlinks(worm.domitems))
