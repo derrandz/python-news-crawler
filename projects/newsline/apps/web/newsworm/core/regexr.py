@@ -12,7 +12,7 @@ class RegexrClass:
 	_regex_alnum_ar        = "([\u0621-\u064A\u0660-\u0669_][0-9]+)"
 	_regex_alnum_arlt      = "([\u0621-\u064A\u0660-\u0669_a-zA-Z_0-9]+)"
 	
-	_regex_string          = "([^\s?:\]\[#@,/}{=]+)" # A string signifies any word contaning any character (even arabic) except /?#@=:{},[]
+	_regex_string          = "([^\s?:\]\[#@,\"\'/}{=]+)" # A string signifies any word contaning any character (even arabic) except /?#@=:{},[]
 	
 	_regex_url_pattern     = "((?:(?:https?:\/\/)|(?:www\.))?[-a-zA-Z0-9@:%._\+~#=]{4,256}\.[a-z]{2,4}(\/|\.|\=|\?|\#|\?|\+|\&|\~)?(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)|(\/(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)"
 	_regex_rooturl_pattern = "((?:(?:https?:\/\/)|(?:www\.))?[-a-zA-Z0-9@:%._\+~#=]{4,256}\.[a-z]{2,4}(\/|\.|\=|\?|\#|\?|\+|\&|\~)?(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)"
@@ -32,7 +32,7 @@ class RegexrClass:
 		if isinstance(xitems, list) :
 			if not xitems : raise Exception("xitems cannot be an empty list")
 			if not all(isinstance(i, str) for i in xitems) : raise Exception("xitems must be a list of strings, an element is not string")
-		if not isinstance(xitems, str) : raise Exception("patternize expects argument to be a string or a list or strings, %s given." % type(xitems))
+		elif not isinstance(xitems, str) : raise Exception(" expects argument to be a string or a list or strings, %s given." % type(xitems))
 
 		if hasattr(self, "_items"):
 			self._items = xitems
@@ -68,7 +68,7 @@ class RegexrClass:
 
 	def _patternize(self):
 		""" This method will generate a regex to match the likes of the provided string/strings"""
-		pat = self._buildpattern(self.items) if not isinstance(self.items, list) else "( %s )" % "|".join([ map(self._buildpattern(i) for i in self.items) ])
+		pat = self._buildpattern(self.items) if not isinstance(self.items, list) else "( %s )" % "|".join(list(map(self._buildpattern, self.items)))
 		return [pat, self.compile(pat)]
 
 	def _buildpattern(self, item):
@@ -108,7 +108,6 @@ class RegexrClass:
 	def _mediumpat(self, _string):
 		""" Generates an exact pattern for the provided string in terms of strings, digits, and symbols like / ? = . #"""
 		return self._generalpat(_string, [":", "?", "=", "#", "_"])
-
 
 	def _shallowpat(self, _string):
 		""" Generates an shallow pattern for the provided string in terms of strings, digits, and symbols like / ? =  #"""
