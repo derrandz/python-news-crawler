@@ -319,7 +319,37 @@ class DomItemTestCase(BaseSimpleTestCase):
 			self.print_success("Test passed successfully")
 			self.print_seperator()
 
-	def domItemPatternizeTestCase(self):
+	def domItemPatternizeAndMatch(self):
+		raised = False
+		domitem = None
+		try:
+			domitem = DomItem('category_item', '/category/politics', 'nav > ul > li > a')
+		except Exception as e:
+			raised = True
+			self.print_failure("Test failed @instantiation with :%s"%str(e))
+			self.print_seperator()
+
+		if not raised:
+			try:
+				domitem.patternize()
+			except Exception as e:
+				raised = True
+				self.print_failure("Test failed @patternize with :%s"%str(e))
+				self.print_seperator()
+
+		if not raised:
+			self.print_success("patternize succeeded.")
+			self.print_success("\nResult:\n\t%s" % domitem.regexpattern)
+			matches = ["/category/news", "/category/something", "/category/accidents", "www.google.com", "/winlottery/subscribe/now"]
+			for url in matches:
+				status = domitem.matches(url)
+				if status is not None:
+					if status:
+						self.print_success("%s matches!" % url)
+					else:
+						self.print_failure("%s does not matche!" % url)
+
+	def domItemPatternizeRecursiveTestCase(self):
 		raised = False
 		domitem = None
 		try:

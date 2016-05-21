@@ -281,3 +281,110 @@ class WormTestCase(BaseSimpleTestCase):
 
 			self.print_seperator()
 
+
+	def wormTestPatternize(self):
+		class WormTestClass(Worm):
+			def __init__(self, rooturl=None, domitems=None):
+				self.regexr = RegexrClass()
+				self.rooturl = rooturl
+
+				self.domitems = self.clean(self.decode(self.normalize(self.validate(domitems))))
+				self.patternize()
+		
+		catmatches     = ["/category2","/category3","/category4", "/category2/cat", "/category2/categko/123"]
+		articlematches = ["/category1/article", "/category1/article", "/category1/article", "/category1/article1", "/category1/article1.php"]
+		imgmatches     = ["/category1/article/image", "/category3/article/imageasdas", "/category2/article/image_asd", "/category1/article/image.gp", "/category1/article/image.dp"]
+		videomatches   = ["/category1/article/video", "/category3/article1/videoasd", "/category2/article123/videoasd", "/category1/article/videoa21", "/category1/article/video/sdf/kd"]
+
+		domitems = {
+			"name": "category",
+			"url": "/category1/", 
+			"selector": "ul > li > a", 
+			"nested_items":{
+				"name": "article",
+				"url": "/category1/article",
+				"selector": "h2 > a",
+				"nested_items": [
+					{
+						"name": "article_image",
+						"url": "/category1/article/image",
+						"selector": "span > img"
+					},
+					{
+						"name": "article_video",
+						"url": "/category1/article/video",
+						"selector": "span > video"
+					}
+				]
+			}
+		}
+
+		from copy import deepcopy
+		raised = False
+		worm = None
+
+		try:
+			worm = WormTestClass("http://www.goud.ma/", deepcopy(domitems))
+		except Exception as e:
+			raised = True
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+
+		if not raised:
+			self.print_success("Test passed without raising any exception!")
+
+			if worm.domitems.name == "category":
+				self.print_success("Dom item category has been created successfully with:")
+				self.print_with_color("CYAN", "url: %s, domselector: %s" % (worm.domitems.url, worm.domitems.domselector))
+
+				for cat in catmatches:
+					status = worm.domitems.matches(cat)
+					if status is not None:
+						if status:
+							self.print_success("%s matches %s. OK!" % (cat, worm.domitems.name))
+						else:
+							self.print_failure("%s does not matche %s. OK!" % (cat, worm.domitems.name))
+
+				if worm.domitems.has_nested_items:
+					self.print_success("Dom item category has nested items:")
+					nesteditem = worm.domitems.nested_items
+
+					if nesteditem.name == "article":
+						self.print_success("Dom item article has been created successfully with:")
+						self.print_with_color("CYAN", "url: %s, domselector: %s" % (nesteditem.url, nesteditem.domselector))
+
+						for art in articlematches:
+							status = nesteditem.matches(art)
+							if status is not None:
+								if status:
+									self.print_success("%s matches %s. OK!" % (art, nesteditem.name))
+								else:
+									self.print_failure("%s does not matche %s. OK!" % (art, nesteditem.name))
+
+						if nesteditem.has_nested_items:
+							self.print_success("Dom item category has nested items:")
+							nesteditems = nesteditem.nested_items
+
+							for a in nesteditems:
+								if a.name == "article_image":
+									self.print_success("Dom item article_image has been created successfully with:")
+									self.print_with_color("CYAN", "url: %s, domselector: %s" % (a.url, a.domselector))
+									for img in imgmatches:
+										status = nesteditem.matches(img)
+										if status is not None:
+											if status:
+												self.print_success("%s matches %s. OK!" % (img, nesteditem.name))
+											else:
+												self.print_failure("%s does not matche %s. OK!" % (img, nesteditem.name))
+								elif a.name == "article_video":
+									self.print_success("Dom item article_video has been created successfully with:")
+									self.print_with_color("CYAN", "url: %s, domselector: %s" %(a.url, a.domselector))
+									for vid in videomatches:
+										status = nesteditem.matches(vid)
+										if status is not None:
+											if status:
+												self.print_success("%s matches %s. OK!" % (vid, nesteditem.name))
+											else:
+												self.print_failure("%s does not matche %s. OK!" % (vid, nesteditem.name))
+
+			self.print_seperator()

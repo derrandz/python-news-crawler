@@ -1,45 +1,209 @@
 import re
 
 class RegexrClass:
-	"""
-	A class that handles regex operations for our purposes.
-	"""
-	_regex_digit_only        = "(\\d+)"
-	_regex_alphanum          = "((?:[a-z][a-z]*[0-9]+[a-z0-9]*))"
-	_regex_alpha_only        = "((?:[a-z][a-z]+))"
-	_regex_word              = "((?:\w+))"
-	_regex_string            = "((?:[^?:#/=0-9])+)" # A string signifies any word contaning any character except /?#
-	_regex_url_pattern       = "((?:(?:https?:\/\/)|(?:www\.))?[-a-zA-Z0-9@:%._\+~#=]{4,256}\.[a-z]{2,4}(\/|\.|\=|\?|\#|\?|\+|\&|\~)?(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)|(\/(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)"
-	_regex_rooturl_pattern   = "((?:(?:https?:\/\/)|(?:www\.))?[-a-zA-Z0-9@:%._\+~#=]{4,256}\.[a-z]{2,4}(\/|\.|\=|\?|\#|\?|\+|\&|\~)?(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)"
-	_regex_arabic_characters = "([\u0621-\u064A\u0660-\u0669])"
+	""" A class that handles regex operations for our purposes."""
+	_regex_digit           = "(\d+)"
+	
+	_regex_alpha           = "([a-zA-Z_]+)"
+	_regex_alpha_ar        = "([\u0621-\u064A\u0660-\u0669_]+)"
+	_regex_alpha_arlt      = "([\u0621-\u064A\u0660-\u0669_a-zA-Z]+)"
+	
+	_regex_alnum           = "([a-zA-Z0-9_]+)"
+	_regex_alnum_ar        = "([\u0621-\u064A\u0660-\u0669_][0-9]+)"
+	_regex_alnum_arlt      = "([\u0621-\u064A\u0660-\u0669_a-zA-Z_0-9]+)"
+	
+	_regex_string          = "([^\s?:\]\[#@,/}{=]+)" # A string signifies any word contaning any character (even arabic) except /?#@=:{},[]
+	
+	_regex_url_pattern     = "((?:(?:https?:\/\/)|(?:www\.))?[-a-zA-Z0-9@:%._\+~#=]{4,256}\.[a-z]{2,4}(\/|\.|\=|\?|\#|\?|\+|\&|\~)?(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)|(\/(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)"
+	_regex_rooturl_pattern = "((?:(?:https?:\/\/)|(?:www\.))?[-a-zA-Z0-9@:%._\+~#=]{4,256}\.[a-z]{2,4}(\/|\.|\=|\?|\#|\?|\+|\&|\~)?(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)"
 
-	def remove_double_slash(self, url):
-		urlbuffer = ""
-		for i in range(0, len(url)):
-			if i < len(url) - 1:
-				chars_not_same = url[i] != url[i+1]
-				chars_same     = url[i] == url[i+1]
-				chars_slash    = url[i] == "/" and url[i+1] == "/"
-				if  chars_not_same or (chars_same and not chars_slash):
-					urlbuffer += url[i]
+	def __init__(self, items=[]):
+		if items:
+			self.items = items
+			self.pattern, self.comppattern = self._patternize()
+
+	@property
+	def items(self):
+		return self._items
+
+	@items.setter
+	def items(self, xitems):
+		if not xitems or xitems is None : raise Exception("xitems cannot be an empty or None")
+		if isinstance(xitems, list) :
+			if not xitems : raise Exception("xitems cannot be an empty list")
+			if not all(isinstance(i, str) for i in xitems) : raise Exception("xitems must be a list of strings, an element is not string")
+		if not isinstance(xitems, str) : raise Exception("patternize expects argument to be a string or a list or strings, %s given." % type(xitems))
+
+		if hasattr(self, "_items"):
+			self._items = xitems
+			self.pattern, self.comppattern = self._patternize()
+		else:
+			self._items = xitems
+
+	@property
+	def pattern(self):
+		return self._pattern
+	
+	@pattern.setter
+	def pattern(self, pat):
+		self._pattern = pat
+
+	@property
+	def comppattern(self):
+		return self._comppattern
+	
+	@comppattern.setter
+	def comppattern(self, comppat):
+		self._comppattern = comppat
+
+	def strongmatch(self, item):
+		match = self._match(item)
+		return match.group() == item if match is not None else False
+
+	def shallowmatch(self, item):
+		return not (not self._match(item).group()) if self._match(item) is not None else False # We use this not not to return the boolean value
+
+	def _match(self, item):
+		return self.comppattern.match(item) if isinstance(item, str) else None
+
+	def _patternize(self):
+		""" This method will generate a regex to match the likes of the provided string/strings"""
+		pat = self._buildpattern(self.items) if not isinstance(self.items, list) else "( %s )" % "|".join([ map(self._buildpattern(i) for i in self.items) ])
+		return [pat, self.compile(pat)]
+
+	def _buildpattern(self, item):
+		""" Returns a list of two elements, the string regex pattern and compiled regex pattern """
+		item = self.parse_arabic_urls(item) # In case the provided string had utf-8 unreadable arabic characters
+
+		if item.isdigit() : return self._regex_digit
+		
+		if item.isalpha():
+			if self.is_ar(item): return self._regex_alpha_ar
+			if self.is_lat(item): return self._regex_alpha
+
+			return self._regex_alpha_arlt
+
+		if item.isalnum():
+			if self.is_arabic(item) : return self._regex_alnum_ar
+			if self.is_lat(item) : return self._regex_alnum
+			
+			return self._regex_alnum_arlt
+
+		# If we have reachved over here, this case is when the item is mixed, meaning containing numbers and chars and symbols
+		# Here, we will generate a regular expression as that will match the exact form of the item, and also match a general its general form
+		# Example : /category-name/article_1.html
+		# (/alpha-alpha/alpha_digit.alpha)|(/string/string)
+		# This way we will guarantee to match the links that of the nature : /category/article.html or /cat/article
+		print("item: %s" % item)
+		print("exactpattern: %s" % self._strongpat(item))
+		print("generalpattern: %s" % self._shallowpat(item))
+
+		return "(%s)|(%s)|(%s)" % (self._strongpat(item), self._mediumpat(item), self._shallowpat(item))
+
+	def _strongpat(self, _string):
+		""" Generates an exact pattern for the provided string in terms of words, digits, special characters, and alphanumerics"""
+		if self.contains_spchars(_string): return ''.join([self.__getatompat(part) for part in self.split(_string)])
+		return self.__getatompat(_string)
+
+	def _mediumpat(self, _string):
+		""" Generates an exact pattern for the provided string in terms of strings, digits, and symbols like / ? = . #"""
+		return self._generalpat(_string, [":", "?", "=", "#", "_"])
+
+
+	def _shallowpat(self, _string):
+		""" Generates an shallow pattern for the provided string in terms of strings, digits, and symbols like / ? =  #"""
+		return self._generalpat(_string, [":", "?", "=", ".", "#", "_"])
+
+	def _generalpat(self, _string, ignored_delimiters):
+		""" Generates an shallow pattern for the provided string in terms of strings, digits, and symbols like / ? =  #"""
+		if self.contains_spchars(_string):
+			return ''.join([self.__getatomstrpat(part) for part in self.split(_string, ignored_delimiters)]) # the list of delimiters is the a list of those to be ignored
+		return self.__getatompat(_string)
+
+	def __getatompat(self, atomicstring, use_str_pattern=False):
+		""" returns the atomic pattern of the provided string """
+		if atomicstring.isdigit() : return self._regex_digit
+
+		if atomicstring.isalpha():
+			if self.is_ar(atomicstring) : return self._regex_alpha_ar
+			if self.is_lat(atomicstring) : return self._regex_alpha
+			return self._regex_alpha_arlt
+
+		if atomicstring.isalnum():
+			if self.is_ar(atomicstring) : return self._regex_alnum_ar
+			if self.is_lat(atomicstring) : return self._regex_alnum
+			return self._regex_alnum_arlt
+
+		if self.is_sym(atomicstring) : return self.escape(atomicstring)
+
+		return None
+
+	def __getatomstrpat(self, atomicstring):
+		return self.escape(atomicstring) if self.is_sym(atomicstring) and len(atomicstring) == 1 else self._regex_string
+
+	def split(self, _string, ign_delimiters=None):
+		ignore = ign_delimiters is not None
+		if ignore :
+			if not isinstance(ign_delimiters, list): raise Exception("ign_delimiters should be a list of strings")
+			if not all(isinstance(delim, str) for delim in ign_delimiters) : raise Exception("ign_delimiters list expects all elements to str, some aren't")
+		
+		_string_parts = []
+		_buffer       = ""
+
+		for _c in _string:
+			not_ignored = not _c in ign_delimiters if ignore else True 
+			if self.is_sym(_c) and not_ignored:
+				if _buffer != '' : 
+					_string_parts.append(_buffer)
+					_buffer = ""
+				_string_parts.append(_c)
 			else:
-				if url[i] != "/":
-					urlbuffer += url[i]
+				_buffer += _c
+		
+		if _buffer != '': _string_parts.append(_buffer)
 
-		return urlbuffer
+		return _string_parts
+
+	def is_sym(self, _string):
+		assert isinstance(_string, str)
+		return not _string.isdigit() and not _string.isalpha()
+
+	def special_chars(self, _string):
+		""" Returns the symbol in the string e.g: / . , _ - ? ! """
+		from functools import partial
+		from operator import is_not	
+		return list(filter(partial(is_not, None), [spchar if self.is_sym(spchar) else None for spchar in _string]))
+
+	def contains_spchars(self, _string):
+		""" Indicates whether a string has any special characters of symbols in it"""
+		return True if len(self.special_chars(_string)) > 0 else False
+
+	def del_substring(self, _substring, _string):
+		return _string.replace(_substring,'')
+
+	def to_lowercase_(name):
+		s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+		return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 	def parse_arabic_urls(self, url):
 		import urllib.parse
 		return urllib.parse.unquote(url)
 
-	def is_arabic(self, _str):
+	def is_charset(self, _str, lang):
 		from alphabet_detector import AlphabetDetector
-		ad = AlphabetDetector()
+		return AlphabetDetector().only_alphabet_chars(u'%s' % _str, lang)
 
-		return ad.only_alphabet_chars(u'%s' % _str, 'ARABIC')
+	def is_ar(self, _str):
+		return self.is_charset(_str, 'ARABIC')
+
+	def is_lat(self, _str):
+		return self.is_charset(_str, 'LATIN')
+
+	def is_arlat(self, _str):
+		return not (self.is_lat(_str) and self.is_ar(_str))
 
 	def compile(self, pattern):
-		return re.compile(pattern, re.IGNORECASE|re.DOTALL)
+		return re.compile(pattern, re.IGNORECASE|re.DOTALL) if isinstance(pattern, str) else None
 	
 	def is_url(self, url):
 		return True if self.compile(self._regex_url_pattern).match(url) else False
@@ -48,215 +212,19 @@ class RegexrClass:
 		return True if self.compile(self._regex_rooturl_pattern).match(url) else False
 
 	def escape(self, char):
-		"""
-		escapes any provided character
-		"""
-		return "(\\" + char + ")"
+		""" escapes any provided character"""
+		return "(\\" + char + ")" if isinstance(char, str) and self.is_sym(char) else None
 
-	def patternize(self, items):
-		from newsline.helpers import helpers
-
-		if helpers.is_list(items):
-			if helpers.is_empty(items): 
-				raise Exception("items cannot be an empty list")
+	def remove_double_slash(self, url):
+		urlbuffer = ""
+		for i in range(0, len(url)):
+			if i < len(url) - 1:
+				chars_same     = url[i] == url[i+1]
+				chars_slash    = url[i] == "/" or url[i+1] == "/"
+				if not chars_same or (chars_same and not chars_slash):
+					urlbuffer += url[i]
 			else:
-				if not all(isinstance(i, str) for i in items):
-					raise Exception("items must be a list of strings, an element is not string")
-				else:
-					if len(items) == 1:
-						return self.make_pattern(urls[0])
-					elif len(items) > 1:
-						pattern = "("
-						for i, item in enumerate(items):
-							if i == len(items) - 1:
-								pattern += self.make_pattern(item)[0] + ")"
-							else:
-								pattern += self.make_pattern(item)[0] + "|"
-						return [pattern, re.compile(pattern, re.IGNORECASE|re.DOTALL)]
+				if url[i] != "/":
+					urlbuffer += url[i]
 
-		elif isinstance(items, str):
-			return self.make_pattern(items)
-
-	def make_exact_pattern(self, _string):
-		"""
-		Generates the exact provided pattern in terms of words, digits, special characters, and alphanumerics
-		"""
-		if self.contains_spchars(_string):
-			pattern = ""
-			string_split = self.split(_string)
-
-			for part in string_split:
-				if self.is_arabic(part):
-					pattern += self._regex_arabic_characters
-				elif part.isdigit():
-					pattern += self._regex_digit_only
-				elif part.isalpha():
-					pattern += self._regex_alpha_only
-				elif part.isalnum():
-					pattern += self._regex_alphanum
-				else:
-					pattern += self.escape(part)
-
-			return pattern
-		else:
-			if self.is_arabic(part):
-				return self._regex_arabic_characters
-			elif _string.isdigit():
-				return self._regex_digit_only
-			elif _string.isalpha():
-				return self._regex_alpha_only
-			elif _string.isalnum():
-				return self._regex_alphanum
-
-		return None
-
-	def make_general_pattern(self, _string):
-		"""
-		Generates a general regex pattern for the provided string in terms of strings, digits, / ? = . #
-		"""
-		if self.contains_spchars(_string):
-			pattern = ""
-			delimiters =  [":","/", "?", "=", ".", "#"]
-			string_split = self.split(_string, delimiters)
-
-			for part in string_split:
-				if part.isdigit():
-					pattern += self._regex_digit_only
-				else:
-					is_delim = False
-
-					for delim in delimiters:
-						if part == delim:
-							pattern += self.escape(part)
-							is_delim = True
-
-					if not is_delim:
-						if self.is_arabic(part):
-							pattern += self._regex_arabic_characters
-						else:
-							pattern += self._regex_string
-
-			return pattern
-		else:
-			if self.is_arabic(_string):
-				pattern += self._regex_arabic_characters
-			elif _string.isdigit():
-				return self._regex_digit_only
-			elif _string.isalpha():
-				return self._regex_alpha_only
-			elif _string.isalnum():
-				return self._regex_alphanum
-
-		return None
-		
-	def make_pattern(self, _string):
-		"""
-		Makes a pattern
-		"""
-		if _string == '' :
-			return [None, None]
-		else:
-			_string = self.parse_arabic_urls(_string)
-			if _string.isalpha():
-				return [self._regex_word, re.compile(self._regex_word)]
-			elif _string.isdigit():
-				return [self._regex_digit_only, re.compile(self._regex_digit_only)]
-			elif _string.isalnum():
-				return [self._regex_alphanum, re.compile(self._regex_alphanum)]
-			else: # This case is when the _string contains any kind of symbols
-
-				# In this sectiion, we will provide a regular expression as follows:
-				# An exact regular expression to match all the likes of this _string
-				# and a general one.
-				# Example : /category-name/article_1.html
-				# (slash word dash word slash word underscore digit dot word)|(slash _string slash word digit word)
-				gpattern = "(" + self.make_exact_pattern(_string) + ")|(" + self.make_general_pattern(_string) + ")"
-				return [gpattern, re.compile(gpattern, re.IGNORECASE|re.DOTALL)]
-
-	def _regexr_word_spchars(self, spchars, noslash=None):
-		# ((?:\w*((\spchar_1)|(\spchar_2)|(\spchar_3)))*\w+)
-		gpattern = ""
-		if len(spchars) > 1:
-			pattern = "((?:\w*("
-			for i, spchar in enumerate(spchars):
-				if noslash is not None:
-					if noslash:
-						if spchar != "/" :
-							if i == len(spchars) - 1:
-								pattern += "(\\" + spchar + "))"
-							else:
-								pattern += "(\\" + spchar + ")|"
-					else:
-						if i == len(spchars) - 1:
-							pattern += "(\\" + spchar + "))"
-						else:
-							pattern += "(\\" + spchar + ")|"
-
-			pattern += ")*\w+)"
-			gpattern = pattern
-		else:
-			pattern = '((?:\w*\\' + spchars[0] +')*\w+)'
-			gpattern = pattern
-
-		return gpattern
-
-
-	def split(self, _string, delimiters=None):
-		split_string   = []
-		word_container = ""
-		for _c in _string:
-			is_sym = (not _c.isdigit()) and (not _c.isalpha()) 
-
-			is_del = True
-			if delimiters is not None:
-				assert isinstance(delimiters, list)
-				_is_del = 0
-				for delim in delimiters:
-					if _c != delim:
-						_is_del += 1
-
-				if _is_del == len(delimiters):
-					is_del = False
-
-			if is_sym and is_del:
-				if word_container != '' : 
-					split_string.append(word_container)
-					word_container = ""
-				split_string.append(_c)
-			else:
-				word_container += _c
-
-		
-		if word_container != '':
-			split_string.append(word_container)
-
-		return split_string
-
-
-	def contains_spchars(self, _string):
-		if len(self.special_chars(_string)) > 0:
-			return True
-		else:
-			return False
-
-
-	def special_chars(self, _string):
-		"""
-		Returns the symbol in the string e.g: / . , _ - ? ! 
-		"""
-
-		spchars = []
-		for char in _string:
-			if char.isdigit(): 
-				pass
-			elif not char.isalpha(): 
-				spchars.append(char)
-
-		return spchars
-
-	def del_substring(self, _substring, _string):
-		return _string.replace(_substring,'')
-
-	def to_lowercase_(name):
-		s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-		return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+		return urlbuffer

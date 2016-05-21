@@ -50,7 +50,7 @@ class DomItem:
 			if helpers.is_empty(ds): raise Exception("domselector received an empty list, domselector can not be empty")
 			if not all(helpers.is_str(d) for d in ds): raise Exception("domselector received an empty list, but not all elements are strings")
 		elif not helpers.is_str(ds): raise Exception("domselector is expected to be a string, %s given"%type(ds))
-		
+
 		if not helpers.is_str(ds) and not helpers.is_list(ds): raise Exception("domselector is expected to be a string or list of strings, %s given"%type(ds))
 
 		self._domselector = ds
@@ -129,3 +129,9 @@ class DomItem:
 				}
 		else:
 			return {"level_%d"%depth: getattr(self, attr)}
+
+	def matches(self, url):
+		if hasattr(self, "_regexpattern"):
+			if self.regexpattern[1].match(url): return True
+			return False
+		return None
