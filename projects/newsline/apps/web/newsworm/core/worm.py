@@ -14,6 +14,50 @@ from newsline.helpers import helpers
 
 import re, requests
 
+class CrawledItem:
+	def __init__(self, crawled_data, dom_item, nested_items=[]):
+		self.crawled_data = crawled_data
+		self.dom_item = dom_item
+		self.nested_items = []
+
+	@property
+	def dom_item(self):
+		return self._dom_item
+
+	@dom_item.setter
+	def dom_item(self, di):
+		if not isinstance(di, WDomItem): raise Exception("dom_item must be of type WDomItem, %s given" % type(di))
+		self._dom_item = di
+
+	@property
+	def nested_items(self):
+		return self._nested_crawled_items
+
+	@nested_items.setter
+	def nested_items(self, nci):
+		if isinstance(nci, list): 
+			if not all(isinstance(i, CrawledItem) for i in nci): raise Exception("nested_items must be all of type CrawledItem, some aren't")
+		elif not isinstance(nci, CrawledItem): raise Exception("Expecting CrawledItem or list of CrawledItems, %s given" % type(nci))
+		self._nested_crawled_items = nci
+	
+class WDomItem(DomItem):
+	""" This is an inheritance to implement a new feature, that is, each DomItem has many crawled items"""
+	def __init__(self, name, url, domselector, nested_items=None):
+		DomItem.__init__(self, name, url, domselector, nested_items)
+		self.crawled_items = []
+
+	@property
+	def crawled_items(self):
+		return self._crawled_items
+
+	@crawled_items.setter
+	def crawled_items(self, ci):
+		if isinstance(ci, list):
+			if not all(isinstance(i, DomItem) for i in ci): raise Exception("All elements are expected to be of CrawledItem type, some aren't")
+		elif not isinstance(ci, CrawledItem): raise Exception("Expecting CrawledItem or list of CrawledItem, %s given. " % type(ci))
+
+		self._crawled_items = ci
+	
 @logger.log_class
 class Worm(logger.ClassUsesLog):
 	# Logging info

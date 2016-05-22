@@ -437,3 +437,100 @@ class WormTestCase(BaseSimpleTestCase):
 			raise e
 		else:
 			self.print_success("Extracted data:\n %s" % worm._crawl_similar_hyperlinks(worm.domitems))
+
+	def crawledItemSetUpTest(self):
+		from newsline.apps.web.newsworm.core.worm import CrawledItem
+		from newsline.apps.web.newsworm.core.worm import WDomItem
+		name = "an item's name"
+		url = "http://www.google.com"
+		selector = "div.class > ul#id > li > a"
+		domitem_1 = WDomItem(name + "1", url, selector + "1")
+		domitem_2 = WDomItem(name + "2", url, selector + "2")
+		domitem_3 = WDomItem(name + "3", url, selector + "3")
+
+		try:
+			self.print_info("Setting up a crawled item with no nested crawled items")
+			crawleditem = CrawledItem("link", domitem_1)
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_success("Successfuly sat up a crawled item with no nested crawled items")
+
+		self.print_seperator()
+
+		try:
+			self.print_info("Setting up a crawled item with one nested crawled items")
+			crawleditem = CrawledItem("A link", domitem_1, CrawledItem("A sublink", domitem_2))
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_success("Successfuly sat up a crawled item with one nested crawled items")
+
+		self.print_seperator()
+		
+		try:
+			self.print_info("Setting up a crawled item with a list nested crawled items")
+			crawleditem = CrawledItem("A link", domitem_1, [
+				CrawledItem("A sublink", domitem_2), 
+				CrawledItem("A sublink", domitem_2)
+			])
+
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_success("Successfuly sat up a crawled item with a list nested crawled items")
+
+		self.print_seperator()
+		
+		try:
+			self.print_info("Setting up a crawled item with a list of nested crawled items that also have one nested item each")
+			crawleditem = CrawledItem("A link", domitem_1, [
+				CrawledItem("A sublink", domitem_2, 
+					CrawledItem("An image", domitem_3, CrawledItem("An image", domitem_3))
+				), 
+				CrawledItem("A sublink", domitem_2,
+					CrawledItem("An image", domitem_3, CrawledItem("An image", domitem_3))
+				)
+			])
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_success("Successfuly sat up a crawled item with a list of nested crawled items that also have one nested item each")
+
+		self.print_seperator()
+		
+		try:
+			self.print_info("Setting up  a crawled item with a list of nested crawled items that also have a list of nested items each")
+			crawleditem = CrawledItem("A link", domitem_1, [
+				CrawledItem("A sublink", domitem_2, [
+					CrawledItem("An image", domitem_3, CrawledItem("An image", domitem_3)),
+					CrawledItem("An image", domitem_3, CrawledItem("An image", domitem_3))
+				]), 
+				CrawledItem("A sublink", domitem_2, [
+					CrawledItem("An image", domitem_3, CrawledItem("An image", domitem_3)),
+					CrawledItem("An image", domitem_3, CrawledItem("An image", domitem_3))
+				])
+			])
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_success("Successfuly sat up a crawled item with a list of nested crawled items that also have a list of nested items each")
+
+		try:
+			self.print_info("Setting up a crawled item and then appending a nested item")
+			crawleditem = CrawledItem("A link", domitem_1)
+			crawleditem.nested_items.append(CrawledItem("A Sublink", domitem_1))
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_success("Successfuly sat up a crawled item with a list of nested crawled items that also have a list of nested items each")
+
+	def wormTestWDomItemSetUp(self):
+		# from worm import WDomItem
+		pass

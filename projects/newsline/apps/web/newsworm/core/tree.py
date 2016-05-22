@@ -90,3 +90,13 @@ class Tree:
 				treebuffer += str(child)
 
 		return treebuffer if self.level else treebuffer + "\n\t}\n"
+
+	def printtree(self):
+		import math
+		treebuffer = "\n|%s:[%d] {'data': %s, 'level: %d}" % (helpers.printdash(math.fabs(self.level - 1) + 3 if self.level else 1), self.level, self.data, self.level)
+
+		if self.children:
+			for child in self.children:
+				treebuffer += "\n|" + child.printtree()
+
+		return treebuffer

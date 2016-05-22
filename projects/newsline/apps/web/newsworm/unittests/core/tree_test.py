@@ -130,3 +130,17 @@ class TreeTestCase(BaseSimpleTestCase):
 			self.print_success("\t# 4: Test passed.")
 			self.print_success("\n\n %s" % str(tree))
 			self.print_seperator()
+
+	def printtreeTest(self):
+		# 4
+		self.print_info("The following test should pass and print correct depths | supplying list of children with an element having nested node")
+		try:
+			tree = Tree("ROOT")
+			tree.children = [Tree("First Child"), Tree("Second Child", children=[Tree("Second Element's nested node")])]
+		except Exception as e:
+			self.print_failure("\t# 4: Test failed with :%s"%str(e))
+			self.print_seperator()
+		else:
+			self.print_success("\t# 4: Test passed.")
+			self.print_success("\n\n %s" % tree.printtree())
+			self.print_seperator()

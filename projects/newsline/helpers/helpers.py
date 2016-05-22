@@ -144,3 +144,13 @@ def indent(times):
 		indbuf += "\t"
 
 	return indbuf
+
+def printdash(times):
+	if not times: return ""
+
+	import math
+	dash = ""
+	for i in range(0, math.floor(times)):
+		dash += "-"
+
+	return dash
