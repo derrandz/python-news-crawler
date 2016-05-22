@@ -128,3 +128,9 @@ class DomItem:
 			if strength == 1: return True if self.regexr.shallowmatch(url) else False
 			raise Exception("strength attribute expects 0 for strong [default], 1 for shallow, 'smart' for smart, do not specify other than that.")
 		return None
+
+	def __repr__(self):
+		return "{'name': %s, 'url': %s, 'domselector': %s, 'nested_items': %s}"	% (self.name, self.url, self.domselector, self.nested_items)
+
+	def __str__(self):
+		return "{'name': %s, 'url': %s, 'domselector': %s, 'nested_items': %s}"	% (self.name, self.url, self.domselector, self.nested_items)

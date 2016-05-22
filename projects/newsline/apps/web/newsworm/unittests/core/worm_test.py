@@ -456,6 +456,8 @@ class WormTestCase(BaseSimpleTestCase):
 			raise e
 		else:
 			self.print_success("Successfuly sat up a crawled item with no nested crawled items")
+			self.print_success("Crawled item: %s" % str(crawleditem))
+			self.print_success("Crawled item's dom item: %s" % str(crawleditem.dom_item))
 
 		self.print_seperator()
 
@@ -526,11 +528,29 @@ class WormTestCase(BaseSimpleTestCase):
 			crawleditem = CrawledItem("A link", domitem_1)
 			crawleditem.nested_items.append(CrawledItem("A Sublink", domitem_1))
 		except Exception as e:
-			self.print_failure("Test failed with error: %s" % str(e))
+			self.print_exception(e)
 			raise e
 		else:
 			self.print_success("Successfuly sat up a crawled item with a list of nested crawled items that also have a list of nested items each")
 
 	def wormTestWDomItemSetUp(self):
-		# from worm import WDomItem
-		pass
+		from newsline.apps.web.newsworm.core.worm import WDomItem, CrawledItem
+		""" 
+			This method wil ltest the insertion of the crawled data only.
+			As of the instantiation of DomItem, it has been tested in dom_item_test
+		"""
+
+		try:
+			domitem_with_crawled_data = WDomItem(
+				"a name",
+				"http://www.google.com", 
+				"ul > li > a", 
+				nested_items=None, 
+				crawled_items=CrawledItem("An Image"))
+		except Exception as e:
+			self.print_exception(e)
+			raise e
+		else:
+			self.print_success("Test succeeded")
+			self.print_success("DomItem %s" % str(domitem_with_crawled_data))
+			self.print_success("Crawled item printed from the DomItem's attribute %s" % domitem_with_crawled_data.crawled_items)

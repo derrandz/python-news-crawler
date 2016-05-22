@@ -15,7 +15,15 @@ from newsline.helpers import helpers
 import re, requests
 
 class CrawledItem:
-	def __init__(self, crawled_data, dom_item, nested_items=[]):
+	""" 
+		This class would not make sense unless in use in Worm class in conjuction with WDomItem.
+		From which arises the reason to put it in the same file, and put its tests in worm_test
+
+		This class serves as a holder of the crawled data, having the data crawled data 
+		and its type -WDomItemp- and possible nested data
+		as attributes
+	"""
+	def __init__(self, crawled_data, dom_item=None, nested_items=[]):
 		self.crawled_data = crawled_data
 		self.dom_item = dom_item
 		self.nested_items = []
@@ -26,9 +34,14 @@ class CrawledItem:
 
 	@dom_item.setter
 	def dom_item(self, di):
-		if not isinstance(di, WDomItem): raise Exception("dom_item must be of type WDomItem, %s given" % type(di))
+		if di is not None:
+			if not isinstance(di, WDomItem): raise Exception("dom_item must be of type WDomItem, %s given" % type(di))
 		self._dom_item = di
 
+		if self._dom_item is not None:
+			if not self in self._dom_item.crawled_items:
+				self._dom_item.crawled_items.append(self)
+	
 	@property
 	def nested_items(self):
 		return self._nested_crawled_items
@@ -40,11 +53,17 @@ class CrawledItem:
 		elif not isinstance(nci, CrawledItem): raise Exception("Expecting CrawledItem or list of CrawledItems, %s given" % type(nci))
 		self._nested_crawled_items = nci
 	
+	def __repr__(self):
+		return "{'crawled_data': %s, 'dom_item': %s, 'nested_items': %s}" % (self.crawled_data, self.dom_item, self.nested_items)
+
+	def __str__(self):
+		return "{'crawled_data': %s, 'dom_item': %s, 'nested_items': %s}" % (self.crawled_data, self.dom_item, self.nested_items)
+
 class WDomItem(DomItem):
 	""" This is an inheritance to implement a new feature, that is, each DomItem has many crawled items"""
-	def __init__(self, name, url, domselector, nested_items=None):
+	def __init__(self, name, url, domselector, nested_items=None, crawled_items=[]):
 		DomItem.__init__(self, name, url, domselector, nested_items)
-		self.crawled_items = []
+		self.crawled_items = crawled_items
 
 	@property
 	def crawled_items(self):
@@ -52,11 +71,27 @@ class WDomItem(DomItem):
 
 	@crawled_items.setter
 	def crawled_items(self, ci):
-		if isinstance(ci, list):
-			if not all(isinstance(i, DomItem) for i in ci): raise Exception("All elements are expected to be of CrawledItem type, some aren't")
-		elif not isinstance(ci, CrawledItem): raise Exception("Expecting CrawledItem or list of CrawledItem, %s given. " % type(ci))
+		if ci:
+			if isinstance(ci, list):
+				if not all(isinstance(i, DomItem) for i in ci): 
+					raise Exception("All elements are expected to be of CrawledItem type, some aren't")
+			elif not isinstance(ci, CrawledItem): 
+				raise Exception("Expecting CrawledItem or list of CrawledItem, %s given. " % type(ci))
 
-		self._crawled_items = ci
+		if not hasattr(self, "_crawled_items"):
+			self._crawled_items = []
+
+		self.__add_crawled_item(ci)
+
+	def __add_crawled_item(self, ci):
+		def _add_dom_item(crawled_item, di=self):
+			crawled_item.dom_item = di
+			return crawled_item
+
+		if isinstance(ci, list): 
+			self._crawled_items.extend([_add_dom_item(i) for i in ci]) 
+		else:
+			self._crawled_items.append(_add_dom_item(ci))
 	
 @logger.log_class
 class Worm(logger.ClassUsesLog):
@@ -218,3 +253,8 @@ class Worm(logger.ClassUsesLog):
 		def _matches(val): return True if (val == 0 ) or (val == 1) else False
 		return list(filter(partial(is_not, ''), [href if _matches(domitem.match(href, strength)) else '' for href in self._crawl_hyperlinks(domitem)]))
 
+	def crawl(self):
+		if not isinstance(self.domitems, list):
+			self.domitems.crawled_items = self._crawl_similar_hyperlinks(self.domitems)
+			if self.domitems.has_nested_items
+		else:
