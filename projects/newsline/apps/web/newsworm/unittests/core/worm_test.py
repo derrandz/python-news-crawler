@@ -501,6 +501,33 @@ class WormTestCase(BaseSimpleTestCase):
 				worm._pipeout_to_crawled_item(i, 'smart')
 				self.print_success("Extracted data:%s\n" % i.nested_items)
 
+	def testLaunch(self):
+		domitems = {
+			"name": 'category',
+			"url": '/politique/index.1.html', 
+			"selector": 'div#mainNav > ul#menu_main > li > a',
+			"nested_items":{
+				"name": 'article',
+				"url": '/politique/212121.html',
+				"selector": 'h2.section_title > a'	
+			} 
+		}
+
+		try:
+			from copy import deepcopy
+			worm = Worm("http://www.hespress.com/", deepcopy(domitems))
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			worm._launch()
+			self.print_info("----------------- Crawling finished.")
+			def _pt(crawleditem):
+				print("[%s]Crawled item: %s" % (crawleditem.dom_item.name, crawleditem.url))
+
+			for ci in worm.domitems.crawled_items:
+				ci.diverge(_pt)
+
 	def crawledItemSetUpTest(self):
 		from newsline.apps.web.newsworm.core.worm import CrawledItem
 		from newsline.apps.web.newsworm.core.worm import WDomItem
