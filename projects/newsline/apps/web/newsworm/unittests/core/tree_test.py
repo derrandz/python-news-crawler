@@ -144,3 +144,25 @@ class TreeTestCase(BaseSimpleTestCase):
 			self.print_success("\t# 4: Test passed.")
 			self.print_success("\n\n %s" % tree.printtree())
 			self.print_seperator()
+
+	def testDivergence(self):
+		try:
+			tree = Tree("Root", children=[
+					Tree("FirstNode"),
+					Tree("SecondNode"),
+					Tree("ThirdNode", children=[
+						Tree("_FirstNode")
+					])
+				])
+
+		except Exception as e:
+			self.print_failure("\t#Instantiatino failed with :%s"%str(e))
+			self.print_seperator()
+			raised = True
+		else:
+			self.print_success("\tInstantiation passed.")
+
+			def _dumfn(thisTree):
+				print("Tree with %s and %s." % (thisTree.level, thisTree.data))
+
+			tree.diverge(_dumfn)

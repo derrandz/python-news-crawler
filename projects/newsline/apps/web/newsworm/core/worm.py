@@ -11,9 +11,11 @@ from .dom_item import DomItem
 
 from newsline.apps.utility.logger.core import logger
 from newsline.helpers import helpers
+from .divergence import divergent
 
 import re, requests
 
+@divergent("nested_items")
 class CrawledItem:
 	""" 
 		This class would not make sense unless in use in Worm class in conjuction with WDomItem.
@@ -193,7 +195,8 @@ class Worm(logger.ClassUsesLog):
 
 	def normalize(self, domitems):
 		""" removes the rooturl from the domitem urls if they have it"""
-		if helpers.is_dict(domitems):
+		if helpers.is_str(domitems): return self.remove_rooturl(domitems)
+		elif helpers.is_dict(domitems):
 			return helpers.map_dictionary(self.remove_rooturl, domitems, "url")
 		elif helpers.is_list(domitems):
 			def _mpdictpart(_didict, _func=self.remove_rooturl, _key="url"):
@@ -203,7 +206,8 @@ class Worm(logger.ClassUsesLog):
 
 	def decode(self, domitems):
 		""" turns the utf-8 arabic characters to unicode arabic characters"""
-		if helpers.is_dict(domitems):
+		if helpers.is_str(domitems): return self.regexr.parse_arabic_urls(domitems)
+		elif helpers.is_dict(domitems):
 			return helpers.map_dictionary(self.regexr.parse_arabic_urls, domitems, "url")
 		elif helpers.is_list(domitems):
 			def _mpdictpart(_didict, _func=self.regexr.parse_arabic_urls, _key="url"):
@@ -213,7 +217,8 @@ class Worm(logger.ClassUsesLog):
 
 	def clean(self, domitems):
 		""" cleans the urls from the double slashes or trailing slashes"""
-		if helpers.is_dict(domitems):
+		if helpers.is_str(domitems): return self.regexr.remove_double_slash(domitems)
+		elif helpers.is_dict(domitems):
 			return helpers.map_dictionary(self.regexr.remove_double_slash, domitems, "url")
 		elif helpers.is_list(domitems):
 			def _mpdictpart(_didict, _func=self.regexr.remove_double_slash, _key="url"):
@@ -235,26 +240,31 @@ class Worm(logger.ClassUsesLog):
 		if not isinstance(url, str): raise Exception("url must be str")
 		return WDom(self.rooturl + "/" + url)
 
-	def _crawl(self, domitem):
+	def _crawl(self, domitem, inurl):
 		if not isinstance(domitem, DomItem): raise Exception("__crawl expects to crawl a DomItem Object, %s given" % type(domitem))
-		return self._extract(domitem.url).find(domitem.domselector)
+		return self._extract(inurl).find(domitem.domselector)
 
-	def _crawl_hyperlinks(self, domitem):
+	def _crawl_hyperlinks(self, domitem, inurl):
 		if not isinstance(domitem, DomItem): raise Exception("__crawl expects to crawl a DomItem Object, %s given" % type(domitem))
-		return [hyperlink_tag.get("href") for hyperlink_tag in self._crawl(domitem)]
+		return [hyperlink_tag.get("href") for hyperlink_tag in self._crawl(domitem, inurl)]
 
-	def _crawl_similar_hyperlinks(self, domitem, strength=0):
+	def _crawl_similar_hyperlinks(self, domitem, inurl, strength=0):
 		if not isinstance(domitem, DomItem): raise Exception("__crawl expects to crawl a DomItem Object, %s given" % type(domitem))
 		from functools import partial
 		from operator import is_not
 		if strength != 'smart':
-			return list(filter(partial(is_not, ''), [href if domitem.match(href, strength) else '' for href in self._crawl_hyperlinks(domitem)]))
+			return list(filter(partial(is_not, ''), [href if domitem.match(href, strength) else '' for href in self._crawl_hyperlinks(domitem, inurl)]))
 
 		def _matches(val): return True if (val == 0 ) or (val == 1) else False
-		return list(filter(partial(is_not, ''), [href if _matches(domitem.match(href, strength)) else '' for href in self._crawl_hyperlinks(domitem)]))
+		return list(filter(partial(is_not, ''), [href if _matches(domitem.match(href, strength)) else '' for href in self._crawl_hyperlinks(domitem, inurl)]))
 
-	def crawl(self):
-		if not isinstance(self.domitems, list):
-			self.domitems.crawled_items = self._crawl_similar_hyperlinks(self.domitems)
-			if self.domitems.has_nested_items
-		else:
+	def _pipeout(self, domitem, inurl):
+		return [CrawledItem(self.clean(self.decode(self.normalize(hyperlink)))) for hyperlink in self._crawl_similar_hyperlinks(domitem, inurl)]
+
+	def _pipeout_to_domitem(self, domitem, inurl):
+		domitem.crawled_items = self._pipeout(domitem, inurl)
+
+	def _pipeout_to_crawled_item(self, crawled_item):
+		if crawled_item.dom_item.has_nested_items:
+			if not isinstance(crawled_item.dom_item.nested_items, list):
+				crawled_item.nested_items = self._pipeout_to_domitem(crawled_item.dom_item.nested_items, crawled_item.crawled_data)

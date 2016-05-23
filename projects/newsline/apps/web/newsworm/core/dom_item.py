@@ -1,5 +1,7 @@
 from newsline.helpers import helpers
+from .divergence import divergent
 
+@divergent("nested_items")
 class DomItem:
 	"""A doc item is a crawlable item that is identified by a link, a dom path, and a general regex to match all the similar links"""
 
@@ -63,22 +65,27 @@ class DomItem:
 	def nested_items(self, ni):
 		from newsline.helpers import helpers
 
-		if ni is None: self._nested_items = False
+		# The initialization case
+		if ni is None:
+			self._nested_items = []
+			return 
+
+		if not hasattr(self, "_nested_items"): self._nested_items = []
+
+		if isinstance(ni, DomItem): self._nested_items.append(ni)
 		elif helpers.is_dict(ni):
 			try:
-				self._nested_items = DomItem(ni['name'], ni['url'], ni['selector'], ni['nested_items']) if 'nested_items' in ni else DomItem(ni['name'], ni['url'], ni['selector'])
+				self._nested_items.append(DomItem(ni['name'], ni['url'], ni['selector'], ni['nested_items']) if 'nested_items' in ni else DomItem(ni['name'], ni['url'], ni['selector']))
 			except Exception as e:
 				raise Exception("DomItem nested element exception : %s" % str(e))
 
 		elif helpers.is_list(ni):
-			if helpers.is_empty(ni):
-				raise Exception("nested_items can not be empty")
-			elif not all(helpers.is_dict(i) for i in ni):
-				raise Exception("nested_items received as list expects all elements to be dict, some aren't")
-			try:
-				self._nested_items = [DomItem(i['name'], i['url'], i['selector'], i['nested_items']) if 'nested_items' in i else DomItem(i['name'], i['url'], i['selector']) for i in ni]
-			except Exception as e:
-				raise Exception("DomItem nested element exception : %s" % str(e))
+			if helpers.is_empty(ni): raise Exception("You cannot supply nested_items as empty")
+			elif all(isinstance(i, DomItem) or isinstance(i, dict) for i in ni):
+				try:
+					self._nested_items.extend([(DomItem(i['name'], i['url'], i['selector'], i['nested_items']) if 'nested_items' in i else DomItem(i['name'], i['url'], i['selector'])) if isinstance(i, dict) else i for i in ni]) 
+				except Exception as e:
+					raise Exception("DomItem nested element exception : %s" % str(e))
 
 	@property
 	def has_nested_items(self):

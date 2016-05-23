@@ -1,5 +1,7 @@
 from newsline.helpers import helpers
+from .divergence import divergent
 
+@divergent("children")
 class Tree:
 	"""Generic tree node."""
 

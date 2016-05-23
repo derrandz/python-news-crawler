@@ -139,7 +139,7 @@ class DomItemTestCase(BaseSimpleTestCase):
 			self.print_failure("# 5: Test failed with :%s"%str(e))
 			self.print_seperator()
 		else:
-			self.print_success("# 5: Test passed for : %s, %s, %s, %s"%(name, url, selector, nested_items))
+			self.print_success("# 5: Test passed for : name:%s, url:%s, selector:%s, nested_items:%s"%(name, url, selector, nested_items))
 			self.print_seperator()
 
 		# 6
@@ -162,7 +162,7 @@ class DomItemTestCase(BaseSimpleTestCase):
 			self.print_failure("# 6: Test failed with :%s"%str(e))
 			self.print_seperator()
 		else:
-			self.print_success("# 6: Test passed for : %s, %s, %s, %s"%(name, url, selector, nested_items))
+			self.print_success("# 6: Test passed for : name:%s, url:%s, selector:%s, nested_items:%s"%(name, url, selector, nested_items))
 			self.print_seperator()
 
 		# 7
@@ -197,7 +197,68 @@ class DomItemTestCase(BaseSimpleTestCase):
 			self.print_failure("# 7: Test failed with :%s"%str(e))
 			self.print_seperator()
 		else:
-			self.print_success("# 7: Test passed for : %s, %s, %s, %s"%(name, url, selector, nested_items))
+			self.print_success("# 7: Test passed for : name:%s, url:%s, selector:%s, nested_items:%s"%(name, url, selector, nested_items))
+			self.print_seperator()
+
+		# 8
+		url = ["http://www.google.com", "www.google.com"]
+		selector = ["div.class > ul#id > li > a", "div.class > ul#id > li > a"]
+		nested_items = DomItem("nseteditem", "http://www.google.com", "div > span > li")
+
+		try:
+			dom_item = DomItem(name, url, selector, nested_items)
+		except Exception as e:
+			self.print_failure("# 8: Test failed with :%s"%str(e))
+			self.print_seperator()
+		else:
+			self.print_success("# 8: Test passed for : name:%s, url:%s, selector:%s, nested_items:%s"%(name, url, selector, nested_items))
+			self.print_seperator()
+
+		# 9
+		url = ["http://www.google.com", "www.google.com"]
+		selector = ["div.class > ul#id > li > a", "div.class > ul#id > li > a"]
+		nested_items = [
+			DomItem("DomObj", "http://www.google.com", "div > span > li"),
+			{
+				"name": 'DomDict', 
+				"url":'/sub/url3', 
+				"selector":'div.class > li > a'
+			}
+		]
+
+		try:
+			dom_item = DomItem(name, url, selector, nested_items)
+		except Exception as e:
+			self.print_failure("# 9: Test failed with :%s"%str(e))
+			self.print_seperator()
+		else:
+			self.print_success("# 9: Test passed for : name:%s, url:%s, selector:%s, nested_items:%s"%(name, url, selector, nested_items))
+			self.print_seperator()
+
+		# 10
+		url = ["http://www.google.com", "www.google.com"]
+		selector = ["div.class > ul#id > li > a", "div.class > ul#id > li > a"]
+		nested_items = [
+			DomItem("DomObj", "http://www.google.com", "div > span > li", {
+					"name": 'NestedDomDict', 
+					"url":'/sub/url3', 
+					"selector":'div.class > li > a'
+				}),
+			{
+				"name": 'DomDict', 
+				"url":'/sub/url3', 
+				"selector":'div.class > li > a',
+				"nested_items": DomItem("nseteditem", "http://www.google.com", "div > span > li")
+			}
+		]
+
+		try:
+			dom_item = DomItem(name, url, selector, nested_items)
+		except Exception as e:
+			self.print_failure("# 10: Test failed with :%s"%str(e))
+			self.print_seperator()
+		else:
+			self.print_success("# 10: Test passed for : name:%s, url:%s, selector:%s, nested_items:%s"%(name, url, selector, nested_items))
 			self.print_seperator()
 
 	def testCasePatternize(self):
@@ -336,3 +397,61 @@ class DomItemTestCase(BaseSimpleTestCase):
 
 				self.print_success("patternize succeeded.")
 				self.print_success("\nResult:\n\t%s" % domitem.getattr_recursive("regexr"))
+
+	def testDivergence(self):
+		try:
+			domitem = DomItem('category_item', '/category/politics', 'nav > ul > li > a', {
+					"name": 'pagination',
+					"url": '/category/politics/page1',
+					"selector": 'div.pagination > ul > li > a',
+					"nested_items": {
+						"name": 'articles',
+						"url": '/article/123123.html',
+						"selector": 'h2 > a',
+						"nested_items":[
+							{"name": 'nesteditem1', "url": '/nesteditem/count1', "selector": 'span > p'},
+							{"name": 'nesteditem2', "url": '/nesteditem/count2', "selector": 'span > p'},
+							{"name": 'nesteditem3', "url": '/nesteditem/count3', "selector": 'span > p'}
+						]
+					}
+				})
+		except Exception as e:
+			self.print_failure("Test failed @instantiation with :%s"%str(e))
+			self.print_seperator()
+		else:
+			self.print_success("Instantiation successful.")
+			def printsp(thisDomItem):
+				print("My special dom item: %s, %s" % (thisDomItem.url, thisDomItem.name))
+
+			domitem.diverge(printsp)
+
+	def testDivergenceInheritance(self):
+		class DI(DomItem):
+			def __init__(self, name, url, domselector, nested_items=None):
+				DomItem.__init__(self, name, url, domselector, nested_items)
+
+		try:
+			domitem = DI('category_item', '/category/politics', 'nav > ul > li > a', {
+					"name": 'pagination',
+					"url": '/category/politics/page1',
+					"selector": 'div.pagination > ul > li > a',
+					"nested_items": {
+						"name": 'articles',
+						"url": '/article/123123.html',
+						"selector": 'h2 > a',
+						"nested_items":[
+							{"name": 'nesteditem1', "url": '/nesteditem/count1', "selector": 'span > p'},
+							{"name": 'nesteditem2', "url": '/nesteditem/count2', "selector": 'span > p'},
+							{"name": 'nesteditem3', "url": '/nesteditem/count3', "selector": 'span > p'}
+						]
+					}
+				})
+		except Exception as e:
+			self.print_failure("Test failed @instantiation with :%s"%str(e))
+			self.print_seperator()
+		else:
+			self.print_success("Instantiation successful.")
+			def printsp(thisDomItem):
+				print("My special dom item: %s, %s" % (thisDomItem.url, thisDomItem.name))
+
+			domitem.diverge(printsp)
