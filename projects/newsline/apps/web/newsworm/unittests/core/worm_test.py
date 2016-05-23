@@ -22,7 +22,7 @@ class WormTestCase(BaseSimpleTestCase):
 		from django.conf import settings
 		return helpers.parse_json_file(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_input/training_set.json")
 
-	def wormTestValidate(self):
+	def testValidate(self):
 		class WormTestClass(Worm):
 			def __init__(self, rooturl=None, domitems=None):
 				self.regexr = RegexrClass()
@@ -66,7 +66,7 @@ class WormTestCase(BaseSimpleTestCase):
 			self.print_success("# 3: Test passed")
 
 
-	def wormTestNormalize(self):
+	def testNormalize(self):
 
 		class WormTestClass(Worm):
 			def __init__(self, rooturl=None, domitems=None):
@@ -100,7 +100,7 @@ class WormTestCase(BaseSimpleTestCase):
 		self.print_info("\n\nThe following should contain links without the rooturl as a prefix:")
 		self.print_with_color("DARKCYAN", "\n[PostNormalization]: %s"% worm.temp)
 
-	def wormTestDecode(self):
+	def testDecode(self):
 
 		class WormTestClass(Worm):
 			def __init__(self, rooturl=None, domitems=None):
@@ -134,7 +134,7 @@ class WormTestCase(BaseSimpleTestCase):
 		self.print_info("\n\nThe following should contain links with readable arabic unicode characters:")
 		self.print_with_color("DARKCYAN", "\n[PostNormalization]: %s"% worm.temp)
 
-	def wormTestClean(self):
+	def testClean(self):
 
 		class WormTestClass(Worm):
 			def __init__(self, rooturl=None, domitems=None):
@@ -168,7 +168,7 @@ class WormTestCase(BaseSimpleTestCase):
 		self.print_info("\n\nThe following should contain links cleaned from trailing slashes and double slashes:")
 		self.print_with_color("DARKCYAN", "\n[PostNormalization]: %s"% worm.temp)
 
-	def wormTestNormalizationPhase(self):
+	def testNormalizationPhase(self):
 
 		class WormTestClass(Worm):
 			def __init__(self, rooturl=None, domitems=None):
@@ -202,7 +202,7 @@ class WormTestCase(BaseSimpleTestCase):
 		self.print_info("\n\nThe following should contain links cleaned from trailing slashes and double slashes, readable unicode arabic characters and clean from rooturl prefix:")
 		self.print_with_color("DARKCYAN", "\n[PostNormalization]: %s"% worm.temp)
 
-	def wormTestDomItemCreation(self):
+	def testDomItemCreation(self):
 
 		class WormTestClass(Worm):
 			def __init__(self, rooturl=None, domitems=None):
@@ -271,7 +271,7 @@ class WormTestCase(BaseSimpleTestCase):
 			self.print_seperator()
 
 
-	def wormTestPatternize(self):
+	def testPatternize(self):
 		class WormTestClass(Worm):
 			def __init__(self, rooturl=None, domitems=None):
 				self.regexr = RegexrClass()
@@ -374,7 +374,7 @@ class WormTestCase(BaseSimpleTestCase):
 
 			self.print_seperator()
 
-	def wormTestExtract(self):
+	def testExtract(self):
 		domitems = {
 			"name": "category",
 			"url": "/politique/index.1.html", 
@@ -390,7 +390,7 @@ class WormTestCase(BaseSimpleTestCase):
 		else:
 			self.print_success("Extracted data:\n %s" % worm._extract(domitems["url"]))
 
-	def wormTestCrawl(self):
+	def testCrawl(self):
 		domitems = {
 			"name": "category",
 			"url": "/politique/index.1.html", 
@@ -406,7 +406,7 @@ class WormTestCase(BaseSimpleTestCase):
 		else:
 			self.print_success("Extracted data:\n %s" % worm._crawl(worm.domitems))
 
-	def wormTestCrawlHyperLinks(self):
+	def testCrawlHyperLinks(self):
 		domitems = {
 			"name": "category",
 			"url": "/politique/index.1.html", 
@@ -422,7 +422,7 @@ class WormTestCase(BaseSimpleTestCase):
 		else:
 			self.print_success("Extracted data:\n %s" % worm._crawl_hyperlinks(worm.domitems))
 
-	def wormTestCrawlSimilarHyperLinks(self):
+	def testCrawlHyperLinks(self):
 		domitems = {
 			"name": "category",
 			"url": "/politique/index.1.html", 
@@ -436,7 +436,70 @@ class WormTestCase(BaseSimpleTestCase):
 			self.print_failure("Test failed with error: %s" % str(e))
 			raise e
 		else:
-			self.print_success("Extracted data:\n %s" % worm._crawl_similar_hyperlinks(worm.domitems))
+			self.print_success("Extracted data:\n %s" % worm._crawl_similar_hyperlinks(worm.domitems, ""))
+
+		self.print_seperator()
+
+		domitems = {
+			"name": "article",
+			"url": "/politique/304866.html", 
+			"selector": "h2.section_title > a", 
+		}
+
+		try:
+			from copy import deepcopy
+			worm = Worm("http://www.hespress.com/", deepcopy(domitems))
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_success("Extracted data:\n %s" % worm._crawl_similar_hyperlinks(worm.domitems, "/politique"))
+
+	def testPipeout(self):
+		domitems = {
+			"name": "category",
+			"url": "/politique/index.1.html", 
+			"selector": "div#mainNav > ul#menu_main > li > a", 
+		}
+
+		try:
+			from copy import deepcopy
+			worm = Worm("http://www.hespress.com/", deepcopy(domitems))
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_success("Extracted data:\n %s" % worm._pipeout(worm.domitems, ""))
+
+	def testPipeoutToCrawledItem(self):
+		domitems = {
+			"name": 'category',
+			"url": '/politique/index.1.html', 
+			"selector": 'div#mainNav > ul#menu_main > li > a',
+			"nested_items":{
+				"name": 'article',
+				"url": '/politique/212121.html',
+				"selector": 'h2.section_title > a'	
+			} 
+		}
+
+		try:
+			from copy import deepcopy
+			worm = Worm("http://www.hespress.com/", deepcopy(domitems))
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			crawled_items = worm._pipeout(worm.domitems, "")
+			worm.domitems.crawled_items = crawled_items
+			self.print_success("----------------- Piped out : %s" % worm.domitems.crawled_items)
+
+			self.print_info("----------------- Crawling subitems")
+			for i in worm.domitems.crawled_items:
+				self.print_success("----------------- Crawling: %s" % i.url)
+				self.print_success("----------------- Respective DomItem: %s" % i.dom_item.name)
+				worm._pipeout_to_crawled_item(i, 'smart')
+				self.print_success("Extracted data:%s\n" % i.nested_items)
 
 	def crawledItemSetUpTest(self):
 		from newsline.apps.web.newsworm.core.worm import CrawledItem
@@ -533,7 +596,7 @@ class WormTestCase(BaseSimpleTestCase):
 		else:
 			self.print_success("Successfuly sat up a crawled item with a list of nested crawled items that also have a list of nested items each")
 
-	def wormTestWDomItemSetUp(self):
+	def testWDomItemSetUp(self):
 		from newsline.apps.web.newsworm.core.worm import WDomItem, CrawledItem
 		""" 
 			This method wil ltest the insertion of the crawled data only.
@@ -554,3 +617,26 @@ class WormTestCase(BaseSimpleTestCase):
 			self.print_success("Test succeeded")
 			self.print_success("DomItem %s" % str(domitem_with_crawled_data))
 			self.print_success("Crawled item printed from the DomItem's attribute %s" % domitem_with_crawled_data.crawled_items)
+
+		self.print_seperator()
+		self.print_seperator()
+
+		try:
+			domitem_with_crawled_data = WDomItem(
+				"a name",
+				"http://www.google.com", 
+				"ul > li > a", 
+				nested_items=None, 
+				crawled_items=[
+					CrawledItem("An Image"), 
+					CrawledItem("Another Image")
+				])
+		except Exception as e:
+			self.print_exception(e)
+			raise e
+		else:
+			self.print_success("Test succeeded")
+			self.print_success("DomItem %s" % str(domitem_with_crawled_data))
+
+			for i in domitem_with_crawled_data.crawled_items:
+				self.print_success("CrawledItem: %s\n" % i.url)

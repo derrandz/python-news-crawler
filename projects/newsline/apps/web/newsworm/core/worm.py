@@ -25,8 +25,8 @@ class CrawledItem:
 		and its type -WDomItemp- and possible nested data
 		as attributes
 	"""
-	def __init__(self, crawled_data, dom_item=None, nested_items=[]):
-		self.crawled_data = crawled_data
+	def __init__(self, url, dom_item=None, nested_items=[]):
+		self.url = url
 		self.dom_item = dom_item
 		self.nested_items = []
 
@@ -37,12 +37,10 @@ class CrawledItem:
 	@dom_item.setter
 	def dom_item(self, di):
 		if di is not None:
-			if not isinstance(di, WDomItem): raise Exception("dom_item must be of type WDomItem, %s given" % type(di))
+			if not isinstance(di, WDomItem) and not isinstance(di, DomItem):
+				if not isinstance(di._original_class, WDomItem) and not isinstance(di._original_class, DomItem):
+					raise Exception("[orig: %s ]dom_item must be of type WDomItem, %s given" % (di._original_class, type(di)))
 		self._dom_item = di
-
-		if self._dom_item is not None:
-			if not self in self._dom_item.crawled_items:
-				self._dom_item.crawled_items.append(self)
 	
 	@property
 	def nested_items(self):
@@ -56,10 +54,10 @@ class CrawledItem:
 		self._nested_crawled_items = nci
 	
 	def __repr__(self):
-		return "{'crawled_data': %s, 'dom_item': %s, 'nested_items': %s}" % (self.crawled_data, self.dom_item, self.nested_items)
+		return "\n\t{'url': %s, 'dom_item': %s, 'nested_items': %s}" % (self.url, self.dom_item, self.nested_items)
 
 	def __str__(self):
-		return "{'crawled_data': %s, 'dom_item': %s, 'nested_items': %s}" % (self.crawled_data, self.dom_item, self.nested_items)
+		return "\n\t{'url': %s, 'dom_item': %s, 'nested_items': %s}" % (self.url, self.dom_item, self.nested_items)
 
 class WDomItem(DomItem):
 	""" This is an inheritance to implement a new feature, that is, each DomItem has many crawled items"""
@@ -75,7 +73,7 @@ class WDomItem(DomItem):
 	def crawled_items(self, ci):
 		if ci:
 			if isinstance(ci, list):
-				if not all(isinstance(i, DomItem) for i in ci): 
+				if not all(isinstance(i, CrawledItem) for i in ci): 
 					raise Exception("All elements are expected to be of CrawledItem type, some aren't")
 			elif not isinstance(ci, CrawledItem): 
 				raise Exception("Expecting CrawledItem or list of CrawledItem, %s given. " % type(ci))
@@ -87,14 +85,18 @@ class WDomItem(DomItem):
 
 	def __add_crawled_item(self, ci):
 		def _add_dom_item(crawled_item, di=self):
-			crawled_item.dom_item = di
+			if crawled_item.dom_item is None or crawled_item.dom_item != di:
+				crawled_item.dom_item = di
 			return crawled_item
 
-		if isinstance(ci, list): 
+		if isinstance(ci, list):
 			self._crawled_items.extend([_add_dom_item(i) for i in ci]) 
 		else:
 			self._crawled_items.append(_add_dom_item(ci))
-	
+
+	def __str__(self):
+		return "\n\t{'name': %s, 'url': %s, 'domselector': %s, 'nested_items': %s, 'crawled_item': %s}"	% (self.name, self.url, self.domselector, self.nested_items, self.crawled_items)	
+
 @logger.log_class
 class Worm(logger.ClassUsesLog):
 	# Logging info
@@ -174,13 +176,15 @@ class Worm(logger.ClassUsesLog):
 			if not all(helpers.is_dict(domitem) for domitem in domitems):
 				raise Exception("The domitems list expects all elements to be dictionaries, some aren't")
 			else:
-				self._domitems = [DomItem(i['name'], i['url'], i['selector'], i['nested_items']) if 'nested_items' in i else DomItem(i['name'], i['url'], i['selector']) for i in domitems]
+				self._domitems = [WDomItem(i['name'], i['url'], i['selector'], i['nested_items']) if 'nested_items' in i else WDomItem(i['name'], i['url'], i['selector']) for i in domitems]
 		elif helpers.is_dict(domitems):
-			self._domitems = DomItem(domitems['name'], domitems['url'], domitems['selector'], domitems['nested_items']) if 'nested_items' in domitems else DomItem(domitems['name'], domitems['url'], domitems['selector'])
+			self._domitems = WDomItem(domitems['name'], domitems['url'], domitems['selector'], domitems['nested_items']) if 'nested_items' in domitems else WDomItem(domitems['name'], domitems['url'], domitems['selector'])
 
+	@logger.log_method
 	def remove_rooturl(self, url):
 		return self.regexr.del_substring(self.rooturl, url)
 
+	@logger.log_method
 	def validate(self, domitems):
 		if helpers.is_list(domitems):
 			if not all(helpers.is_dict(di) for di in domitems):
@@ -193,6 +197,7 @@ class Worm(logger.ClassUsesLog):
 			else:
 				return domitems
 
+	@logger.log_method
 	def normalize(self, domitems):
 		""" removes the rooturl from the domitem urls if they have it"""
 		if helpers.is_str(domitems): return self.remove_rooturl(domitems)
@@ -204,6 +209,7 @@ class Worm(logger.ClassUsesLog):
 
 			return list(map(_mpdictpart, domitems))
 
+	@logger.log_method
 	def decode(self, domitems):
 		""" turns the utf-8 arabic characters to unicode arabic characters"""
 		if helpers.is_str(domitems): return self.regexr.parse_arabic_urls(domitems)
@@ -215,6 +221,7 @@ class Worm(logger.ClassUsesLog):
 
 			return list(map(_mpdictpart, domitems))
 
+	@logger.log_method
 	def clean(self, domitems):
 		""" cleans the urls from the double slashes or trailing slashes"""
 		if helpers.is_str(domitems): return self.regexr.remove_double_slash(domitems)
@@ -226,6 +233,7 @@ class Worm(logger.ClassUsesLog):
 
 			return list(map(_mpdictpart, domitems))
 
+	@logger.log_method
 	def patternize(self):
 		if helpers.is_list(self.domitems):
 			for item in self.domitems:
@@ -233,6 +241,7 @@ class Worm(logger.ClassUsesLog):
 		elif isinstance(self.domitems, DomItem):
 			self.domitems.patternize()
 
+	@logger.log_method
 	def init_sitemap(self):
 		self.sitemap = Tree(self.rooturl, 0)
 
@@ -244,10 +253,12 @@ class Worm(logger.ClassUsesLog):
 		if not isinstance(domitem, DomItem): raise Exception("__crawl expects to crawl a DomItem Object, %s given" % type(domitem))
 		return self._extract(inurl).find(domitem.domselector)
 
+	@logger.log_method
 	def _crawl_hyperlinks(self, domitem, inurl):
 		if not isinstance(domitem, DomItem): raise Exception("__crawl expects to crawl a DomItem Object, %s given" % type(domitem))
 		return [hyperlink_tag.get("href") for hyperlink_tag in self._crawl(domitem, inurl)]
 
+	@logger.log_method
 	def _crawl_similar_hyperlinks(self, domitem, inurl, strength=0):
 		if not isinstance(domitem, DomItem): raise Exception("__crawl expects to crawl a DomItem Object, %s given" % type(domitem))
 		from functools import partial
@@ -258,13 +269,49 @@ class Worm(logger.ClassUsesLog):
 		def _matches(val): return True if (val == 0 ) or (val == 1) else False
 		return list(filter(partial(is_not, ''), [href if _matches(domitem.match(href, strength)) else '' for href in self._crawl_hyperlinks(domitem, inurl)]))
 
-	def _pipeout(self, domitem, inurl):
-		return [CrawledItem(self.clean(self.decode(self.normalize(hyperlink)))) for hyperlink in self._crawl_similar_hyperlinks(domitem, inurl)]
+	@logger.log_method
+	def _pipeout(self, domitem, inurl, strength=0):
+		return [CrawledItem(self.clean(self.decode(self.normalize(hyperlink)))) for hyperlink in self._crawl_similar_hyperlinks(domitem, inurl, strength)]
 
-	def _pipeout_to_domitem(self, domitem, inurl):
-		domitem.crawled_items = self._pipeout(domitem, inurl)
+	@logger.log_method
+	def _pipeout_to_domitem(self, domitem, inurl, strength=0):
+		domitem.crawled_items = self._pipeout(domitem, inurl, strength=0)
 
-	def _pipeout_to_crawled_item(self, crawled_item):
-		if crawled_item.dom_item.has_nested_items:
-			if not isinstance(crawled_item.dom_item.nested_items, list):
-				crawled_item.nested_items = self._pipeout_to_domitem(crawled_item.dom_item.nested_items, crawled_item.crawled_data)
+	@logger.log_method
+	def _pipeout_to_crawled_item(self, crawled_item, strength=0):
+		if not isinstance(crawled_item, CrawledItem):
+			raise Exception("crawled_item must be of type CrawledItem, %s given" % type(crawled_item))	
+
+		if crawled_item.dom_item:
+			if crawled_item.dom_item.has_nested_items:
+				def setdomitem(domitem, crawleditem):
+					crawleditem.dom_item = domitem
+					return crawleditem
+
+				for domitem in crawled_item.dom_item.nested_items:
+					crawlresults = self._pipeout(domitem, crawled_item.url, strength)
+					if crawlresults:
+						domitem.crawled_items = crawlresults
+						from functools import partial
+						crawled_item.nested_items = [setdomitem(domitem, ci) for ci in crawlresults]
+
+	@logger.log_method
+	def _launch(self):
+		if not helpers.is_list(self.domitems):
+			self._pipeout_to_domitem(self.domitems, "")
+		else:
+			for di in self.domitems: self._pipeout_to_domitem(di, "")
+	
+		if not helpers.is_list(self.domitems):
+			if not isinstance(self.domitems.crawled_items, list):
+				self.domitems.crawled_items.diverge(self._pipeout_to_crawled_item)
+			else:
+				for ci in self.domitems.crawled_items:
+					ci.diverge(self._pipeout_to_crawled_item)
+		else:
+			for di in self.domitems:
+				if not isinstance(di.crawled_items, list):
+					self.domitems.crawled_items.diverge(self._pipeout_to_crawled_item)
+				else:
+					for ci in di.crawled_items:
+						ci.diverge(self._pipeout_to_crawled_item)

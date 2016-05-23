@@ -5,7 +5,7 @@ def divergent(dvgpoint):
 	"""
 	def class_rebuilder(cls):
 		class DivergentClass(cls):
-			
+			_original_class = cls.__name__
 			_divergent = True
 			_divergence_point = dvgpoint
 

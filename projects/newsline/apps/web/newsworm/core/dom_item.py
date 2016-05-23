@@ -1,8 +1,15 @@
 from newsline.helpers import helpers
+from newsline.apps.utility.logger.core import logger
+
 from .divergence import divergent
 
 @divergent("nested_items")
-class DomItem:
+@logger.log_class
+class DomItem(logger.ClassUsesLog):
+	# Logging info
+	log_directory_name = "dom_item_logs"
+	log_name           = "DomItemClass"
+
 	"""A doc item is a crawlable item that is identified by a link, a dom path, and a general regex to match all the similar links"""
 
 	def __init__(self, name, url, domselector, nested_items=None):
@@ -89,7 +96,8 @@ class DomItem:
 
 	@property
 	def has_nested_items(self):
-		return self.nested_items if not self.nested_items else True
+		if not hasattr(self, "_nested_items"): return False
+		return len(self._nested_items) > 0
 	
 	@property
 	def regexr(self):
@@ -128,6 +136,7 @@ class DomItem:
 		else:
 			return {"level_%d"%depth: getattr(self, attr)}
 
+	@logger.log_method
 	def match(self, url, strength=0):
 		if hasattr(self, "_regexr"):
 			if strength == 'smart': return self.regexr.smartmatch(url)
@@ -137,7 +146,7 @@ class DomItem:
 		return None
 
 	def __repr__(self):
-		return "{'name': %s, 'url': %s, 'domselector': %s, 'nested_items': %s}"	% (self.name, self.url, self.domselector, self.nested_items)
+		return "\n\t{'name': %s, 'url': %s, 'domselector': %s, 'nested_items': %s}"	% (self.name, self.url, self.domselector, self.nested_items)
 
 	def __str__(self):
-		return "{'name': %s, 'url': %s, 'domselector': %s, 'nested_items': %s}"	% (self.name, self.url, self.domselector, self.nested_items)
+		return "\n\t{'name': %s, 'url': %s, 'domselector': %s, 'nested_items': %s}"	% (self.name, self.url, self.domselector, self.nested_items)
