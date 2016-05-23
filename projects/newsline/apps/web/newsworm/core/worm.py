@@ -117,8 +117,6 @@ class Worm(logger.ClassUsesLog):
 		self.domitems = self.clean(self.decode(self.normalize(self.validate(domitems))))
 		self.patternize()
 
-		self.init_sitemap()
-
 	@property
 	def sitemap(self):
 		return self._sitemap
@@ -241,10 +239,6 @@ class Worm(logger.ClassUsesLog):
 		elif isinstance(self.domitems, DomItem):
 			self.domitems.patternize()
 
-	@logger.log_method
-	def init_sitemap(self):
-		self.sitemap = Tree(self.rooturl, 0)
-
 	def _extract(self, url):
 		if not isinstance(url, str): raise Exception("url must be str")
 		return WDom(self.rooturl + "/" + url)
@@ -315,3 +309,32 @@ class Worm(logger.ClassUsesLog):
 				else:
 					for ci in di.crawled_items:
 						ci.diverge(self._pipeout_to_crawled_item)
+
+	def _summary(self):
+		summary = {}
+		def _summarize(crawleditem):
+			if crawleditem.dom_item.name in summary:
+				summary[crawleditem.dom_item.name].update({crawleditem.url: []})
+				if crawleditem.nested_items:
+					summary[crawleditem.dom_item.name][crawleditem.url].append([ci.url for ci in crawleditem.nested_items])
+			else:
+				summary.update({crawleditem.dom_item.name: {}})
+				summary[crawleditem.dom_item.name].update({crawleditem.url: []})
+				if crawleditem.nested_items:
+					summary[crawleditem.dom_item.name][crawleditem.url].append([ci.url for ci in crawleditem.nested_items])
+
+		if not helpers.is_list(self.domitems):
+			if not helpers.is_list(self.domitems.crawled_items):
+				self.domitems.crawled_items.diverge(_summarize)
+			else:
+				for item in self.domitems.crawled_items:
+					item.diverge(_summarize)
+		else:
+			for ditem in self.domitems:
+				if not helpers.is_list(ditem.crawled_items):
+					ditem.crawled_items.diverge(_summarize)
+				else:
+					for item in ditem.crawled_items:
+						item.diverge(_summarize)
+
+		return summary
