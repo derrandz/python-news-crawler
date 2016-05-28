@@ -25,9 +25,6 @@ class DomItem(logger.ClassUsesLog):
 	@url.setter
 	def url(self, url):
 		if not url or url is None: raise Exception("url cannot be empty or None")
-		if helpers.is_str(url): 
-			if not helpers.is_url(url): 
-				raise Exception("url should respect the form a url e.g: http://google.com\n\t url: %s"% url)
 		if helpers.is_list(url):
 			if helpers.is_empty(url):
 				raise Exception("url list can not be empty")
@@ -136,7 +133,6 @@ class DomItem(logger.ClassUsesLog):
 		else:
 			return {"level_%d"%depth: getattr(self, attr)}
 
-	@logger.log_method
 	def match(self, url, strength=0):
 		if hasattr(self, "_regexr"):
 			if strength == 'smart': return self.regexr.smartmatch(url)

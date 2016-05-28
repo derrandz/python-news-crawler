@@ -9,11 +9,12 @@ class RegexrClass:
 	_regex_alpha_arlt      = "([\u0621-\u064A\u0660-\u0669_a-zA-Z]+)"
 	
 	_regex_alnum           = "([a-zA-Z0-9_]+)"
-	_regex_alnum_ar        = "([\u0621-\u064A\u0660-\u0669_][0-9]+)"
+	_regex_alnum_ar        = "([\u0621-\u064A\u0660-\u0669_0-9]+)"
 	_regex_alnum_arlt      = "([\u0621-\u064A\u0660-\u0669_a-zA-Z_0-9]+)"
 	
 	_regex_string          = "([^\s?:\]\[#@,\"\'/}{=]+)" # A string signifies any word contaning any character (even arabic) except /?#@=:{},[]
-	
+	_regex_string_ar       = "(([\u0621-\u064A\u0660-\u0669_0-9]+(?:-[\u0621-\u064A\u0660-\u0669_0-9]+)*)|([\u0621-\u064A\u0660-\u0669_0-9^\s?:\]\[#@,\"\'/}{=]+))"
+
 	_regex_url_pattern     = "((?:(?:https?:\/\/)|(?:www\.))?[-a-zA-Z0-9@:%._\+~#=]{4,256}\.[a-z]{2,4}(\/|\.|\=|\?|\#|\?|\+|\&|\~)?(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)|(\/(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)"
 	_regex_rooturl_pattern = "((?:(?:https?:\/\/)|(?:www\.))?[-a-zA-Z0-9@:%._\+~#=]{4,256}\.[a-z]{2,4}(\/|\.|\=|\?|\#|\?|\+|\&|\~)?(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)"
 
@@ -141,7 +142,10 @@ class RegexrClass:
 		return None
 
 	def __getatomstrpat(self, atomicstring):
-		return self.escape(atomicstring) if self.is_sym(atomicstring) and len(atomicstring) == 1 else self._regex_string
+		return self.escape(atomicstring) if self.is_sym(atomicstring) and len(atomicstring) == 1 else self._stringify(atomicstring)
+
+	def _stringify(self, atomicstring):
+		return self._regex_string_ar if self.is_ar(atomicstring) else self._regex_string	
 
 	def split(self, _string, ign_delimiters=None):
 		ignore = ign_delimiters is not None
@@ -218,6 +222,7 @@ class RegexrClass:
 		return "(\\" + char + ")" if isinstance(char, str) and self.is_sym(char) else None
 
 	def remove_double_slash(self, url):
+		if not len(url) > 1: return url
 		urlbuffer = ""
 		for i in range(0, len(url)):
 			if i < len(url) - 1:
@@ -225,6 +230,9 @@ class RegexrClass:
 				chars_slash    = url[i] == "/" or url[i+1] == "/"
 				if not chars_same or (chars_same and not chars_slash):
 					urlbuffer += url[i]
+				else:
+					if url[i-5:i+2] == "http://":
+						urlbuffer += url[i]
 			else:
 				if url[i] != "/":
 					urlbuffer += url[i]

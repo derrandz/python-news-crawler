@@ -1,335 +1,305 @@
 {
     "hespress": {
         "root_url": "http://www.hespress.com",
-        "category_url": [
-            "/politique.index.1.html",
-            "/art-et-culture/index.1.html"
-        ],
-        "category_dom_path": "ul#menu_main > li > a",
-        "category_article_url": [
-            "/politique/304713.html",
-            "/art-et-culture/304866.html"
-        ],
-        "category_article_dom_path": "h2.section_title > a",
-        "category_nextpage_url": [
-            "http://www.hespress.com/politique/index.2.html"
-        ],
-        "category_nextpage_dom_path": "div#box_pagination > span.pagination > a"
-    },
-
-    "le360": {
-        "root_url": "http://www.le360.ma/ar",
-        "category_url": [
-            "/politique"
-        ],
-        "category_dom_path": "div#nav > ul > li > a",
-        "category_article_url": [
-            "/ar/politique/30473"
-        ],
-        "category_article_dom_path": "h3 > a",
-        "category_nextpage_url": [
-            "/ar/politique/?page=2"
-        ],
-        "category_nextpage_dom_path": "div.m1 > div > div > ul > li > a"
+        "domitems":{
+            "name": "category",
+            "url": "/politique/index.1.html", 
+            "selector": "div#mainNav > ul#menu_main > li > a",
+            "nested_items":{
+                "name": "page",
+                "url": "/politique/index.2.html",
+                "selector": "div#box_pagination > span.pagination > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "/politique/212121.html",
+                    "selector": "h2.section_title > a"
+                }   
+            } 
+        }
     },
 
     "goud": {
         "root_url": "http://www.goud.ma",
-        "category_url": [
-            "http://www.goud.ma/topics/d9%83%d8%a7-8%af%d8%a7%d9%83%d8%a9",
-            "http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7"
-        ],
-        "category_dom_path": "ul.main-menu > li.menu-item > a",
-        "category_article_url": [
-            "http://www.goud.ma/d-d-d-df200-oksdf-217436",
-            "http://www.goud.ma/dsdfsdfsdf"
-        ],
-        "category_article_dom_path": "h2 > a",
-        "category_nextpage_url": [
-            "http://www.goud.ma/topics/word-8%af%d8%a7%d9%83%d8%a9/page/2",
-            "http://www.goud.ma/topics/%d9%83%d8%a7%d8%b2%d8%a7%d9%86%d9%8a%d9%83%d8%b1%d8%a7/page/2"
-        ],
-        "category_nextpage_dom_path": "div.pagination > a"
+        "domitems": {
+            "name": "category",
+            "url": "http://www.goud.ma/topics/آش-واقع",  
+            "selector": "ul.main-menu > li.menu-item > a",
+            "nested_items":{
+                "name": "page",
+                "url": "http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/2/",
+                "selector": "div.pagination > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "http://www.goud.ma/%D8%B5%D8%A7%D9%81%D9%8A%D9%86%D8%A7%D8%B2-%D9%82%D8%B6%D9%8A%D8%A9-%D9%8A%D9%87%D9%88%D8%AF%D9%8A%D8%A9-%D9%87%D8%B1%D8%A8%D8%AA-%D9%85%D9%86-%D8%AA%D8%AC%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AC%D9%86-220161/",
+                    "selector": "h2 > a"
+                }   
+            }
+        }
     },
 
     "hibapress": {
         "root_url": "http://hibapress.com",
-        "category_url": [
-            "sections-2.html",
-            "sections-8.html"
-        ],
-        "category_dom_path": "div#navigation > ul.mnu > li > a",
-        "category_article_url": [
-            "/details-71787.html"
-        ],
-        "category_article_dom_path": "h2 > a",
-        "category_nextpage_url": [
-        	"sections.php?id=2&page=2",
-        	"sections.php?id=2&page=8",
-        	"sections.php?id=3&page=1"
-        ],
-        "category_nextpage_dom_path": "div.pagination > a"
+        "domitems":{
+            "name": "category",
+            "url": "sections-2.html",
+            "selector": "div#navigation > ul.mnu > li > a",
+            "nested_items":{
+                "name": "page",
+                "url": "sections.php?id=2&page=2",
+                "selector": "div.pagination > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "details-71787.html",
+                    "selector": "h2 > a"
+                }
+            }
+        }
     },
 
     "noonpresse": {
         "root_url": "http://www.noonpresse.com",
-        "category_url": [
-            "http://www.noonpresse.com/category/%d9%85%d8%b3%d8%aa%d8%ac%d8%af%d8%a7%d8%aa-%d9%88%d8%b7%d9%86%d9%8a%d8%a9",
-            "http://www.noonpresse.com/category/%d8%ad%d9%88%d8%a7%d8%af%d8%ab"
-        ],
-        "category_dom_path": "ul#menu-menu-principal > li.menu-item > a",
-        "category_article_url": [
-            "http://www.noonpresse.com/%d8%a5%d9%84%d8%ba%d8%a7%d8%a1-%d8%b3%d9%81%d8%b1-%d8%b9%d8%af%d8%af-%d9%85%d9%86-%d8%a7%d9%84%d9%85%d8%b3%d8%a4%d9%88%d9%84%d9%8a%d9%86-%d8%a7%d9%84%d9%85%d8%ba%d8%a7%d8%b1%d8%a8%d8%a9-%d8%a5%d9%84",
-            "http://www.noonpresse.com/%d8%a7%d9%84%d9%85%d8%ba%d8%b1%d8%a8-%d8%b6%d9%85%d9%86-%d9%84%d8%a7%d8%a6%d8%ad%d8%a9-%d8%a3%d9%83%d8%ab%d8%b1-%d8%a7%d9%84%d8%a8%d9%84%d8%af%d8%a7%d9%86-%d8%aa%d8%b9%d8%b1%d8%b6%d8%a7-%d9%84%d9%84"
-        ],
-        "category_article_dom_path": "h1.entry-title > a",
-        "category_nextpage_url": [
-        	"http://www.noonpresse.com/category/%d9%85%d8%b3%d8%aa%d8%ac%d8%af%d8%a7%d8%aa-%d9%88%d8%b7%d9%86%d9%8a%d8%a9/page/2",
-        	"http://www.noonpresse.com/category/%d8%ad%d9%88%d8%a7%d8%af%d8%ab/page/4"
-        ],
-        "category_nextpage_dom_path": "ul.pagination > li > a"
+        "domitems":{
+            "name": "category",
+            "url": "http://www.noonpresse.com/category/%d9%85%d8%b3%d8%aa%d8%ac%d8%af%d8%a7%d8%aa-%d9%88%d8%b7%d9%86%d9%8a%d8%a9",
+            "selector": "ul#menu-menu-principal > li.menu-item > a",
+            "nested_items":{
+                "name": "page",
+                "url": "http://www.noonpresse.com/category/%d9%85%d8%b3%d8%aa%d8%ac%d8%af%d8%a7%d8%aa-%d9%88%d8%b7%d9%86%d9%8a%d8%a9/page/2",
+                "selector": "ul.pagination > li > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "http://www.noonpresse.com/%d8%a5%d9%84%d8%ba%d8%a7%d8%a1-%d8%b3%d9%81%d8%b1-%d8%b9%d8%af%d8%af-%d9%85%d9%86-%d8%a7%d9%84%d9%85%d8%b3%d8%a4%d9%88%d9%84%d9%8a%d9%86-%d8%a7%d9%84%d9%85%d8%ba%d8%a7%d8%b1%d8%a8%d8%a9-%d8%a5%d9%84",
+                    "selector": "h1.entry-title > a"
+                }
+            }
+        }
     },
 
     "almaghreb24": {
         "root_url": "http://www.almaghreb24.com",
-        "category_url": [
-            "http://www.almaghreb24.com/category/politique",
-            "http://www.almaghreb24.com/category/faits-divers"
-        ],
-        "category_dom_path": "ul#menu-menu-principal  > li.menu-item > a",
-        "category_article_url": [
-            "http://www.almaghreb24.com/word-word-woid-word",
-            "http://www.almaghreb24.com/wordwordwordword"
-        ],
-        "category_article_dom_path": "h2 > a",
-        "category_nextpage_url": [
-	        "http://www.almaghreb24.com/category/actualites-nationales/page/2",
-	        "http://www.almaghreb24.com/category/politique/page/3"
-        ],
-        "category_nextpage_dom_path": "div.pagination > a"
+        "domitems":{
+            "name": "category",
+            "url": "http://www.almaghreb24.com/category/politique",
+            "selector": "ul#menu-menu-principal  > li.menu-item > a",
+            "nested_items":{
+                "name": "page",
+                "url": "http://www.almaghreb24.com/category/actualites-nationales/page/2",
+                "selector": "div.pagination > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "http://www.almaghreb24.com/word-word-woid-word",
+                    "selector": "h2 > a"
+                }
+            }
+        }
     },
 
     "barlamane": {
         "root_url": "http://www.barlamane.com/",
-        "category_url": [
-            "http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/"
-        ],
-        "category_dom_path": "ul > li.menu-item > a",
-        "category_article_url": [
-            "http://www.barlamane.com/%d8%86-%b1%d9%86-%d9%d9%85-%d8%ad8%a9-%d8%a%d9%87-%d8%%85-%d8%8%a7/"
-        ],
-        "category_article_dom_path": "ul.unstyle-list.posts > li.post > a",
-        "category_nextpage_url": [
-	        "http://www.barlamane.com/category/%D8%A7%D9%88%B1/%D8%BD88%A9/page/3/"
-        ],
-        "category_nextpage_dom_path": "div.next-posts.arrows > a"
+        "domitems":{
+            "name": "category",
+            "url": "http://www.barlamane.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/",
+            "selector": "ul > li.menu-item > a",
+            "nested_items":{
+                "name": "page",
+                "url": "http://www.barlamane.com/category/%D8%A7%D9%84%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1/%D8%A8%D9%8A%D8%A6%D8%A9-%D9%88%D8%B9%D9%84%D9%88%D9%85/page/2/",
+                "selector": "div.next-posts.arrows > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "http://www.barlamane.com/%d8%86-%b1%d9%86-%d9%d9%85-%d8%ad8%a9-%d8%a%d9%87-%d8%%85-%d8%8%a7/",
+                    "selector": "ul.unstyle-list.posts > li.post > a"
+                }
+            }
+        }
     },
 
     "kifache": {
         "root_url": "http://www.kifache.com/",
-        "category_url": [
-            "http://www.kifache.com/category/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9",
-            "http://www.kifache.com/category/%d9%85%d9%86-%d9%87%d9%86%d8%a7-%d9%88%d9%87%d9%86%d8%a7%d9%83"
-        ],
-        "category_dom_path": "ul.mainnav.dropdown > li.menu-item > a",
-        "category_article_url": [
-            "http://www.kifache.com/90595"
-        ],
-        "category_article_dom_path": "div.entry > a",
-        "category_nextpage_url": [
-	        "http://www.kifache.com/category/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/page/2",
-	        "http://www.kifache.com/category/%d9%85%d9%86-%d9%87%d9%86%d8%a7-%d9%88%d9%87%d9%86%d8%a7%d9%83/page/2"
-        ],
-        "category_nextpage_dom_path": "div.numbered-pagination > a"
+        "domitems":{
+            "name": "category",
+            "url": "http://www.kifache.com/category/من-هنا-وهناك",
+            "selector": "ul.mainnav.dropdown > li.menu-item > a",
+            "nested_items":{
+                "name": "page",
+                "url": "http://www.kifache.com/category/%d9%85%d9%86-%d9%87%d9%86%d8%a7-%d9%88%d9%87%d9%86%d8%a7%d9%83/page/2",
+                "selector": "div.numbered-pagination > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "http://www.kifache.com/90595",
+                    "selector": "div.entry > a"
+                }
+            }
+        }
     },
 
     "akhbarona": {
         "root_url": "http://www.akhbarona.com/",
-        "category_url": [
-            "politic/index.1.html"
-        ],
-        "category_dom_path": "ul#menu_main > li > a",
-        "category_article_url": [
-            "politic/166239.html"
-        ],
-        "category_article_dom_path": "h1.article_title > a",
-        "category_nextpage_url": [
-	        "http://www.akhbarona.com/politic/index.2.html"
-        ],
-        "category_nextpage_dom_path": "div#box_pagination > span.pagination > a"
+        "domitems":{
+            "name": "category",
+            "url": "politic/index.1.html",
+            "selector": "ul#menu_main > li > a",
+            "nested_items":{
+                "name": "page",
+                "url": "http://www.akhbarona.com/politic/index.2.html",
+                "selector": "div#box_pagination > span.pagination > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "politic/166239.html",
+                    "selector": "h1.article_title > a"
+                }
+            }
+        }
     },
 
     "aljarida24": {
         "root_url": "http://www.aljarida24.ma/",
-        "category_url": [
-            "http://www.aljarida24.ma/c/politique"
-        ],
-        "category_dom_path": "div.inner > ul#menu-aljarida24_menu > li.menu-item > a",
-        "category_article_url": [
-            "http://www.aljarida24.ma/p/politique/150965"
-        ],
-        "category_article_dom_path": "h2 > a",
-        "category_nextpage_url": [
-	        "http://www.aljarida24.ma/c/politique/page/2"
-        ],
-        "category_nextpage_dom_path": "div.pagination > a"
-    },
-
-    "marocpress": {
-        "root_url": "http://www.marocpress.com/",
-        "category_url": [
-            "http://www.marocpress.com/siyassa"
-        ],
-        "category_dom_path": "ul.menu > li.menu-item > a",
-        "category_article_url": [
-            "http://www.marocpress.com/akhbarona/article-662308.html"
-        ],
-        "category_article_dom_path": "div.post > h3 > a",
-        "category_nextpage_url": [
-        ],
-        "category_nextpage_dom_path": ""
-    },
-
-    "febrayer": {
-        "root_url": "http://www.febrayer.com/",
-        "category_url": [
-            "http://www.febrayer.com/category/%d8%a7%d9%84%d8%a7%d8%ae%d8%a8%d8%a7%d8%b1"
-        ],
-        "category_dom_path": "ul.navbar.tomove > li.cat_title > a",
-        "category_article_url": [
-            "http://www.febrayer.com/357082.html"
-        ],
-        "category_article_dom_path": "div.cat-item > h3 > a",
-        "category_nextpage_url": [
-        ],
-        "category_nextpage_dom_path": ""
+        "domitems":{
+            "name": "category",
+            "url": "http://www.aljarida24.ma/c/politique",
+            "selector": "div.inner > ul#menu-aljarida24_menu > li.menu-item > a",
+            "nested_items":{
+                "name": "page",
+                "url": "http://www.aljarida24.ma/c/politique/page/2",
+                "selector": "div.pagination > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "http://www.aljarida24.ma/p/politique/150965",
+                    "selector": "h2 > a"
+                }
+            }
+        }
     },
 
     "chaabpress": {
         "root_url": "http://www.chaabpress.com/",
-        "category_url": [
-            "category/تصنيفات/20/أخبار الحوادث.html"
-        ],
-        "category_dom_path": "div.navbarr > ul > li > a",
-        "category_article_url": [
-            "شعب بريس/الشعب الرياضي/43612/نتائج الملتقى الدولي لألعاب القوى الخاص بالمعاقين.html"
-        ],
-        "category_article_dom_path": "td > center > a",
-        "category_nextpage_url": [
-	        "category/تصنيفات/28/2/الشعب الرياضي.html"
-        ],
-        "category_nextpage_dom_path": "center > font > a"
-    },
-
-    "maghress": {
-        "root_url": "http://www.maghress.com/",
-        "category_url": [
-            "/politics"
-        ],
-        "category_dom_path": "ul.ui-menu-list > li.ui-menuitem > a",
-        "category_article_url": [
-            "/ahdathpress/377361"
-        ],
-        "category_article_dom_path": "div.teasertitlewrapper > a.teasertitle",
-        "category_nextpage_url": [],
-        "category_nextpage_dom_path": ""
+        "domitems":{
+            "name": "category",
+            "url": "category/تصنيفات/20/أخبار الحوادث.html",
+            "selector": "div.navbarr > ul > li > a",
+            "nested_items":{
+                "name": "page",
+                "url": "category/تصنيفات/28/2/الشعب الرياضي.html",
+                "selector": "center > font > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "شعب بريس/الشعب الرياضي/43612/نتائج الملتقى الدولي لألعاب القوى الخاص بالمعاقين.html",
+                    "selector": "td > center > a"
+                }
+            }
+        }
     },
 
     "assdae": {
         "root_url": "http://www.assdae.com/",
-        "category_url": [
-            "%D9%85%D8%AC%D8%AA%D9%85%D8%B9.html"
-        ],
-        "category_dom_path": "ul#menu > li > a",
-        "category_article_url": [
-            "a35047.html"
-        ],
-        "category_article_dom_path": "div.grid2 > a",
-        "category_nextpage_url": [
-        	"%D9%85%D8%AC%D8%AA%D9%85%D8%B9.html?debut=16#pagination"
-        ],
-        "category_nextpage_dom_path": "p.pagination > span.pages > a"
+        "domitems":{
+            "name": "category",
+            "url":  "%D9%85%D8%AC%D8%AA%D9%85%D8%B9.html",
+            "selector": "ul#menu > li > a",
+            "nested_items":{
+                "name": "page",
+                "url": "%D9%85%D8%AC%D8%AA%D9%85%D8%B9.html?debut=16#pagination",
+                "selector": "p.pagination > span.pages > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "a35047.html",
+                    "selector": "div.grid2 > a"
+                }
+            }
+        }
     },
 
     "horiapress": {
         "root_url": "http://www.horiapress.com/",
-        "category_url": [
-            "categories2.html"
-        ],
-        "category_dom_path": "div.navbarr > ul > li > a",
-        "category_article_url": [
-            "news8721.html"
-        ],
-        "category_article_dom_path": "td > center > a",
-        "category_nextpage_url": [],
-        "category_nextpage_dom_path": ""
+        "domitems":{
+            "name": "category",
+            "url": "categories2.html",
+            "selector": "div.navbarr > ul > li > a",
+            "nested_items":{
+                "name": "page",
+                "url": "categorie2-2.html",
+                "selector": "div > center > font > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "news8721.html",
+                    "selector": "td > center > a"
+                }
+            }
+        }
     },
 
     "qushq": {
         "root_url": "http://qushq.com/",
-        "category_url": [
-            "http://qushq.com/blog/%d8%ad%d9%88%d8%a7%d8%af%d8%ab/",
-            "http://qushq.com/blog/%d8%a7%d9%82%d8%aa%d8%b5%d8%a7%d8%af/"
-        ],
-        "category_dom_path": "ul#menu-qushq > li.menu-item > a",
-        "category_article_url": [
-            "http://qushq.com/blog/58653.html"
-        ],
-        "category_article_dom_path": "div.span10.blog-desc-container > a",
-        "category_nextpage_url": [
-        	"http://qushq.com/blog/%d8%ad%d9%88%d8%a7%d8%af%d8%ab/page/2/"
-        ],
-        "category_nextpage_dom_path": "div.pagination.pagination-centered > ul > li > a"
-    },
-
-    "rue20": {
-        "root_url": "http://www.rue20.com/",
-        "category_url": [
-            "http://www.rue20.com/category/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/",
-            "http://www.rue20.com/category/%d8%a7%d9%82%d8%aa%d8%b5%d8%a7%d8%af/"
-        ],
-        "category_dom_path": "div#menu-holder > ul#menu-menu > li.menu-item > a",
-        "category_article_url": [
-            "http://www.rue20.com/%d8%a7%d9%84%d9%85%d9%84%d9%83-%d9%85%d8%ad%d9%85%d8%af-%d8%a7%d9%84%d8%b3%d8%a7%d8%af%d8%b3-%d9%8a%d9%84%d8%ba%d9%8a-%d8%a7%d9%84%d9%81%d9%8a%d8%b2%d8%a7-%d8%b9%d9%86-%d8%a7%d9%84%d9%85%d9%88/"
-        ],
-        "category_article_dom_path": "h2 > a",
-        "category_nextpage_url": [
-        	"http://www.rue20.com/category/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/page/2/"
-        ],
-        "category_nextpage_dom_path": "div.pagination > a"
+        "domitems":{
+            "name": "category",
+            "url": "http://qushq.com/blog/%d8%ad%d9%88%d8%a7%d8%af%d8%ab/",
+            "selector":  "ul#menu-qushq > li.menu-item > a",
+            "nested_items":{
+                "name": "page",
+                "url":  "http://qushq.com/blog/%d8%ad%d9%88%d8%a7%d8%af%d8%ab/page/2/",
+                "selector": "div.pagination.pagination-centered > ul > li > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "http://qushq.com/blog/58653.html",
+                    "selector":"div.span10.blog-desc-container > a"
+                }
+            }
+        }
     },
 
     "andaluspress": {
         "root_url": "http://www.andaluspress.com/",
-        "category_url": [
-            "/news/?cat=politique",
-            "/news/?cat=economie"
-        ],
-        "category_dom_path": "div.mynav > ul > li > a",
-        "category_article_url": [
-            "/info-article/?id=933&t=الملك-محمد-السادس-يجري-ببكين-مباحثات-مع-الرئيس-شي-جين-بينغ"
-        ],
-        "category_article_dom_path": "div.cd-resultNw > a",
-        "category_nextpage_url": [
-        	"/news/?cat=politique&page=2"
-        ],
-        "category_nextpage_dom_path": "ul.pagination > li > a"
+        "domitems":{
+            "name": "category",
+            "url": "/news/?cat=politique",
+            "selector": "div.mynav > ul > li > a",
+            "nested_items":{
+                "name": "page",
+                "url": "/news/?cat=politique&page=2",
+                "selector": "ul.pagination > li > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "/info-article/?id=933&t=الملك-محمد-السادس-يجري-ببكين-مباحثات-مع-الرئيس-شي-جين-بينغ",
+                    "selector": "div.cd-resultNw > a"
+                }
+            }
+        }
+    },
+
+    "rue20": {
+        "root_url": "http://www.rue20.com/",
+        "domitems":{
+            "name": "category",
+            "url": "http://www.rue20.com/category/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/",
+            "selector": "div#menu-holder > ul#menu-menu > li.menu-item > a",
+            "nested_items":{
+                "name": "page",
+                "url": "http://www.rue20.com/category/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/page/2/",
+                "selector": "div.pagination > a",
+                "nested_items":{
+                    "name": "article",
+                    "url": "http://www.rue20.com/%d8%a7%d9%84%d9%85%d9%84%d9%83-%d9%85%d8%ad%d9%85%d8%af-%d8%a7%d9%84%d8%b3%d8%a7%d8%af%d8%b3-%d9%8a%d9%84%d8%ba%d9%8a-%d8%a7%d9%84%d9%81%d9%8a%d8%b2%d8%a7-%d8%b9%d9%86-%d8%a7%d9%84%d9%85%d9%88/",
+                    "selector": "h2 > a"
+                }
+            }
+        }
     },
 
     "jadidpresse": {
         "root_url": "http://www.jadidpresse.com/",
-        "category_url": [
-            "http://www.jadidpresse.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/",
-            "http://www.jadidpresse.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%81%d9%86-%d9%88-%d8%a5%d8%b9%d9%84%d8%a7%d9%85/"
-        ],
-        "category_dom_path": "ul#main-nav > li.menu-item > a",
-        "category_article_url": [
-            "http://www.jadidpresse.com/%d8%a7%d9%84%d9%85%d9%84%d9%83-%d9%85%d8%ad%d9%85%d8%af-%d8%a7%d9%84%d8%b3%d8%a7%d8%af%d8%b3-%d9%8a%d9%84%d8%ba%d9%8a-%d8%aa%d8%a3%d8%b4%d9%8a%d8%b1%d8%a9-%d8%af%d8%ae%d9%88%d9%84-%d8%a7%d9%84%d8%b5/"
-        ],
-        "category_article_dom_path": "h2 > a",
-        "category_nextpage_url": [
-        	"http://www.jadidpresse.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/page/2/"
-        ],
-        "category_nextpage_dom_path": "div.pagination > a"
+        "domitems":{
+            "name": "category",
+            "url": "http://www.jadidpresse.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%81%d9%86-%d9%88-%d8%a5%d8%b9%d9%84%d8%a7%d9%85/",
+            "selector": "ul#main-nav > li.menu-item > a",
+            "nested_items":{
+                "name": "page",
+                "url": "http://www.jadidpresse.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/page/2/",
+                "selector": "div.pagination > a",
+                "nested_items":{
+                    "name": "article",
+                    "url":  "http://www.jadidpresse.com/%d8%a7%d9%84%d9%85%d9%84%d9%83-%d9%85%d8%ad%d9%85%d8%af-%d8%a7%d9%84%d8%b3%d8%a7%d8%af%d8%b3-%d9%8a%d9%84%d8%ba%d9%8a-%d8%aa%d8%a3%d8%b4%d9%8a%d8%b1%d8%a9-%d8%af%d8%ae%d9%88%d9%84-%d8%a7%d9%84%d8%b5/",
+                    "selector": "h2 > a"
+                }
+            }
+        }
     }
 }

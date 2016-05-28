@@ -73,3 +73,10 @@ class HelpersTestCase(BaseSimpleTestCase):
 		mydict = helpers.map_dictionary(addone, mydict, ["c", "d"])
 		self.print_with_color("DARKCYAN", "\n[PostMap]: Dictionary\n\t%s" % mydict)
 
+	def isUrlTest(self):
+		urls = ["/url", "http://www.url.com", "www.url.com", "#"]
+
+		for u in urls:
+			if helpers.is_url(u): self.print_success("Matched %s" % u)
+			else : self.print_failure("Did not match %s" % u)
+

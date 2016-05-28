@@ -15,7 +15,8 @@ class WormTestCase(BaseSimpleTestCase):
 	'''
 	def save_crawl_results(self, name, results):
 		from newsline.helpers import helpers
-		helpers.write_json(name, results)
+		from django.conf import settings
+		helpers.write_json(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_output/%s.json" % name, results)
 
 	def read_from_training_data(self):
 		from newsline.helpers import helpers
@@ -550,7 +551,57 @@ class WormTestCase(BaseSimpleTestCase):
 			worm._launch()
 			self.print_info("----------------- Crawling finished.")
 			print("Results: %s" % worm._summary())
-	
+
+	def testSummaryMultipage(self):
+		# rooturl = "http://www.hespress.com/"
+		# domitems = {
+		# 	"name": 'category',
+		# 	"url": '/politique/index.1.html', 
+		# 	"selector": 'div#mainNav > ul#menu_main > li > a',
+		# 	"nested_items":{
+		# 		"name": 'page',
+		# 		"url": '/politique/index.2.html',
+		# 		"selector": 'div#box_pagination > span.pagination > a',
+		# 		"nested_items":{
+		# 			"name": 'article',
+		# 			"url": '/politique/212121.html',
+		# 			"selector": 'h2.section_title > a'
+		# 		}	
+		# 	} 
+		# }
+
+		rooturl = "http://www.goud.ma"
+		domitems = {
+			"name": 'category',
+			"url": r'http://www.goud.ma/topics/آش-واقع',  
+			"selector": 'ul.main-menu > li.menu-item > a',
+			"nested_items":{
+				"name": 'page',
+				"url": r'http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/2/',
+				"selector": 'div.pagination > a',
+				"nested_items":{
+					"name": 'article',
+					"url": r'http://www.goud.ma/%D8%B5%D8%A7%D9%81%D9%8A%D9%86%D8%A7%D8%B2-%D9%82%D8%B6%D9%8A%D8%A9-%D9%8A%D9%87%D9%88%D8%AF%D9%8A%D8%A9-%D9%87%D8%B1%D8%A8%D8%AA-%D9%85%D9%86-%D8%AA%D8%AC%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AC%D9%86-220161/',
+					"selector": 'h2 > a'
+				}	
+			}
+		}
+
+		try:
+			from copy import deepcopy
+			worm = Worm(rooturl, deepcopy(domitems))
+			worm._launch("smart")
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_info("----------------- Crawling finished.")
+			def pt(ci):
+				print("%s" % ci.url)
+			for i in worm.domitems.crawled_items:
+				i.diverge(pt)
+			print("Results: %s" % worm._summary())
+
 	def crawledItemSetUpTest(self):
 		from newsline.apps.web.newsworm.core.worm import CrawledItem
 		from newsline.apps.web.newsworm.core.worm import WDomItem
@@ -690,3 +741,56 @@ class WormTestCase(BaseSimpleTestCase):
 
 			for i in domitem_with_crawled_data.crawled_items:
 				self.print_success("CrawledItem: %s\n" % i.url)
+
+	def testIntegralCrawl(self):
+		failures = ['almaghreb24', 'chaabpress', 'horiapress', 'qushq', 'rue20']
+
+		from newsline.helpers import helpers
+		from django.conf import settings
+		training_data = helpers.parse_json_file(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_input/training_data.json")
+
+		for name, website in training_data.items():
+			if not (name in failures):
+				print("Skipping %s" % name)
+				continue
+
+			print("Crawling %s" % name)
+			try:
+				from copy import deepcopy
+				worm = Worm(website["root_url"], deepcopy(website["domitems"]))
+			except Exception as e:
+				self.print_failure("----------------- Crawling failed for [%s] with errors: %s" % (name, str(e)))
+				raise e
+			else:
+				from requests.exceptions import RequestException
+				try:
+					worm._launch("smart", force=True)
+				except RequestException as e:    # This is the correct syntax
+					self.print_failure("-----------------  Crawling halted for . [%s] with :%s" % (name, e))
+					summary = worm._summary()
+					summary["status"] = e
+					self.save_crawl_results(name, summary)
+				else:
+					self.print_info("-----------------  Crawling finished successfully for %s " % name)
+					self.save_crawl_results(name, worm._summary())
+
+					website["status"] = "done"
+					from newsline.helpers import helpers
+					from django.conf import settings
+					helpers.write_json(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_input/training_data.json", training_data)
+
+		self.print_success("Done.")
+		self.print_seperator()
+
+
+	def verify_crawled(self):
+		training_set = self.read_from_training_data() 
+		from newsline.helpers import helpers
+		from django.conf import settings
+		training_data = helpers.parse_json_file(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_input/training_data.json")
+
+		for name, website in training_data.items():
+			if name in training_set:
+				self.print_success("%s passed" % name)
+			else:
+				self.print_failure("%s did not pass" % name)

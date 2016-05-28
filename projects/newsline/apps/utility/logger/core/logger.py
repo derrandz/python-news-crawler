@@ -16,6 +16,11 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+# I took this code from a gist at github, and it proved pretty useful.
+# However I have added some code to actually put the logs into a file and directory in the path specified at the settings.py
+# 
+# Enjoy, Hamza Ouaghad
+# Great gratitude to Mr.Ben Gelb
 import datetime
 import logging
 import random
@@ -23,11 +28,6 @@ import re
 import io
 import types
 
-# I took this code from a gist at github, and it proved pretty useful.
-# However I have added some code to actually put the logs into a file and directory in the path specified at the settings.py
-# 
-# Enjoy, Hamza Ouaghad
-# Great gratitude to Mr.Ben Gelb
 
 
 """This file has been *heavily* modified to remove the use of global variables, implement
@@ -137,7 +137,7 @@ class Logger(object):
         msg_params = {
             'color': ColorsClass.get(color) if color is not None else ColorsClass.get("NORMAL"),
             'indent': self.indent_string * (indent_level or self.indent_level),
-            'msg': message
+            'msg': message + ColorsClass.get("END")
         }
         _message = "{color} {indent}{msg}".format(**msg_params)
         self.__logger.log(self._log_levels(log_level), _message)
@@ -223,7 +223,10 @@ def log_class(cls, log_match=".*", log_no_match="asdfnomatch", display_name=None
                 setattr(cls, name, classmethod(w))
             else:
                 assert False
-    cls.start_logging_session()
+
+    if hasattr(cls, 'start_logging_session'):
+        cls.start_logging_session()
+
     return cls
     
 class ClassUsesLog:

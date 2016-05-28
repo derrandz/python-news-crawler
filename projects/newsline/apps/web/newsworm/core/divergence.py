@@ -20,11 +20,9 @@ def divergent(dvgpoint):
 
 					if isinstance(_dvgattr, list):
 						for _dvp in _dvgattr:
-							func(_dvp)
 							_dvp.diverge(func)
 					else:
 						if isinstance(_dvgattr, cls):
-							func(_dvgattr)
 							_dvgattr.diverge(func)
 
 		return DivergentClass

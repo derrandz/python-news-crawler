@@ -1,7 +1,0 @@
-{
-    "article_regex_pattern": "(((?:[a-z][a-z]*[0-9]+[a-z0-9]*))([\u0621-\u064a\u0660-\u0669])((?:[a-z][a-z]+)))|(((?:[^?:#/=0-9])+)(\\.)((?:[^?:#/=0-9])+))",
-    "category_regex_pattern": "(((?:[a-z][a-z]*[0-9]+[a-z0-9]*))([\u0621-\u064a\u0660-\u0669])((?:[a-z][a-z]+)))|(((?:[^?:#/=0-9])+)(\\.)((?:[^?:#/=0-9])+))",
-    "nextpage_regex_pattern": "",
-    "results": {},
-    "root_url": "http://www.horiapress.com/"
-}

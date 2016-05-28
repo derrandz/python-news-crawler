@@ -11,6 +11,15 @@ class RegexrTestCase(BaseSimpleTestCase):
 	A test suit for the regexr class.
 
 	'''
+
+	def isUrlTest(self):
+		rg = RegexrClass()
+		urls = ["/url", "http://www.url.com", "www.url.com", "#"]
+
+		for u in urls:
+			if rg.is_url(u): self.print_success("Matched %s" % u)
+			else : self.print_failure("Did not match %s" % u)
+ 
 	def SpecialCharsTest(self):
 		rg = RegexrClass()
 		special_chars = ["/", "?", "-"]
@@ -28,6 +37,7 @@ class RegexrTestCase(BaseSimpleTestCase):
 	def splitTest(self):
 		regexr = RegexrClass()
 		_links = "www.alyaoum24.com/news/sport"
+		# _links = "/topics/آش-واقع"
 		print("String to be split: %s" % _links)
 		split_string = regexr.split(_links)
 		assert isinstance(split_string, list)
@@ -201,8 +211,8 @@ class RegexrTestCase(BaseSimpleTestCase):
 				self.print_failure("Test failed.")
 
 	def test_remove_double_slash(self):
-		examples = ["//alink", "//alink//", "/alink/", "alink//", "///link///link"]
-		results = ["/alink", "/alink", "/alink", "alink", "/link/link"]
+		examples = ["//alink", "//alink//", "/alink/", "alink//", "///link///link", "http://link//linkk", "/link/http://link/link"]
+		results = ["/alink", "/alink", "/alink", "alink", "/link/link", "http://link/linkk", "/link/http://link/link"]
 
 		regexr = RegexrClass()
 		rresults = list(map(regexr.remove_double_slash, examples))
