@@ -1,11 +1,14 @@
 from newsline.apps.utility.logger.core import logger
 from newsline.helpers import helpers
-from bs4 import BeautifulSoup
 
+from bs4 import BeautifulSoup
 import requests
 
-class WormDomParser(logger.ClassUsesLog):
+class StaticDomParser(logger.ClassUsesLog):
 
+	"""
+		A regular dom parser that returns html content post an HTTP request.
+	"""
 	# Logging info
 	log_directory_name = "wormdomparser_logs"
 	log_name           = "WormDomParserClass"
@@ -48,3 +51,31 @@ class WormDomParser(logger.ClassUsesLog):
 	def find(self, css_selector_path):
 		self.log("Looking for dom path: %s" % css_selector_path)
 		return self.dom.select(css_selector_path)
+
+
+import sys  
+from PyQt4.QtGui import *  
+from PyQt4.QtCore import *  
+from PyQt4.QtWebKit import *  
+from lxml import html  
+
+class DynamicDomParser(logger.ClassUsesLog):
+	"""
+	A dynamic dom parser. This class will make a web request as if a browser, loading all the javascript rendered pages, then parsing it using lxml.
+	"""
+
+	class Render(QWebPage):  
+		def __init__(self, url):  
+			self.app = QApplication(sys.argv)  
+			QWebPage.__init__(self)  
+			self.loadFinished.connect(self._loadFinished)  
+			self.mainFrame().load(QUrl(url))  
+			self.app.exec_()  
+
+		def _loadFinished(self, result):  
+			self.frame = self.mainFrame()  
+			self.htmltree = html.fromstring(self.frame.toHtml())
+			self.app.quit()
+
+		def find(self, cssselector):
+			return self.htmltree.cssselect(cssselector)
