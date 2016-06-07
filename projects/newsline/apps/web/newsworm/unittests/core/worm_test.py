@@ -13,7 +13,7 @@ class WormTestCase(BaseSimpleTestCase):
 	
 	Not the best tests in the world, codewise, but they test wsup.
 	'''
-	def save_crawl_results(self, name, results):
+	def write_to_jsonfile(self, name, results):
 		from newsline.helpers import helpers
 		from django.conf import settings
 		helpers.write_json(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_output/%s.json" % name, results)
@@ -550,42 +550,42 @@ class WormTestCase(BaseSimpleTestCase):
 		else:
 			worm._launch()
 			self.print_info("----------------- Crawling finished.")
-			print("Results: %s" % worm._summary())
+			self.write_to_jsonfile("testSummary_jsonfile", worm._summary())
 
 	def testSummaryMultipage(self):
-		# rooturl = "http://www.hespress.com/"
-		# domitems = {
-		# 	"name": 'category',
-		# 	"url": '/politique/index.1.html', 
-		# 	"selector": 'div#mainNav > ul#menu_main > li > a',
-		# 	"nested_items":{
-		# 		"name": 'page',
-		# 		"url": '/politique/index.2.html',
-		# 		"selector": 'div#box_pagination > span.pagination > a',
-		# 		"nested_items":{
-		# 			"name": 'article',
-		# 			"url": '/politique/212121.html',
-		# 			"selector": 'h2.section_title > a'
-		# 		}	
-		# 	} 
-		# }
-
-		rooturl = "http://www.goud.ma"
+		rooturl = "http://www.hespress.com/"
 		domitems = {
 			"name": 'category',
-			"url": r'http://www.goud.ma/topics/آش-واقع',  
-			"selector": 'ul.main-menu > li.menu-item > a',
+			"url": '/politique/index.1.html', 
+			"selector": 'div#mainNav > ul#menu_main > li > a',
 			"nested_items":{
 				"name": 'page',
-				"url": r'http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/2/',
-				"selector": 'div.pagination > a',
+				"url": '/politique/index.2.html',
+				"selector": 'div#box_pagination > span.pagination > a',
 				"nested_items":{
 					"name": 'article',
-					"url": r'http://www.goud.ma/%D8%B5%D8%A7%D9%81%D9%8A%D9%86%D8%A7%D8%B2-%D9%82%D8%B6%D9%8A%D8%A9-%D9%8A%D9%87%D9%88%D8%AF%D9%8A%D8%A9-%D9%87%D8%B1%D8%A8%D8%AA-%D9%85%D9%86-%D8%AA%D8%AC%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AC%D9%86-220161/',
-					"selector": 'h2 > a'
+					"url": '/politique/212121.html',
+					"selector": 'h2.section_title > a'
 				}	
-			}
+			} 
 		}
+
+		# rooturl = "http://www.goud.ma"
+		# domitems = {
+		# 	"name": 'category',
+		# 	"url": r'http://www.goud.ma/topics/آش-واقع',  
+		# 	"selector": 'ul.main-menu > li.menu-item > a',
+		# 	"nested_items":{
+		# 		"name": 'page',
+		# 		"url": r'http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/2/',
+		# 		"selector": 'div.pagination > a',
+		# 		"nested_items":{
+		# 			"name": 'article',
+		# 			"url": r'http://www.goud.ma/%D8%B5%D8%A7%D9%81%D9%8A%D9%86%D8%A7%D8%B2-%D9%82%D8%B6%D9%8A%D8%A9-%D9%8A%D9%87%D9%88%D8%AF%D9%8A%D8%A9-%D9%87%D8%B1%D8%A8%D8%AA-%D9%85%D9%86-%D8%AA%D8%AC%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AC%D9%86-220161/',
+		# 			"selector": 'h2 > a'
+		# 		}	
+		# 	}
+		# }
 
 		try:
 			from copy import deepcopy
@@ -596,11 +596,76 @@ class WormTestCase(BaseSimpleTestCase):
 			raise e
 		else:
 			self.print_info("----------------- Crawling finished.")
-			def pt(ci):
-				print("%s" % ci.url)
-			for i in worm.domitems.crawled_items:
-				i.diverge(pt)
-			print("Results: %s" % worm._summary())
+			self.write_to_jsonfile("testSummaryMultipage_jsonfile", worm._summary())
+
+	def testJsonify(self):
+		domitems = {
+			"name": 'category',
+			"url": '/politique/index.1.html', 
+			"selector": 'div#mainNav > ul#menu_main > li > a',
+			"nested_items":{
+				"name": 'article',
+				"url": '/politique/212121.html',
+				"selector": 'h2.section_title > a'	
+			} 
+		}
+
+		try:
+			from copy import deepcopy
+			worm = Worm("http://www.hespress.com/", deepcopy(domitems))
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			worm._launch()
+			self.print_info("----------------- Crawling finished.")
+			self.write_to_jsonfile("testJsonify.json", worm.jsonify())
+
+	def testJsonifyMultipage(self):
+		rooturl = "http://www.hespress.com/"
+		domitems = {
+			"name": 'category',
+			"url": '/politique/index.1.html', 
+			"selector": 'div#mainNav > ul#menu_main > li > a',
+			"nested_items":{
+				"name": 'page',
+				"url": '/politique/index.2.html',
+				"selector": 'div#box_pagination > span.pagination > a',
+				"nested_items":{
+					"name": 'article',
+					"url": '/politique/212121.html',
+					"selector": 'h2.section_title > a'
+				}	
+			} 
+		}
+
+		# rooturl = "http://www.goud.ma"
+		# domitems = {
+		# 	"name": 'category',
+		# 	"url": r'http://www.goud.ma/topics/آش-واقع',  
+		# 	"selector": 'ul.main-menu > li.menu-item > a',
+		# 	"nested_items":{
+		# 		"name": 'page',
+		# 		"url": r'http://www.goud.ma/topics/%d8%aa%d8%a8%d8%b1%d9%83%d9%8a%d9%83/page/2/',
+		# 		"selector": 'div.pagination > a',
+		# 		"nested_items":{
+		# 			"name": 'article',
+		# 			"url": r'http://www.goud.ma/%D8%B5%D8%A7%D9%81%D9%8A%D9%86%D8%A7%D8%B2-%D9%82%D8%B6%D9%8A%D8%A9-%D9%8A%D9%87%D9%88%D8%AF%D9%8A%D8%A9-%D9%87%D8%B1%D8%A8%D8%AA-%D9%85%D9%86-%D8%AA%D8%AC%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AC%D9%86-220161/',
+		# 			"selector": 'h2 > a'
+		# 		}	
+		# 	}
+		# }
+
+		try:
+			from copy import deepcopy
+			worm = Worm(rooturl, deepcopy(domitems))
+			worm._launch("smart")
+		except Exception as e:
+			self.print_failure("Test failed with error: %s" % str(e))
+			raise e
+		else:
+			self.print_info("----------------- Crawling finished.")
+			self.write_to_jsonfile("testJsonfiyMultipage.json", worm.jsonify())
 
 	def crawledItemSetUpTest(self):
 		from newsline.apps.web.newsworm.core.worm import CrawledItem
@@ -743,16 +808,12 @@ class WormTestCase(BaseSimpleTestCase):
 				self.print_success("CrawledItem: %s\n" % i.url)
 
 	def testIntegralCrawl(self):
-		failures = ['almaghreb24', 'chaabpress', 'horiapress', 'qushq', 'rue20']
 
 		from newsline.helpers import helpers
 		from django.conf import settings
 		training_data = helpers.parse_json_file(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_input/training_data.json")
 
 		for name, website in training_data.items():
-			if not (name in failures):
-				print("Skipping %s" % name)
-				continue
 
 			print("Crawling %s" % name)
 			try:
@@ -769,10 +830,10 @@ class WormTestCase(BaseSimpleTestCase):
 					self.print_failure("-----------------  Crawling halted for . [%s] with :%s" % (name, e))
 					summary = worm._summary()
 					summary["status"] = e
-					self.save_crawl_results(name, summary)
+					self.write_to_jsonfile(name, summary)
 				else:
 					self.print_info("-----------------  Crawling finished successfully for %s " % name)
-					self.save_crawl_results(name, worm._summary())
+					self.write_to_jsonfile(name, worm._summary())
 
 					website["status"] = "done"
 					from newsline.helpers import helpers
@@ -794,3 +855,35 @@ class WormTestCase(BaseSimpleTestCase):
 				self.print_success("%s passed" % name)
 			else:
 				self.print_failure("%s did not pass" % name)
+
+	def get_articles(self):
+		import newspaper
+		from newsline.helpers import helpers
+		from django.conf import settings
+		sitemap = helpers.parse_json_file(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_output/assdae.json")
+
+		def crawl(dictel):
+			if 'type' in dictel:
+				if dictel['type'] == 'page':
+					for key, val in dictel['nested_items'].items():
+						a = newspaper.Article("http://assdae.com/" + key, language='ar')
+						a.download()
+						if a.is_downloaded:
+							a.parse()
+							a.nlp()
+						else:
+							a.text = 'Failed to download'	
+
+						content = "link: %s\n" % key
+
+						content += "\n\ntitle: %s" % a.title if a.title else "\n\ntitle:[]"
+						content += "\n\ntopimage_url: %s" % a.top_image if a.top_image else "\n\ntopimage_url:[]"
+						content += "\n\npublish_date: %s" % a.publish_date.strftime('%m/%d/%Y') if a.publish_date else "\n\npublish_date:[]"
+						content +=  "\n\nauthors: %s" % a.authors if a.authors else "\n\nauthors:[]"
+						content +=   "\n\nkeywords: %s" % a.keywords if a.keywords else "\n\nkeywords:[]"
+						content +=   "\n\ntext: %s" % a.text if a.text else "\n\ntext:[]"
+
+						helpers.file_put_contents(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_output/assdae/%s.txt" % key.replace('/', '_'), content)
+						print("%s" % key)
+		
+		helpers.walk_dictionary(sitemap, crawl)

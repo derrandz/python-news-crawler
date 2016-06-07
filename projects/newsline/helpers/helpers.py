@@ -71,24 +71,24 @@ def isdir(path):
 def file_get_contents(path):
 	if path_exists(path):
 		file = open(path, 'r')
-		json_string = file.read()
+		filestring = file.read()
 		file.close()	
-		return json_string
+		return filestring
 	else:
 		raise ValueError("Provided path does not exist\npath : %s" % path)
 
 def parse_json_file(path):
 	import json
-	return json.loads(file_get_contents(path))
+	with open(path) as jsonfile: return json.load(jsonfile)
 
 def file_put_contents(path, contents):
-	file = open(path, 'w')
+	file = open(path, 'w+')
 	file.write(contents)
 	file.close()	
 		
 def write_json(path, dictionary):
 	import json
-	file_put_contents(path, json.dumps(dictionary, indent=4, sort_keys=True))
+	with open(path, 'w') as outfile: json.dump(dictionary, outfile, indent=4, sort_keys=True)
 
 def prettify_json_file(path):	
 	write_json(path, parse_json_file(path))
@@ -132,9 +132,15 @@ def map_dictionary(func, dictionary, key=None):
 				if key_found:
 					dictionary[k] = func(v)
 			else:
-				dictionary[k] = func(k)
+				dictionary[k] = func(v)
 
 	return dictionary
+
+def walk_dictionary(dictionary, func):
+	func(dictionary)
+	for key, item in dictionary.items():
+		if isinstance(item, dict):
+			walk_dictionary(item, func) 
 
 def indent(times):
 	if not times: return ""

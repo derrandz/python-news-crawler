@@ -15,7 +15,8 @@
             "selector": "ul#menu_main > li > a",
             "url": "politic/index.1.html"
         },
-        "root_url": "http://www.akhbarona.com/"
+        "root_url": "http://www.akhbarona.com/",
+        "status": "done"
     },
     "aljarida24": {
         "domitems": {
@@ -51,7 +52,8 @@
             "selector": "ul#menu-menu-principal  > li.menu-item > a",
             "url": "http://www.almaghreb24.com/category/politique"
         },
-        "root_url": "http://www.almaghreb24.com"
+        "root_url": "http://www.almaghreb24.com",
+        "status": "done"
     },
     "andaluspress": {
         "domitems": {
@@ -87,7 +89,8 @@
             "selector": "ul#menu > li > a",
             "url": "%D9%85%D8%AC%D8%AA%D9%85%D8%B9.html"
         },
-        "root_url": "http://www.assdae.com/"
+        "root_url": "http://www.assdae.com/",
+        "status": "done"
     },
     "barlamane": {
         "domitems": {
@@ -161,7 +164,8 @@
             "selector": "div#mainNav > ul#menu_main > li > a",
             "url": "/politique/index.1.html"
         },
-        "root_url": "http://www.hespress.com"
+        "root_url": "http://www.hespress.com",
+        "status": "done"
     },
     "hibapress": {
         "domitems": {
@@ -179,7 +183,8 @@
             "selector": "div#navigation > ul.mnu > li > a",
             "url": "sections-2.html"
         },
-        "root_url": "http://hibapress.com"
+        "root_url": "http://hibapress.com",
+        "status": "done"
     },
     "horiapress": {
         "domitems": {
@@ -215,7 +220,8 @@
             "selector": "ul#main-nav > li.menu-item > a",
             "url": "http://www.jadidpresse.com/category/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1/%d9%81%d9%86-%d9%88-%d8%a5%d8%b9%d9%84%d8%a7%d9%85/"
         },
-        "root_url": "http://www.jadidpresse.com/"
+        "root_url": "http://www.jadidpresse.com/",
+        "status": "done"
     },
     "kifache": {
         "domitems": {
@@ -233,7 +239,8 @@
             "selector": "ul.mainnav.dropdown > li.menu-item > a",
             "url": "http://www.kifache.com/category/\u0645\u0646-\u0647\u0646\u0627-\u0648\u0647\u0646\u0627\u0643"
         },
-        "root_url": "http://www.kifache.com/"
+        "root_url": "http://www.kifache.com/",
+        "status": "done"
     },
     "noonpresse": {
         "domitems": {
@@ -251,7 +258,8 @@
             "selector": "ul#menu-menu-principal > li.menu-item > a",
             "url": "http://www.noonpresse.com/category/%d9%85%d8%b3%d8%aa%d8%ac%d8%af%d8%a7%d8%aa-%d9%88%d8%b7%d9%86%d9%8a%d8%a9"
         },
-        "root_url": "http://www.noonpresse.com"
+        "root_url": "http://www.noonpresse.com",
+        "status": "done"
     },
     "qushq": {
         "domitems": {
@@ -288,6 +296,7 @@
             "selector": "div#menu-holder > ul#menu-menu > li.menu-item > a",
             "url": "http://www.rue20.com/category/%d8%b3%d9%8a%d8%a7%d8%b3%d8%a9/"
         },
-        "root_url": "http://www.rue20.com/"
+        "root_url": "http://www.rue20.com/",
+        "status": "done"
     }
 }

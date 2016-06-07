@@ -1,0 +1,3 @@
+add multithreading
+discuss appropriate data structures
+automatic crawl

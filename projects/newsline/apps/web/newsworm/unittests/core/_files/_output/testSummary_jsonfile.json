@@ -1,0 +1,497 @@
+{
+    "/art-et-culture/index.1.html": {
+        "nested_items": {
+            "/art-et-culture/308175.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/art-et-culture/308182.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/art-et-culture/308301.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/art-et-culture/308309.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/art-et-culture/308483.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/art-et-culture/308486.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/art-et-culture/308533.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/art-et-culture/308551.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/art-et-culture/308556.html": {
+                "nested_items": "none",
+                "type": "article"
+            }
+        },
+        "type": "category"
+    },
+    "/economie/index.1.html": {
+        "nested_items": {
+            "/economie/308376.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/economie/308379.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/economie/308381.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/economie/308399.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/economie/308415.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/economie/308418.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/economie/308433.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/economie/308449.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/economie/308457.html": {
+                "nested_items": "none",
+                "type": "article"
+            }
+        },
+        "type": "category"
+    },
+    "/faits-divers/index.1.html": {
+        "nested_items": {
+            "/faits-divers/307868.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/faits-divers/307887.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/faits-divers/307946.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/faits-divers/308190.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/faits-divers/308256.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/faits-divers/308272.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/faits-divers/308397.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/faits-divers/308426.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/faits-divers/308438.html": {
+                "nested_items": "none",
+                "type": "article"
+            }
+        },
+        "type": "category"
+    },
+    "/marocains-du-monde/index.1.html": {
+        "nested_items": {
+            "/marocains-du-monde/307841.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/marocains-du-monde/307929.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/marocains-du-monde/307968.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/marocains-du-monde/307990.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/marocains-du-monde/308266.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/marocains-du-monde/308339.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/marocains-du-monde/308392.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/marocains-du-monde/308437.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/marocains-du-monde/308530.html": {
+                "nested_items": "none",
+                "type": "article"
+            }
+        },
+        "type": "category"
+    },
+    "/medias/index.1.html": {
+        "nested_items": {
+            "/medias/308519.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/medias/308529.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/medias/308536.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/medias/308555.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/medias/308564.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/medias/308589.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/medias/308591.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/medias/308593.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/medias/308595.html": {
+                "nested_items": "none",
+                "type": "article"
+            }
+        },
+        "type": "category"
+    },
+    "/orbites/index.1.html": {
+        "nested_items": {
+            "/orbites/308364.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/orbites/308428.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/orbites/308495.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/orbites/308514.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/orbites/308528.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/orbites/308538.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/orbites/308552.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/orbites/308561.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/orbites/308562.html": {
+                "nested_items": "none",
+                "type": "article"
+            }
+        },
+        "type": "category"
+    },
+    "/politique/index.1.html": {
+        "nested_items": {
+            "/politique/308281.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/politique/308333.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/politique/308335.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/politique/308361.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/politique/308372.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/politique/308396.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/politique/308398.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/politique/308408.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/politique/308447.html": {
+                "nested_items": "none",
+                "type": "article"
+            }
+        },
+        "type": "category"
+    },
+    "/regions/index.1.html": {
+        "nested_items": {
+            "/regions/308302.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308419.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308446.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308448.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308455.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308497.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308505.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308513.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308526.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308534.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308537.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308554.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308558.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308565.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308566.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308574.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308576.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308596.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/regions/308600.html": {
+                "nested_items": "none",
+                "type": "article"
+            }
+        },
+        "type": "category"
+    },
+    "/societe/index.1.html": {
+        "nested_items": {
+            "/societe/308412.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/societe/308460.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/societe/308509.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/societe/308517.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/societe/308522.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/societe/308524.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/societe/308557.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/societe/308594.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/societe/308612.html": {
+                "nested_items": "none",
+                "type": "article"
+            }
+        },
+        "type": "category"
+    },
+    "/sport/index.1.html": {
+        "nested_items": {
+            "/sport/308411.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/sport/308471.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/sport/308516.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/sport/308532.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/sport/308535.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/sport/308544.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/sport/308563.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/sport/308585.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/sport/308586.html": {
+                "nested_items": "none",
+                "type": "article"
+            }
+        },
+        "type": "category"
+    },
+    "/tamazight/index.1.html": {
+        "nested_items": {
+            "/tamazight/305825.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/tamazight/306325.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/tamazight/306628.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/tamazight/306637.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/tamazight/306932.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/tamazight/307130.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/tamazight/307136.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/tamazight/307328.html": {
+                "nested_items": "none",
+                "type": "article"
+            },
+            "/tamazight/308097.html": {
+                "nested_items": "none",
+                "type": "article"
+            }
+        },
+        "type": "category"
+    },
+    "/videos/index.1.html": {
+        "nested_items": "none",
+        "type": "category"
+    }
+}

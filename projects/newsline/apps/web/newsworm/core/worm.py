@@ -6,7 +6,7 @@
 # from newspaper import Article
 from .tree import Tree
 from .regexr import RegexrClass
-from .dom_parser import WormDomParser as WDom
+from .dom_parser import StaticDomParser as WDom
 from .dom_item import DomItem
 
 from newsline.apps.utility.logger.core import logger
@@ -106,12 +106,12 @@ class Worm(logger.ClassUsesLog):
 	# log_name           = "WormClass"
 	
 	"""
-	This class is the core of the newsworm app.
-	It is responsible for discovering the right paths to crawl, and extracting the articles from the websites properly.
+		This class is the core of the newsworm app.
+		It is responsible for discovering the right paths to crawl, and extracting the articles from the websites properly.
 	"""
 	
 	def __init__(self, rooturl=None, domitems=None):
-		self.regexr = RegexrClass([]) # Explicitly passing an empty list to indicate that this instance will be used for helpers method only.
+		self.regexr = RegexrClass([]) # Explicitly passing an empty list to indicate that this instance will be used as a helper only.
 		self.rooturl = rooturl
 
 		# This is called the normalization phase
@@ -235,9 +235,6 @@ class Worm(logger.ClassUsesLog):
 		elif isinstance(self.domitems, DomItem):
 			self.domitems.patternize()
 
-		def _print(domitem):
-			print("Pattern for %s is: %s" % (domitem.name, domitem.regexr.pattern))
-
 		self.domitems.diverge(_print)
 
 	def _extract(self, url):
@@ -345,31 +342,77 @@ class Worm(logger.ClassUsesLog):
 					for ci in di.crawled_items:
 						ci.diverge(_potoci)
 
-	def _summary(self):
-		summary = {}
-		def _summarize(crawleditem):
-			if crawleditem.dom_item.name in summary:
-				summary[crawleditem.dom_item.name].update({crawleditem.url: []})
-				if crawleditem.nested_items:
-					summary[crawleditem.dom_item.name][crawleditem.url].append([ci.url for ci in crawleditem.nested_items])
-			else:
-				summary.update({crawleditem.dom_item.name: {}})
-				summary[crawleditem.dom_item.name].update({crawleditem.url: []})
-				if crawleditem.nested_items:
-					summary[crawleditem.dom_item.name][crawleditem.url].append([ci.url for ci in crawleditem.nested_items])
+		return self.jsonify()
+	
+	def jsonify(self):
+		def grabtrunk(crawleditem):
+			if crawleditem.nested_items:
+				def _graball(nesteditems):
+					dictt = {}
+					for i, ni in enumerate(nesteditems):
+						dictt.update({i: grabtrunk(ni)})
+					return dictt
 
-		if not helpers.is_list(self.domitems):
-			if not helpers.is_list(self.domitems.crawled_items):
-				self.domitems.crawled_items.diverge(_summarize)
+				return {
+					"item_type"    : crawleditem.dom_item.name,
+					"item_url"     : crawleditem.url,
+					"nested_items" : _graball(crawleditem.nested_items)
+				}
+
 			else:
-				for item in self.domitems.crawled_items:
-					item.diverge(_summarize)
+				print("does not have nested items ")
+				return { 
+					"item_type"    : crawleditem.dom_item.name,
+					"item_url"     : crawleditem.url,
+					"nested_items" : "none"
+				}
+
+		dictionary = {}
+		if helpers.is_list(self.domitems):
+			for i, di in enumerate(self.domitems):
+				dictionary.update({
+						i: {}.update(grabtrunk(ci) for ci in di.crawled_items)
+					})
 		else:
-			for ditem in self.domitems:
-				if not helpers.is_list(ditem.crawled_items):
-					ditem.crawled_items.diverge(_summarize)
-				else:
-					for item in ditem.crawled_items:
-						item.diverge(_summarize)
+			for i, ci in enumerate(self.domitems.crawled_items):
+				dictionary.update({i: grabtrunk(ci)})
+
+		return dictionary
+
+	def _summary(self):
+		def grabtrunk(crawleditem):
+			print("grabtrunk for %s" % crawleditem.url)
+			if crawleditem.nested_items:
+				print("has nested items ")
+				def _graball(nesteditems):
+					dictt = {}
+					for ni in nesteditems:
+						dictt.update(grabtrunk(ni))
+					return dictt
+
+				return {
+					crawleditem.url: {
+						"type": crawleditem.dom_item.name,
+						"nested_items": _graball(crawleditem.nested_items)
+					}
+				}
+			else:
+				print("does not have nested items ")
+				return { 
+					crawleditem.url :{
+						"type": crawleditem.dom_item.name,
+						"nested_items": "none"
+					}
+				}
+
+		summary = {}
+		if helpers.is_list(self.domitems):
+			for di in self.domitems:
+				summary.update({
+						di.name: {}.update(grabtrunk(ci) for ci in di.crawled_items)
+					})
+		else:
+			for ci in self.domitems.crawled_items:
+				summary.update(grabtrunk(ci))
 
 		return summary

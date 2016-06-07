@@ -1,0 +1,14 @@
+{
+	"file": "parsejsontestfile.json",
+	"ext" : "json",
+	"test": "testParseJsonFile",
+	"nestedarray":[
+		{
+			"el1" : 1,
+			"el2": 2
+		},
+		"2",
+		"3",
+		"4s"
+	]
+}
