@@ -42,7 +42,7 @@ class StaticDomParser(logger.ClassUsesLog):
 		else:
 			if r.status_code == 200 :
 				self.log("[GET][SUCCESS][200]", color="GREEN")
-				self.dom = BeautifulSoup(r.text, 'html.parser')
+				self.dom = BeautifulSoup(r.text.encode(r.encoding), 'html.parser')
 			else:
 				self.log("[GET][FAILURE][%s]" % r.status_code, color="RED")
 				self.dom = BeautifulSoup('<html>%s</html>' % r.status_code, 'html.parser')

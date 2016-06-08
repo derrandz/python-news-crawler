@@ -3,45 +3,40 @@ from newsline.helpers.colors_class import ColorsClass
 
 from lxml import html
 
-from newsline.apps.web.newsworm.core.dom_parser import DynamicDomParser, StaticDomParser
+from newsline.apps.web.newsworm.core.dom_parser import StaticDomParser
 class DomParserTestCase(BaseSimpleTestCase):
 	''' A test suit for divergence decorators. '''
-	def dynamicParserTest(self):
 
-		url = 'http://pycoders.com/archive/'  
-		r = DynamicDomParser.Render(url)  
-
-		#Now using correct Xpath we are fetching URL of archives
-		archive_links = [a.get("href") for a in r.find('div.campaign > a')] 
-		print(archive_links)
-
-	def testDifference(self):
-		r = [a.get('href') for a in StaticDomParser('http://www.alyaoum24.com/news/policy').find('h3 > a')]
-
-		self.print_info("Static crawl, results: %d link" % len(r))
-		for a in r:
-			self.print_info("%s " % a)
-
-		self.print_seperator()
-
-		r = [a.get('href') for a in DynamicDomParser.Render('http://www.alyaoum24.com/news/policy').find('h3 > a')]
-
-		self.print_info("Dynamic crawl, results: %d link" % len(r))
-		for a in r:
-			self.print_info("%s " % a)
-
-	def testISOEncoding(self):
+	def testEncodingForWebsite(website, selector):
 		import requests
 		from bs4 import BeautifulSoup as BS
 
 		# this website has as an encoding: Windows1256 that is ISO-8859-1
-		chaab = requests.get("http://chaabpress.com")
-		chaab.text.encoding = 'utf-8'
+		ws = requests.get(website)
+		if ws.status_code != 200:
+			print("Failed to make the requets")
+			return
 
-		chaab = BS(chaab.text, 'html.parser')
+		print("[GET][SUCCESS][%s]" % website)
+		print("[%s][ENCODING]" % ws.encoding)
+
+		text = ws.text.encode(ws.encoding)
+
+		ws = BS(text, 'html.parser')
 		import urllib.parse
 
-		chaab = [urllib.parse.unquote(a.get("href")) for a in chaab.select('div.navbarr > ul > li > a')]
-
-		for a in chaab:
+		ws = [a.get("href")for a in ws.select(selector)]
+		print("\n\nBefore unquote")
+		for a in ws:
 			print("%s ." % a)
+
+
+		ws = [urllib.parse.unquote(a) for a in ws]
+		print("\n\nAfter unquote")
+		for a in ws:
+			print("%s ." % a)
+
+	def testEncoding(self):
+		testEnc = self.__class__.testEncodingForWebsite
+		testEnc("http://chaabpress.com", "div.navbarr > ul > li > a")
+		testEnc("http://kifache.com", "ul.nav > li.menu-item > a")

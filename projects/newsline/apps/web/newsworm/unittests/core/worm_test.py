@@ -814,7 +814,9 @@ class WormTestCase(BaseSimpleTestCase):
 		training_data = helpers.parse_json_file(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_input/training_data.json")
 
 		for name, website in training_data.items():
-
+			if name != "chaabpress":
+				continue
+			
 			print("Crawling %s" % name)
 			try:
 				from copy import deepcopy
