@@ -29,10 +29,10 @@ class StaticDomParser(logger.ClassUsesLog):
 		self.log("[GET][%s] ..." % self.url)
 
 
-		self.log("[SLEEP: 10s]")
+		self.log("[SLEEP: 7s]")
 
 		from time import sleep
-		sleep(10) # delays for 5 seconds
+		sleep(7) # delays for 5 seconds
 
 		try:
 			headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}

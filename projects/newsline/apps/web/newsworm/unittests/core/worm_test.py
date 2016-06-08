@@ -830,10 +830,10 @@ class WormTestCase(BaseSimpleTestCase):
 					self.print_failure("-----------------  Crawling halted for . [%s] with :%s" % (name, e))
 					summary = worm._summary()
 					summary["status"] = e
-					self.write_to_jsonfile(name, summary)
+					helpers.write_json(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_input/training_data.json", summary)
 				else:
 					self.print_info("-----------------  Crawling finished successfully for %s " % name)
-					self.write_to_jsonfile(name, worm._summary())
+					self.write_to_jsonfile(name, worm.jsonify())
 
 					website["status"] = "done"
 					from newsline.helpers import helpers

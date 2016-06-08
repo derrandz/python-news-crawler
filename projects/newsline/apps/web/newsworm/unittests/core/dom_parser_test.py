@@ -29,3 +29,19 @@ class DomParserTestCase(BaseSimpleTestCase):
 		self.print_info("Dynamic crawl, results: %d link" % len(r))
 		for a in r:
 			self.print_info("%s " % a)
+
+	def testISOEncoding(self):
+		import requests
+		from bs4 import BeautifulSoup as BS
+
+		# this website has as an encoding: Windows1256 that is ISO-8859-1
+		chaab = requests.get("http://chaabpress.com")
+		chaab.text.encoding = 'utf-8'
+
+		chaab = BS(chaab.text, 'html.parser')
+		import urllib.parse
+
+		chaab = [urllib.parse.unquote(a.get("href")) for a in chaab.select('div.navbarr > ul > li > a')]
+
+		for a in chaab:
+			print("%s ." % a)
