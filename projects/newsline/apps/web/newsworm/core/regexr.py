@@ -238,3 +238,127 @@ class RegexrClass:
 					urlbuffer += url[i]
 
 		return urlbuffer
+
+class SpecificRegexr(RegexrClass):
+	def __init__(self, items, groups):
+		self.groups = groups
+		RegexrClass.__init__(self, items)
+
+	def discriminate_spgroups(self, item, groups):
+		return self._split_groups(item, groups)
+
+	def _split_groups(self, _string, groups):
+		for g in groups:
+			_string = _string.replace(g, ' %s ' % g)
+
+		from functools import partial
+		from operator import is_not	
+		return list(filter(partial(is_not, ''), _string.split(' ')))
+
+	def _patternize(self):
+		""" This method will generate a regex to match the likes of the provided string/strings"""
+		pat = self._buildpattern(self.items) if not isinstance(self.items, list) else "( %s )" % "|".join(list(map(self._buildpattern, self.items)))
+		return [pat, self.compile(pat)]
+
+	def _buildpattern(self, item):
+		""" Returns a list of two elements, the string regex pattern and compiled regex pattern """
+		item = self.parse_arabic_urls(item) # In case the provided string had utf-8 unreadable arabic characters
+
+		if item.isdigit() : return self._regex_digit
+		
+		if item.isalpha():
+			if self.is_ar(item): return self._regex_alpha_ar
+			if self.is_lat(item): return self._regex_alpha
+
+			return self._regex_alpha_arlt
+
+		if item.isalnum():
+			if self.is_arabic(item) : return self._regex_alnum_ar
+			if self.is_lat(item) : return self._regex_alnum
+			
+			return self._regex_alnum_arlt
+
+		# If we have reachved over here, this case is when the item is mixed, meaning containing numbers and chars and symbols
+		# Here, we will generate a regular expression as that will match the exact form of the item, and also match a general its general form
+		# Example : /category-name/article_1.html
+		# (/alpha-alpha/alpha_digit.alpha)|(/string/string)
+		# This way we will guarantee to match the links that of the nature : /category/article.html or /cat/article
+		return "(%s)|(%s)" % (self._strongpat(item), self._shallowpat(item))
+
+	def _strongpat(self, _string):
+		""" Generates an exact pattern for the provided string in terms of words, digits, special characters, and alphanumerics"""
+		if self.contains_spchars(_string): return ''.join([self.__getatompat(part) for part in self.split(_string)])
+		return self.__getatompat(_string)
+
+	def _shallowpat(self, _string):
+		""" Generates an shallow pattern for the provided string in terms of strings, digits, and symbols like / ? =  #"""
+		return self._generalpat(_string, [":", "-", "@", "_"]) # 
+
+	def _generalpat(self, _string, ignored_delimiters):
+		""" Generates an shallow pattern for the provided string in terms of strings, digits, and symbols like / ? =  #"""
+		if self.contains_spchars(_string):
+			return ''.join([self.__getatomstrpat(part) for part in self.split(_string, ignored_delimiters)]) # the list of delimiters is the a list of those to be ignored
+		return self.__getatompat(_string)
+
+	def __getatompat(self, atomicstring, use_str_pattern=False):
+		""" returns the atomic pattern of the provided string """
+		if atomicstring in self.groups: return self.groupify(atomicstring)
+		if atomicstring.isdigit() : return self._regex_digit
+
+		if atomicstring.isalpha():
+			if self.is_ar(atomicstring) : return self._regex_alpha_ar
+			if self.is_lat(atomicstring) : return self._regex_alpha
+			return self._regex_alpha_arlt
+
+		if atomicstring.isalnum():
+			if self.is_ar(atomicstring) : return self._regex_alnum_ar
+			if self.is_lat(atomicstring) : return self._regex_alnum
+			return self._regex_alnum_arlt
+
+		if self.is_sym(atomicstring) : return self.escape(atomicstring)
+
+		return None
+
+	def __getatomstrpat(self, atomicstring):
+		return self.escape(atomicstring) if self.is_sym(atomicstring) and len(atomicstring) == 1 else self.groupify(atomicstring) if atomicstring in self.groups else self._stringify(atomicstring)
+
+	def _stringify(self, atomicstring):
+		return self._regex_string_ar if self.is_ar(atomicstring) else self._regex_string	
+
+	def __split_symbols(self, _string, ign_delimiters=None):
+		ignore = ign_delimiters is not None
+		if ignore :
+			if not isinstance(ign_delimiters, list): raise Exception("ign_delimiters should be a list of strings")
+			if not all(isinstance(delim, str) for delim in ign_delimiters) : raise Exception("ign_delimiters list expects all elements to str, some aren't")
+		
+		_string_parts = []
+		_buffer       = ""
+
+		for _c in _string:
+			not_ignored = not _c in ign_delimiters if ignore else True 
+			if self.is_sym(_c) and not_ignored:
+				if _buffer != '' : 
+					_string_parts.append(_buffer)
+					_buffer = ""
+				_string_parts.append(_c)
+			else:
+				_buffer += _c
+		
+		if _buffer != '': _string_parts.append(_buffer)
+
+		return _string_parts
+
+	def split(self, _string, ign_delimiters=None):
+		_string = self.discriminate_spgroups(_string, self.groups)
+
+		l = []
+		for el in [_part if _part in self.groups else self.__split_symbols(_part, ign_delimiters) for _part in _string]:
+			if isinstance(el, list):
+				l.extend(el)
+			else:
+				l.append(el)
+
+		return l
+
+	def groupify(self, item):
+		return '(%s)' % item

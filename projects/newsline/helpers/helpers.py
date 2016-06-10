@@ -109,7 +109,7 @@ def get_base_class(derived_class):
 def map_dictionary(func, dictionary, key=None):
 	""" loops through a dictionary's value recursively and applies whatever supplied function"""
 
-	if not func or func is None: raise Exception("map_dictionary expects a function, %s given"%type(dictionary))
+	if not func or func is None: raise Exception("map_dictionary expects a function, %s given"%type(func))
 	if not is_dict(dictionary): raise Exception("map_dictionary expects a dictionary, %s given"%type(dictionary))
 
 	for k, v in dictionary.items():
@@ -160,3 +160,36 @@ def printdash(times):
 		dash += "-"
 
 	return dash
+
+def templify(lurl, turl):
+	"""
+		put %d instead of the leftmost digit in turl
+		match against lurl
+		if does not match
+		repeat for the leftmost-1 digit
+	"""
+
+	from newsline.apps.web.newsworm.core.regexr import SpecificRegexr
+	def formatd(_str):
+		def countd(_str):
+			return sum(c.isdigit() for c in _str)
+
+		def _formatd(_str, pos):
+			dcount = [0]
+			def isdigit_count(c, pos, dcount=dcount):
+				if c.isdigit():
+					dcount[0] += 1
+					if pos == dcount[0]:
+						return True
+				return False
+
+			return ''.join(["%d" if isdigit_count(c, pos) else c for c in _str])
+
+		return [_formatd(_str, i+1) for i in range(0, countd(_str))]
+	
+	templates = formatd(turl)
+	pat = SpecificRegexr(lurl, ['%d'])
+	for tmp in templates:
+		if pat.strongmatch(lurl): return tmp
+
+	return None

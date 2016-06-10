@@ -889,3 +889,39 @@ class WormTestCase(BaseSimpleTestCase):
 						print("%s" % key)
 		
 		helpers.walk_dictionary(sitemap, crawl)
+
+	def testAutoGenDI(self):
+		domitems = {
+			"name": 'category',
+			"url": '/politique/index.1.html', 
+			"selector": 'div#mainNav > ul#menu_main > li > a',
+			"nested_items":{
+				"name": 'page',
+				"url": '/politique/index.%d.html',
+				"autogen": True,
+				"nested_items":{
+					"name": 'article',
+					"url": '/politique/212121.html',
+					"selector": 'h2.section_title > a'
+				}	
+			} 
+		}
+
+		
+		class AutoGenWorm(Worm):
+			def __init__(self, rooturl=None, domitems=None):
+				self.regexr = RegexrClass([]) # Explicitly passing an empty list to indicate that this instance will be used as a helper only.
+				self.rooturl = rooturl
+
+				# This is called the normalization phase
+				# The nesting of the function calls is very important
+				self.domitems = self.clean(self.decode(self.normalize(self.validate(domitems))))
+
+		try:
+			worm = AutoGenWorm("http://hespress.com", domitems)
+		except Exception as e:
+			self.print_exception(e)
+			raise e
+		else:
+			self.print_success("Test passed!")
+			self.print_info("%s" % worm.domitems.nested_items[0])

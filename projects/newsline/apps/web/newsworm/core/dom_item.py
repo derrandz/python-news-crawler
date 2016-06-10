@@ -26,12 +26,10 @@ class DomItem(logger.ClassUsesLog):
 	def url(self, url):
 		if not url or url is None: raise Exception("url cannot be empty or None")
 		if helpers.is_list(url):
-			if helpers.is_empty(url):
-				raise Exception("url list can not be empty")
-			elif not all(helpers.is_str(u) for u in url):
+			if not all(helpers.is_str(u) for u in url):
 				raise Exception("url is list, expecting all list elements to be str, however an element (or more) is not")
-			elif not helpers.is_url(url):
-				raise Exception("url list given, however an element does not respect url pattern. e.g: http://google.com\n\t url: %s"% url)
+			elif not all(helpers.is_url(u) for u in url):
+				raise Exception("url list given, however an element does not respect url pattern. e.g: http://google.com\n\t provided url: %s"% url)
 
 		self._url = url
 

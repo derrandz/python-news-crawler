@@ -223,3 +223,38 @@ class RegexrTestCase(BaseSimpleTestCase):
 				self.print_success("OK!")
 			else:
 				self.print_failure("FAILED!")
+
+
+from newsline.apps.web.newsworm.core.regexr import SpecificRegexr
+class SpecificRegexrTestCase(BaseSimpleTestCase):
+
+	def testTemplify(self):
+		from newsline.helpers.helpers import templify
+		expected = '/faits-divers/index.%d.html'
+		result = templify('/politique/index.%d.html', '/faits-divers/index.1.html')
+		if result == expected:
+			self.print_success("Test passed with result: \n%s, \nwas expecting: \n%s" %  (result, expected))
+		else:
+			self.print_failure("Test failed with result: \n%s \nwhile expecting \n%s" % (result, expected))
+
+	def printPattern(self):
+		fd = '/faits-divers/index.%d.html'
+		sp = SpecificRegexr(fd, ['%d'])
+		self.print_info("Schema for %s: %s" % (fd, sp.pattern))
+
+	def testMatching(self):
+		sp = SpecificRegexr('/faits-divers/index.%d.html', ['%d'])
+
+		tagainst = [
+			'/politique/index.%d.html',
+			'/news/index.%d.html',
+			'/something/index.%d.html',
+			'/something/index.1.html',
+			'/news/index.%d.html/see',
+		]
+
+		for el in tagainst:
+			if sp.strongmatch(el):
+				self.print_success("Matched %s" % el)
+			else:
+				self.print_failure("Did not match %s" % el)

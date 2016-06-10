@@ -455,3 +455,13 @@ class DomItemTestCase(BaseSimpleTestCase):
 				print("My special dom item: %s, %s" % (thisDomItem.url, thisDomItem.name))
 
 			domitem.diverge(printsp)
+
+	def testAutoGen(self):
+		from newsline.apps.web.newsworm.core.worm import WDIAutoGen
+
+		AuGenDI = WDIAutoGen(self, "page", "/category/news/page/%d" , autogen=True, range=(1, 200))
+
+		for i in AuGenDI.crawled_items:
+			print(i.url)
+
+		self.print_seperator()
