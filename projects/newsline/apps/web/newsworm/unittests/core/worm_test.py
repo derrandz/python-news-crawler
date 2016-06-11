@@ -899,6 +899,8 @@ class WormTestCase(BaseSimpleTestCase):
 				"name": 'page',
 				"url": '/politique/index.%d.html',
 				"autogen": True,
+				"range": [0, 20],
+				# "parentless": True,
 				"nested_items":{
 					"name": 'article',
 					"url": '/politique/212121.html',
@@ -925,3 +927,73 @@ class WormTestCase(BaseSimpleTestCase):
 		else:
 			self.print_success("Test passed!")
 			self.print_info("%s" % worm.domitems.nested_items[0])
+
+	def testCrawlWithAutoGen(self):
+		# domitems = {
+		# 		"name": "category",
+		# 		"selector": "div.mynav > ul > li > a",
+		# 		"url": "/news/?cat=politique",
+		# 		"nested_items": {
+		# 			"name": "page",
+		# 			"selector": "ul.pagination > li > a",
+		# 			"url": "/news/?cat=politique&page=%d",
+		# 			"nested_items": {
+		# 				"name": "article",
+		# 				"selector": "div.cd-resultNw > a",
+		# 				"url": "/info-article/?id=933&t=\u0627\u0644\u0645\u0644\u0643-\u0645\u062d\u0645\u062f-\u0627\u0644\u0633\u0627\u062f\u0633-\u064a\u062c\u0631\u064a-\u0628\u0628\u0643\u064a\u0646-\u0645\u0628\u0627\u062d\u062b\u0627\u062a-\u0645\u0639-\u0627\u0644\u0631\u0626\u064a\u0633-\u0634\u064a-\u062c\u064a\u0646-\u0628\u064a\u0646\u063a"
+		# 			}
+		# 		}
+		# 	}
+
+		# domitems = {
+		# 	"name": "category",
+  #           "url": "/politique/index.1.html",
+  #           "selector": "div#mainNav > ul#menu_main > li > a",
+  #           "nested_items": {
+  #               "name": "page",
+  #               "selector": "div#box_pagination > span.pagination > a",
+  #               "url": "/politique/index.%d.html",
+		# 		"autogen": True,
+		# 		"range": [0, 5],
+  #               "nested_items": {
+  #                   "name": "article",
+  #                   "selector": "h2.section_title > a",
+  #                   "url": "/politique/212121.html"
+  #               },
+  #           },
+		# }
+
+		domitems = {
+			"name": "category",
+            "url": "http://telexpresse.com/category/%D8%AA%D8%B5%D9%86%D9%8A%D9%81%D8%A7%D8%AA/1/%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1%20%D8%B3%D9%8A%D8%A7%D8%B3%D9%8A%D8%A9.html",
+            "selector": "div.menusprites > ul > li > a",
+            "nested_items": {
+                "name": "page",
+                "selector": "div#box_pagination > span.pagination > a",
+                "url": "/category/تصنيفات/1/%d/اخبار%20سياسية.html",
+				"autogen": True,
+				"range": [0, 5],
+                "nested_items": {
+                    "name": "article",
+                    "selector": "center > a",
+                    "url": "تلكسبريس/اخبار سياسية/53045/هافينغتون بوست وفاة زعيم البوليساريو فرصة لوضع حد لأحد أكثر النزاعات سخافة في العالم.html"
+                },
+            },
+		}
+		rooturl = "http://telexpresse.com"
+		# rooturl = "http://www.hespress.com/"
+		# rooturl = "http://www.andaluspress.com/"
+		try:
+			worm = Worm(rooturl, domitems)
+		except Exception as e:
+			self.print_failure("----------------- Crawling failed with errors: %s" % (str(e)))
+			raise e
+		else:
+			from requests.exceptions import RequestException
+			try:
+				worm._launch("smart", force=True)
+			except RequestException as e:    # This is the correct syntax
+				self.print_failure("-----------------  Crawling halted for . [%s] with :%s \n %s" % (name, e, worm._summary()))
+			else:
+				self.print_info("-----------------  Crawling finished successfully for andaluspress ")
+				self.write_to_jsonfile("testAutogen", worm.jsonify())

@@ -85,8 +85,7 @@ class RegexrClass:
 
 	def _buildpattern(self, item):
 		""" Returns a list of two elements, the string regex pattern and compiled regex pattern """
-		item = self.parse_arabic_urls(item) # In case the provided string had utf-8 unreadable arabic characters
-
+		item = self.parse_arabic_urls(item) # In case the provided string had utf-8/ISO-8895-1 unreadable arabic characters
 		if item.isdigit() : return self._regex_digit
 		
 		if item.isalpha():
@@ -101,7 +100,7 @@ class RegexrClass:
 			
 			return self._regex_alnum_arlt
 
-		# If we have reachved over here, this case is when the item is mixed, meaning containing numbers and chars and symbols
+		# If we have reached over here, this case is when the item is mixed, meaning containing numbers and chars and symbols
 		# Here, we will generate a regular expression as that will match the exact form of the item, and also match a general its general form
 		# Example : /category-name/article_1.html
 		# (/alpha-alpha/alpha_digit.alpha)|(/string/string)
@@ -110,12 +109,16 @@ class RegexrClass:
 
 	def _strongpat(self, _string):
 		""" Generates an exact pattern for the provided string in terms of words, digits, special characters, and alphanumerics"""
+		print("%s" % self.split(_string))
 		if self.contains_spchars(_string): return ''.join([self.__getatompat(part) for part in self.split(_string)])
 		return self.__getatompat(_string)
 
+	def unspace(self, _string):
+		return _string.replace(" ", "")
+	
 	def _shallowpat(self, _string):
 		""" Generates an shallow pattern for the provided string in terms of strings, digits, and symbols like / ? =  #"""
-		return self._generalpat(_string, [":", "-", "@", "_"]) # 
+		return self._generalpat(self.unspace(_string), [":", "-", "@", "_"]) # 
 
 	def _generalpat(self, _string, ignored_delimiters):
 		""" Generates an shallow pattern for the provided string in terms of strings, digits, and symbols like / ? =  #"""

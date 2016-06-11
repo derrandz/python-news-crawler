@@ -106,18 +106,22 @@ def get_base_class(derived_class):
 	import inspect
 	return inspect.getmro(derived_class)[1]
 
-def map_dictionary(func, dictionary, key=None):
+def map_dictionary(func, dictionary, key=None, notroot=False):
 	""" loops through a dictionary's value recursively and applies whatever supplied function"""
 
 	if not func or func is None: raise Exception("map_dictionary expects a function, %s given"%type(func))
-	if not is_dict(dictionary): raise Exception("map_dictionary expects a dictionary, %s given"%type(dictionary))
+	if not is_dict(dictionary): 
+		if notroot:
+			return dictionary
+		else:
+			raise Exception("map_dictionary expects a dictionary, %s given"%type(dictionary))
 
 	for k, v in dictionary.items():
 		if is_dict(v):
-			map_dictionary(func, v, key)
+			map_dictionary(func, v, key, notroot=True)
 		elif is_list(v):
 			def _mpdictionary(_dct, _key=key, _func=func):
-				return map_dictionary(func=_func, dictionary=_dct, key=_key)
+				return map_dictionary(func=_func, dictionary=_dct, key=_key, notroot=True)
 			dictionary[k] = list(map(_mpdictionary, v))
 		else:
 			if key is not None:
@@ -188,8 +192,10 @@ def templify(lurl, turl):
 		return [_formatd(_str, i+1) for i in range(0, countd(_str))]
 	
 	templates = formatd(turl)
+
 	pat = SpecificRegexr(lurl, ['%d'])
 	for tmp in templates:
+		print("Matching %s to %s" % (tmp, lurl))
 		if pat.strongmatch(lurl): return tmp
 
 	return None
