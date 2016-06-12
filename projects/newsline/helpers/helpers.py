@@ -191,11 +191,24 @@ def templify(lurl, turl):
 
 		return [_formatd(_str, i+1) for i in range(0, countd(_str))]
 	
+	def unnaturalformatd(furl, surl):
+		from os.path import commonprefix as cp
+		import urllib.parse as up
+		suffix = cp([up.unquote(furl)[::-1], up.unquote(surl)[::-1]])[::-1]
+		surlws = surl.replace(suffix, '')
+		print("Commonsuffix between %s and %s: %s" % (furl, surl, suffix))
+		return surlws + r"%d" + suffix if suffix[0] != "/" else surlws + r"/%d" + suffix
+
 	templates = formatd(turl)
 
 	pat = SpecificRegexr(lurl, ['%d'])
+
 	for tmp in templates:
-		print("Matching %s to %s" % (tmp, lurl))
-		if pat.strongmatch(lurl): return tmp
+		if pat.strongmatch(tmp): 
+			return tmp
+
+	template = unnaturalformatd(lurl, turl)
+	if pat.shallowmatch(template): 
+		return template
 
 	return None

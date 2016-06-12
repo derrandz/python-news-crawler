@@ -228,10 +228,20 @@ class RegexrTestCase(BaseSimpleTestCase):
 from newsline.apps.web.newsworm.core.regexr import SpecificRegexr
 class SpecificRegexrTestCase(BaseSimpleTestCase):
 
-	def testTemplify(self):
+	def testTemplify1(self):
 		from newsline.helpers.helpers import templify
 		expected = '/faits-divers/index.%d.html'
 		result = templify('/politique/index.%d.html', '/faits-divers/index.1.html')
+		if result == expected:
+			self.print_success("Test passed with result: \n%s, \nwas expecting: \n%s" %  (result, expected))
+		else:
+			self.print_failure("Test failed with result: \n%s \nwhile expecting \n%s" % (result, expected))
+
+	def testTemplify2(self):
+		from newsline.helpers.helpers import templify
+		expected = '/category/news/7/%d/page.html'
+		result = templify('/category/politique/1/%d/page.html', '/category/news/7/page.html')
+		
 		if result == expected:
 			self.print_success("Test passed with result: \n%s, \nwas expecting: \n%s" %  (result, expected))
 		else:

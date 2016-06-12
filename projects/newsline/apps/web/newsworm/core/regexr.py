@@ -12,7 +12,7 @@ class RegexrClass:
 	_regex_alnum_ar        = "([\u0621-\u064A\u0660-\u0669_0-9]+)"
 	_regex_alnum_arlt      = "([\u0621-\u064A\u0660-\u0669_a-zA-Z_0-9]+)"
 	
-	_regex_string          = "([^\s?:\]\[#@,\"\'/}{=]+)" # A string signifies any word contaning any character (even arabic) except /?#@=:{},[]
+	_regex_string          = "([^?:\]\[#@,\"\'/}{=]+)" # A string signifies any word contaning any character (even arabic) except /?#@=:{},[]
 	_regex_string_ar       = "(([\u0621-\u064A\u0660-\u0669_0-9]+(?:-[\u0621-\u064A\u0660-\u0669_0-9]+)*)|([\u0621-\u064A\u0660-\u0669_0-9^\s?:\]\[#@,\"\'/}{=]+))"
 
 	_regex_url_pattern     = "((?:(?:https?:\/\/)|(?:www\.))?[-a-zA-Z0-9@:%._\+~#=]{4,256}\.[a-z]{2,4}(\/|\.|\=|\?|\#|\?|\+|\&|\~)?(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)|(\/(?:[-a-zA-Z0-9@:%_\+.~#?&/=]?)+)"

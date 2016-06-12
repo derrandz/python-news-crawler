@@ -947,39 +947,40 @@ class WormTestCase(BaseSimpleTestCase):
 
 		# domitems = {
 		# 	"name": "category",
-  #           "url": "/politique/index.1.html",
-  #           "selector": "div#mainNav > ul#menu_main > li > a",
-  #           "nested_items": {
-  #               "name": "page",
-  #               "selector": "div#box_pagination > span.pagination > a",
-  #               "url": "/politique/index.%d.html",
+		# 	"url": "/politique/index.1.html",
+		# 	"selector": "div#mainNav > ul#menu_main > li > a",
+		# 	"nested_items": {
+		# 		"name": "page",
+		# 		"selector": "div#box_pagination > span.pagination > a",
+		# 		"url": "/politique/index.%d.html",
 		# 		"autogen": True,
 		# 		"range": [0, 5],
-  #               "nested_items": {
-  #                   "name": "article",
-  #                   "selector": "h2.section_title > a",
-  #                   "url": "/politique/212121.html"
-  #               },
-  #           },
+		# 		"nested_items": {
+		# 			"name": "article",
+		# 			"selector": "h2.section_title > a",
+		# 			"url": "/politique/212121.html"
+		# 		},
+		# 	},
 		# }
 
 		domitems = {
 			"name": "category",
-            "url": "http://telexpresse.com/category/%D8%AA%D8%B5%D9%86%D9%8A%D9%81%D8%A7%D8%AA/1/%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1%20%D8%B3%D9%8A%D8%A7%D8%B3%D9%8A%D8%A9.html",
-            "selector": "div.menusprites > ul > li > a",
-            "nested_items": {
-                "name": "page",
-                "selector": "div#box_pagination > span.pagination > a",
-                "url": "/category/تصنيفات/1/%d/اخبار%20سياسية.html",
+			"url": "category/مجتمع/4/تصنيفات.html",
+			"selector": "div.menusprites > ul > li > a",
+			"nested_items": {
+				"name": "page",
+				"selector": "div#box_pagination > span.pagination > a",
+				"url": "category/مجتمع/4/%d/تصنيفات.html",
 				"autogen": True,
 				"range": [0, 5],
-                "nested_items": {
-                    "name": "article",
-                    "selector": "center > a",
-                    "url": "تلكسبريس/اخبار سياسية/53045/هافينغتون بوست وفاة زعيم البوليساريو فرصة لوضع حد لأحد أكثر النزاعات سخافة في العالم.html"
-                },
-            },
+				"nested_items": {
+					"name": "article",
+					"selector": "center > a",
+					"url": "تلكسبريس/اخبار سياسية/53045/هافينغتون بوست وفاة زعيم البوليساريو فرصة لوضع حد لأحد أكثر النزاعات سخافة في العالم.html"
+				},
+			},
 		}
+
 		rooturl = "http://telexpresse.com"
 		# rooturl = "http://www.hespress.com/"
 		# rooturl = "http://www.andaluspress.com/"
