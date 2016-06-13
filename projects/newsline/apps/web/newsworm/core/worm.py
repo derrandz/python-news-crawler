@@ -423,7 +423,9 @@ class Worm(logger.ClassUsesLog):
 
 						from functools import partial
 						from operator import is_not	
-						crawlresults = list(filter(partial(is_not, None), [is_link_valid(link) for link in domitem.generate(crawled_item.url, crawled_item.dom_item.url)]))
+						linksl = domitem.generate(crawled_item.url, crawled_item.dom_item.url)
+						if linksl is not None:
+							crawlresults = list(filter(partial(is_not, None), [is_link_valid(link) for link in linksl]))
 
 					if crawlresults:
 						self.log("Crawled %s for %s" % (crawlresults, domitem.name), color="CYAN")

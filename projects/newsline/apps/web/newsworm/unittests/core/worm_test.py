@@ -929,6 +929,7 @@ class WormTestCase(BaseSimpleTestCase):
 			self.print_info("%s" % worm.domitems.nested_items[0])
 
 	def testCrawlWithAutoGen(self):
+		# rooturl = "http://www.andaluspress.com/"
 		# domitems = {
 		# 		"name": "category",
 		# 		"selector": "div.mynav > ul > li > a",
@@ -945,6 +946,7 @@ class WormTestCase(BaseSimpleTestCase):
 		# 		}
 		# 	}
 
+		# rooturl = "http://www.hespress.com/"
 		# domitems = {
 		# 	"name": "category",
 		# 	"url": "/politique/index.1.html",
@@ -963,6 +965,7 @@ class WormTestCase(BaseSimpleTestCase):
 		# 	},
 		# }
 
+		rooturl = "http://telexpresse.com"
 		domitems = {
 			"name": "category",
 			"url": "category/مجتمع/4/تصنيفات.html",
@@ -981,9 +984,6 @@ class WormTestCase(BaseSimpleTestCase):
 			},
 		}
 
-		rooturl = "http://telexpresse.com"
-		# rooturl = "http://www.hespress.com/"
-		# rooturl = "http://www.andaluspress.com/"
 		try:
 			worm = Worm(rooturl, domitems)
 		except Exception as e:
