@@ -68,6 +68,16 @@ def isdir(path):
 	import os
 	return os.path.isdir(path)
 
+def makedir(path):
+	import os
+	import errno
+
+    try:
+        os.makedirs(path)
+    except OSError as exception:
+        if exception.errno != errno.EEXIST:
+            raise
+
 def file_get_contents(path):
 	if path_exists(path):
 		file = open(path, 'r')

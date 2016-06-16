@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'newsline.apps.utility.logger',
     'newsline.apps.web.newsworm'
 ]
@@ -100,15 +101,6 @@ DATABASES = {
     'newsworm_db': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'newsline_newsworm',
-        'USER': 'newsline_db_root',
-        'PASSWORD': 'simple_root_pw',
-        'HOST': '', # An empty string means localhost
-        'PORT': '', # An empty string means the default port
-    },
-
-    'newsline_main_db': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'newsline_main_db',
         'USER': 'newsline_db_root',
         'PASSWORD': 'simple_root_pw',
         'HOST': '', # An empty string means localhost

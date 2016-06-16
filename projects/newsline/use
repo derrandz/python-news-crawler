@@ -29,10 +29,29 @@ nd_test(){
 	fi	
 }
 
+# database test runner
+test(){
+	if [ ! -z "$1" -a "$1" != " " ]; then
+		printf "\n\033[95mTesting for newsline.$1\033[0m\n"
+  		eval "python3 ../manage.py test newsline.$1"
+	else
+		echo "You have to specify the test path [without using newsline.]";
+	fi	
+}
+
 nd_test_app(){
 	if [ ! -z "$1" -a "$1" != " " ]; then
 		printf "\n\033[95mTesting for newsline.apps.$1\033[0m\n"
   		eval "python3 ../manage.py test newsline.apps.$1 --testrunner=newsline.scripts.no_db_test_runner.NoDbTestRunner"
+	else
+		echo "You have to specify the test path [without using newsline.apps.]";
+	fi	
+}
+
+test_app(){
+	if [ ! -z "$1" -a "$1" != " " ]; then
+		printf "\n\033[95mTesting for newsline.apps.$1\033[0m\n"
+  		eval "python3 ../manage.py test newsline.apps.$1"
 	else
 		echo "You have to specify the test path [without using newsline.apps.]";
 	fi	
@@ -54,6 +73,22 @@ nd_test_web_app(){
 	fi
 }
 
+test_web_app(){
+	if [ ! -z "$1" -a "$1" != " " ]; then
+  		eval ". use test_app web.$1"
+	else
+		echo "You have to specify the test path [without using newsline.apps.web]";
+	fi
+}
+
+test_newsworm(){
+	if [ ! -z "$1" -a "$1" != " " ]; then
+  		eval ". use test_app web.newsworm.$1"
+	else
+		echo "You have to specify the test path [without using newsline.apps.web]";
+	fi
+}
+
 nd_test_newsworm(){
 	if [ ! -z "$1" -a "$1" != " " ]; then
   		eval ". use nd_test_web_app newsworm.unittests.$1 --testrunner=newsline.scripts.no_db_test_runner.NoDbTestRunner"
@@ -65,6 +100,14 @@ nd_test_newsworm(){
 nd_test_newsworm_core(){
 	if [ ! -z "$1" -a "$1" != " " ]; then
   		eval ". use nd_test_newsworm core.$1 --testrunner=newsline.scripts.no_db_test_runner.NoDbTestRunner"
+	else
+		echo "You have to specify the test path [without using newsline.apps.web.newsworm.unittests.core]";
+	fi
+}
+
+test_newsworm_models(){
+	if [ ! -z "$1" -a "$1" != " " ]; then
+  		eval ". use test_newsworm unittests.models.$1"
 	else
 		echo "You have to specify the test path [without using newsline.apps.web.newsworm.unittests.core]";
 	fi
