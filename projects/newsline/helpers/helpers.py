@@ -72,11 +72,11 @@ def makedir(path):
 	import os
 	import errno
 
-    try:
-        os.makedirs(path)
-    except OSError as exception:
-        if exception.errno != errno.EEXIST:
-            raise
+	try:
+		os.makedirs(path)
+	except OSError as exception:
+		if exception.errno != errno.EEXIST:
+			raise
 
 def file_get_contents(path):
 	if path_exists(path):

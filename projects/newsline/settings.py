@@ -105,16 +105,7 @@ DATABASES = {
         'PASSWORD': 'simple_root_pw',
         'HOST': '', # An empty string means localhost
         'PORT': '', # An empty string means the default port
-    },
-
-    'test_newsworm_db': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test_newsline_newsworm',
-        'USER': 'newsline_db_root',
-        'PASSWORD': 'simple_root_pw',
-        'HOST': '', # An empty string means localhost
-        'PORT': '', # An empty string means the default port
-    },
+    }
 }
 
 # This list contains the router for each application that this project owns.

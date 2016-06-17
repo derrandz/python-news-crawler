@@ -530,3 +530,43 @@ class Worm(logger.ClassUsesLog):
 				summary.update(grabtrunk(ci))
 
 		return summary
+
+	@classmethod
+	def normalize(cls, summary):
+		articles = []
+		def niprint(d):
+			if "item_type" in d:
+				if d["item_type"] == 'article':
+					articles.append(d)
+
+		helpers.walk_dictionary(summary, niprint)
+
+		return articles
+
+class ArticlesExtractor:
+	def __init__(self, root, url, lang='ar'):
+		self.root = root
+		self.url = url
+		self.lang = lang
+
+	def _download(self):
+		import newspaper
+		a = newspaper.Article(self.root + "/" + self.url, language=self.lang)
+
+		a.download()
+
+		if a.is_downloaded:
+			a.parse()
+			a.nlp()
+		else:
+			a.text = 'Failed to download'
+
+		return {
+			"link" 		   : self.url,
+			"title" 	   : a.title,
+			"topimage_url" : a.top_image,
+			"publish_date" : a.publish_date.strftime('%m/%d/%Y') if a.publish_date else "",
+			"authors" 	   : a.authors,
+			"keywords" 	   : a.keywords,
+			"text" 		   : a.text,
+		}

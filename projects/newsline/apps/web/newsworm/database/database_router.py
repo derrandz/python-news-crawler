@@ -13,18 +13,18 @@ class NewswormDatabaseRouter(object):
 
         from django.conf import settings
 
-        if not settings.TESTING:
-            if not 'newsworm_db' in settings.DATABASES:
-                return None
-            
-            if model._meta.app_label == 'newsworm':
-                return 'newsworm_db'
+        # if not settings.TESTING:
+        if not 'newsworm_db' in settings.DATABASES:
             return None
+        
+        if model._meta.app_label == 'newsworm':
+            return 'newsworm_db'
+        return None
 
-        else:
-            if model._meta.app_label == 'newsworm':
-                return "test_newsworm_db"
-            return None
+        # else:
+        #     if model._meta.app_label == 'newsworm':
+        #         return 'test_newsworm_db'
+        #     return None
 
 
     def db_for_write(self, model, **hints):
@@ -32,16 +32,16 @@ class NewswormDatabaseRouter(object):
 
         from django.conf import settings
 
-        if not settings.TESTING:
-            if not 'newsworm_db' in settings.DATABASES:
-                return None
-
-            if model._meta.app_label == 'newsworm':
-                return 'newsworm_db'
+        # if not settings.TESTING:
+        if not 'newsworm_db' in settings.DATABASES:
             return None
-        else:
-            if model._meta.app_label == 'newsworm':
-                return "test_newsworm_db"
+
+        if model._meta.app_label == 'newsworm':
+            return 'newsworm_db'
+        return None
+        # else:
+        #     if model._meta.app_label == 'newsworm':
+        #         return "test_newsworm_db"
 
 
     def allow_relation(self, obj1, obj2, **hints):
@@ -60,10 +60,10 @@ class NewswormDatabaseRouter(object):
 
         from django.conf import settings
 
-        if not settings.TESTING:
-            if app_label == 'newsworm':
-                return db == 'newsworm_db'
-            return None
-        else:
-            if app_label == 'newsworm':
-                return db == 'test_newsworm_db'
+        # if not settings.TESTING:
+        if app_label == 'newsworm':
+            return db == 'newsworm_db'
+        return None
+        # else:
+        #     if app_label == 'newsworm':
+        #         return db == 'test_newsworm_db'

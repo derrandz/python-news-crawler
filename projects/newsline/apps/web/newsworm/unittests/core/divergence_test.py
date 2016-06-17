@@ -7,7 +7,7 @@ import newsline.apps.web.newsworm.core.divergence as divergence
 class DivergenceTestCase(BaseSimpleTestCase):
 	''' A test suit for divergence decorators. '''
 
-	def test(self):
+	def testClass(self):
 		@divergence.divergent("children")
 		class TestClass(Tree):
 			pass

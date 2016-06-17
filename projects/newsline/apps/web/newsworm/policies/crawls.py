@@ -13,7 +13,7 @@ class InitialCrawl:
 		except Exception as e:
 			self.handle_exception(e)
 		else:
-			self.finalize(worm.summarize())
+			self.finalize(worm.jsonify())
 
 	def finalize(self, summary):
 		from newsline.helpers import helpers
@@ -21,26 +21,23 @@ class InitialCrawl:
 
 		dirpath = settings.NEWSLINE_DIR +"/apps/web/newsworm/data/%s" % self.website.name
 		sumpath = "%s/summary.json" % dirpath
-		nsumpath = "%s/normalized_summary.json" % dirpath
 		bloomfilterpath = "%s/bloomfilter.bin" % dirpath
-
-		nsummary = normalize(summary)
 
 		helpers.makedir(dirpath)
 		
 		helpers.write_json("%s" % sumpath, summary)
-		helpers.write_json("%s" % nsumpath, nsummary)
-		helpers.write_file("%s" % bloomfilterpath, self.bloomfilter(nsummary))
+		helpers.write_file("%s" % bloomfilterpath, self.bloomfilter(Worm.normalize(summary)))
 
-		self.website.register_initial_crawl(sumpath, nsumpath, bloomfilterpath)
-		self.extract_articles(nsummary)
+		self.extract_articles(self.website.register_crawl(sumpath, bloomfilterpath), nsummary):
 
-	def extract_articles(self, nsummary):
+
+	def extract_articles(self, crawl, nsummary):
 		articles = []
 		for article in nsummary:
-			articles.append(ArticlesExtractor(article["link"]))
+			articles.append(ArticlesExtractor(self.website.url, article["url"]))
 
-		self.website.save_articles(articles)
-		
+		crawl.save_articles(articles)
+
+
 class CrawlForFreshet:
 	pass

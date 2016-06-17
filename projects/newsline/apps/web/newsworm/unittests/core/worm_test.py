@@ -1,6 +1,6 @@
 from htmldom import htmldom
 from django.test import SimpleTestCase
-from newsline.apps.web.newsworm.core.worm import Worm
+from newsline.apps.web.newsworm.core.worm import Worm, ArticlesExtractor
 from newsline.helpers.colors_class import ColorsClass
 from newsline.functionalities.tests.base_simple_test import BaseSimpleTestCase
 from newsline.apps.web.newsworm.core.regexr import RegexrClass
@@ -998,3 +998,18 @@ class WormTestCase(BaseSimpleTestCase):
 			else:
 				self.print_info("-----------------  Crawling finished successfully for andaluspress ")
 				self.write_to_jsonfile("testAutogen", worm.jsonify())
+
+	def testJsonNormalization(self):
+		from newsline.helpers import helpers
+		from django.conf import settings
+		summary = helpers.parse_json_file(settings.NEWSLINE_DIR +"/apps/web/newsworm/unittests/core/_files/_output/akhbarona.json")
+
+		print(Worm.normalize(summary))
+
+class ArticleExtractorTestCase(BaseSimpleTestCase):
+
+	def testSetUp(self):
+		article = ArticlesExtractor("http://www.hespress.com", "/politique/308315.html")._download()
+
+		for key, val in article.items(): 
+			print("%s: %s" % (key, val))

@@ -172,6 +172,53 @@ class HelpersTestCase(BaseSimpleTestCase):
 		
 		mydict = helpers.walk_dictionary(mydict, getKeyVal)
 
+	def testWalkDict3(self):
+		mydict = {
+	        "item_type": "category",
+	        "item_url": "economy/index.1.html",
+	        "nested_items": {
+	            "0": {
+	                "item_type": "page",
+	                "item_url": "/economy/index.2.html",
+	                "nested_items": {
+	                    "0": {
+	                        "item_type": "article",
+	                        "item_url": "economy/169486.html",
+	                        "nested_items": "none"
+	                    }
+	                }
+	            },
+	            "1": {
+	                "item_type": "page",
+	                "item_url": "/economy/index.3.html",
+	                "nested_items": {
+	                    "0": {
+	                        "item_type": "article",
+	                        "item_url": "economy/168937.html",
+	                        "nested_items": "none"
+	                    }
+	                }
+	            },
+	            "2": {
+	                "item_type": "page",
+	                "item_url": "/economy/index.4.html",
+	                "nested_items": {
+	                    "0": {
+	                        "item_type": "article",
+	                        "item_url": "economy/168409.html",
+	                        "nested_items": "none"
+	                    }
+	                }
+	            }
+	        }
+        }
+
+		def getKeyVal(dictel):
+			if 'type' in dictel:
+				print("Found %s : %s" % ('type', dictel['type']))
+		
+		mydict = helpers.walk_dictionary(mydict, getKeyVal)
+
 	def testIsUrl(self):
 		urls = ["/url", "http://www.url.com", "www.url.com", "#"]
 
