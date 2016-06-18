@@ -26,10 +26,14 @@ class InitialCrawl:
 		helpers.makedir(dirpath)
 		
 		helpers.write_json("%s" % sumpath, summary)
-		helpers.write_file("%s" % bloomfilterpath, self.bloomfilter(Worm.normalize(summary)))
+		helpers.write_file("%s" % bloomfilterpath, self.bloomfilter(Worm.normalize(summary), bloomfilterpath))
 
 		self.extract_articles(self.website.register_crawl(sumpath, bloomfilterpath), nsummary):
 
+	def bloomfilter(self, nsummary, path):
+		from pybloomfilter import BloomFilter
+		articles = [a["item_url"].encode("utf-8") for a in nsummary]
+		mybloomfilter = BloomFilter(len(articles), )
 
 	def extract_articles(self, crawl, nsummary):
 		articles = []
