@@ -9,13 +9,13 @@ class Website(AbstractModel):
 	@property
 	def articles(self):
 		"""A website has many Articles"""
-		return self.article_set.all()
+		return [crawl.article_set.all() for crawl in self.crawl_set.all()]
 
 	def __str__(self):
 		return "name: %s, url: %s" % (self.name, self.url)
 	
 	def register_crawl(self, sumpath, bfpath):
-		return self.crawl_set.create(Crawl(summary_file=sumpath, bloomfilter_file=bfpath))
+		return self.crawl_set.create(summary_file=sumpath, bloomfilter_file=bfpath)
 
 
 class WebsiteChild(AbstractModel):

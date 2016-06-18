@@ -1,4 +1,4 @@
-from newsline.apps.web.newsworm.core.worm import Worm
+from newsline.apps.web.newsworm.core.worm import Worm, ArticlesExtractor
 from newsline.apps.web.newsworm.core.bloom_filter import WormSimpleBloomFilter as BloomFilter
 from newsline.apps.web.newsworm.submodels.website import Website, Crawl
 
@@ -29,9 +29,11 @@ class InitialCrawl:
 		worm = Worm(self.website.url, self.parse_config())
 
 		try:
-			worm.launch("smart", force=True)
+			worm._launch("smart", force=True)
 		except Exception as e:
-			self.handle_exception(e)
+			print("Crawled failed with %s" % str(e))
+			raise e
+			# self.handle_exception(e)
 		else:
 			self.finalize(worm.jsonify())
 
@@ -49,7 +51,7 @@ class InitialCrawl:
 		
 		helpers.write_json("%s" % sumpath, summary)
 		
-		nsummary = Worm.normalize(summary)
+		nsummary = Worm.normalize_summary(summary)
 
 		self.bloomfilter(nsummary, bloomfilterpath)
 		self.extract_articles(self.website.register_crawl(sumpath, bloomfilterpath), nsummary)
@@ -57,10 +59,9 @@ class InitialCrawl:
 	def format_date(self):
 		import datetime
 		now = datetime.datetime.now()
-		return "%d%d_%d_%d_%d" % (now.hour, now.minute, now.month, now.day, month.day)
+		return "%d%d_%d_%d_%d" % (now.hour, now.minute, now.month, now.day, now.year)
 
 	def bloomfilter(self, nsummary, path):
-		from pybloomfilter import BloomFilter
 		articles = [a["item_url"].encode("utf-8") for a in nsummary]
 		mybloomfilter = BloomFilter(len(articles), 0.00001, path)
 		mybloomfilter.add(articles)
@@ -68,7 +69,7 @@ class InitialCrawl:
 	def extract_articles(self, crawl, nsummary):
 		articles = []
 		for article in nsummary:
-			articles.append(ArticlesExtractor(self.website.url, article["item_url"]))
+			articles.append(ArticlesExtractor(self.website.url, article["item_url"])._download())
 
 		crawl.save_articles(articles)
 
