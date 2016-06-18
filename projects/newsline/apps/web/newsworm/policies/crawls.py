@@ -1,3 +1,5 @@
+from newsline.apps.web.newsworm.core import worm.Worm, bloom_filter.WormSimpleBloomFilter
+from newsline.apps.web.newsworm.submodels.website import Website, Crawl
 
 class InitialCrawl:
 	def __init__(self, website_url, config_file_path=None, custom_summary_path=None):
