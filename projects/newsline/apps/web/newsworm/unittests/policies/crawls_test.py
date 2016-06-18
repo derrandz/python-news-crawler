@@ -1,7 +1,7 @@
-from newsline.apps.web.newsworm.submodels.website import Website, ConfigFile, Crawl
-from newsline.apps.web.newsworm.submodels.article import Article
-
+from newsline.apps.web.newsworm.submodels.policies.crawls import InitialCrawl
 from newsline.functionalities.tests.base_test import BaseTestCase
 
 class InitialCrawlTestCase(BaseTestCase):
-	pass
+
+	def integralTest(self):
+		crawl = InitialCrawl("http://hespress.com")

@@ -20,8 +20,8 @@ class Website(AbstractModel):
 	def __str__(self):
 		return "name: %s, url: %s" % (self.name, self.url)
 	
-	# def register_crawl(self, sumpath, bfpath):
-		# self.freshet_crawl_set.create(crawl_status)
+	def register_crawl(self, sumpath, bfpath):
+		return self.crawl_set.create(Crawl(summary_file=sumpath, bloomfilter_file=bfpath))
 
 
 class WebsiteChild(AbstractModel):

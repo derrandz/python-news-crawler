@@ -1,0 +1,17 @@
+{
+ 	"name": "category",
+ 	"url": "/politique/index.1.html",
+ 	"selector": "dmainNav > menu_main > li > a",
+ 	"nested_items": {
+ 		"name": "page",
+ 		"selector": "dbox_pagination > span.pagination > a",
+ 		"url": "/politique/index.%d.html",
+ 		"autogen": "True",
+ 		"range": [0, 2],
+ 		"nested_items": {
+ 			"name": "article",
+ 			"selector": "h2.section_title > a",
+ 			"url": "/politique/212121.html"
+ 		}
+ 	}
+}

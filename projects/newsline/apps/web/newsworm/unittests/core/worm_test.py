@@ -946,43 +946,43 @@ class WormTestCase(BaseSimpleTestCase):
 		# 		}
 		# 	}
 
-		# rooturl = "http://www.hespress.com/"
+		rooturl = "http://www.hespress.com/"
+		domitems = {
+			"name": "category",
+			"url": "/politique/index.1.html",
+			"selector": "div#mainNav > ul#menu_main > li > a",
+			"nested_items": {
+				"name": "page",
+				"selector": "div#box_pagination > span.pagination > a",
+				"url": "/politique/index.%d.html",
+				"autogen": "True",
+				"range": [0, 2],
+				"nested_items": {
+					"name": "article",
+					"selector": "h2.section_title > a",
+					"url": "/politique/212121.html"
+				},
+			},
+		}
+
+		# rooturl = "http://telexpresse.com"
 		# domitems = {
 		# 	"name": "category",
-		# 	"url": "/politique/index.1.html",
-		# 	"selector": "div#mainNav > ul#menu_main > li > a",
+		# 	"url": "category/مجتمع/4/تصنيفات.html",
+		# 	"selector": "div.menusprites > ul > li > a",
 		# 	"nested_items": {
 		# 		"name": "page",
 		# 		"selector": "div#box_pagination > span.pagination > a",
-		# 		"url": "/politique/index.%d.html",
+		# 		"url": "category/مجتمع/4/%d/تصنيفات.html",
 		# 		"autogen": True,
 		# 		"range": [0, 5],
 		# 		"nested_items": {
 		# 			"name": "article",
-		# 			"selector": "h2.section_title > a",
-		# 			"url": "/politique/212121.html"
+		# 			"selector": "center > a",
+		# 			"url": "تلكسبريس/اخبار سياسية/53045/هافينغتون بوست وفاة زعيم البوليساريو فرصة لوضع حد لأحد أكثر النزاعات سخافة في العالم.html"
 		# 		},
 		# 	},
 		# }
-
-		rooturl = "http://telexpresse.com"
-		domitems = {
-			"name": "category",
-			"url": "category/مجتمع/4/تصنيفات.html",
-			"selector": "div.menusprites > ul > li > a",
-			"nested_items": {
-				"name": "page",
-				"selector": "div#box_pagination > span.pagination > a",
-				"url": "category/مجتمع/4/%d/تصنيفات.html",
-				"autogen": True,
-				"range": [0, 5],
-				"nested_items": {
-					"name": "article",
-					"selector": "center > a",
-					"url": "تلكسبريس/اخبار سياسية/53045/هافينغتون بوست وفاة زعيم البوليساريو فرصة لوضع حد لأحد أكثر النزاعات سخافة في العالم.html"
-				},
-			},
-		}
 
 		try:
 			worm = Worm(rooturl, domitems)
