@@ -83,7 +83,7 @@ test_web_app(){
 
 test_newsworm(){
 	if [ ! -z "$1" -a "$1" != " " ]; then
-  		eval ". use test_app web.newsworm.$1"
+  		eval ". use test_app web.newsworm.unittests.$1"
 	else
 		echo "You have to specify the test path [without using newsline.apps.web]";
 	fi
@@ -107,7 +107,7 @@ nd_test_newsworm_core(){
 
 test_newsworm_models(){
 	if [ ! -z "$1" -a "$1" != " " ]; then
-  		eval ". use test_newsworm unittests.models.$1"
+  		eval ". use test_newsworm models.$1"
 	else
 		echo "You have to specify the test path [without using newsline.apps.web.newsworm.unittests.core]";
 	fi

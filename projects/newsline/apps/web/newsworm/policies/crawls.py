@@ -8,13 +8,22 @@ class InitialCrawl:
 		self.config_file_path = config_file_path
 		self.custom_summary_path = custom_summary_path
 
+	@property
+	def website(self):
+		return self._website
+	
+	@website.setter
+	def website(self, websiteurl):
+		self._website = Website.objects.get(url=websiteurl)
+
 	def parse_config(self):
 		from newsline.helpers import helpers
 		from django.conf import settings
 		if self.config_file_path is not None:
 			return helpers.parse_json_file(self.config_file_path)
 		else:
-			return helpers.parse_json_file("%s/data/configurations/%s.json" % (settings.NEWSWORM_DIR, self.website.name) )
+			# return helpers.parse_json_file("%s/data/configurations/%s.json" % (settings.NEWSWORM_DIR, self.website.name) )
+			return helpers.parse_json_file(self.website.configuration_file )
 
 	def run(self):
 		worm = Worm(self.website.url, self.parse_config())
@@ -43,7 +52,7 @@ class InitialCrawl:
 		nsummary = Worm.normalize(summary)
 
 		self.bloomfilter(nsummary, bloomfilterpath)
-		self.extract_articles(self.website.register_crawl(sumpath, bloomfilterpath), nsummary):
+		self.extract_articles(self.website.register_crawl(sumpath, bloomfilterpath), nsummary)
 
 	def format_date(self):
 		import datetime

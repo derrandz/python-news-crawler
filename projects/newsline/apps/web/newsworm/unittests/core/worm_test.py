@@ -980,8 +980,8 @@ class WormTestCase(BaseSimpleTestCase):
 		# 			"name": "article",
 		# 			"selector": "center > a",
 		# 			"url": "تلكسبريس/اخبار سياسية/53045/هافينغتون بوست وفاة زعيم البوليساريو فرصة لوضع حد لأحد أكثر النزاعات سخافة في العالم.html"
-		# 		},
-		# 	},
+		# 		}
+		# 	}
 		# }
 
 		try:
