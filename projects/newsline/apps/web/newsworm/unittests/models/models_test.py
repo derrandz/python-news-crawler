@@ -25,7 +25,19 @@ class WebsiteTestCase(BaseTestCase):
 
 	def testRelations_Crawl(self):
 		pass
-		
+	
+	def testGetFreshetCrawl(self):
+		website = Website(name="hespress", url="http://www.google.com", configuration_file="/test/configfile.conf")
+		website.save()
+
+		crawl = Crawl(summary_file="/summary1.json", bloomfilter_file="/bloomfilter1.bin", website=website)
+		crawl.save()
+
+		crawl = Crawl(summary_file="/summary2.json", bloomfilter_file="/bloomfilter2.bin", website=website)
+		crawl.save()
+
+		print(website.get_freshest_crawl())
+
 class ArticleTestCase(BaseTestCase):
 
 	def testSetUp(self):

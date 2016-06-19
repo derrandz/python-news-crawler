@@ -73,5 +73,47 @@ class InitialCrawl:
 
 		crawl.save_articles(articles)
 
-class CrawlForFreshet:
-	pass
+class CrawlForFreshest(InitialCrawl):
+
+	def parse_config(self):
+		from newsline.helpers import helpers
+		from django.conf import settings
+		if self.config_file_path is not None:
+			return helpers.parse_json_file(self.config_file_path)
+		else:
+			return helpers.parse_json_file("%s/data/configurations/%s_fresh.json" % (settings.NEWSWORM_DIR, self.website.name) )
+
+	def keep_fresh(self, nsummary):
+		freshest = self.website.get_freshest_crawl()
+		print("Freshest %s" % freshest.bloomfilter_file)
+		freshest_bloomfilter = BloomFilter(100, 0.00001, freshest.bloomfilter_file)
+		fresh_articles = []
+		for article in nsummary:
+			if not article["item_url"] in freshest_bloomfilter:
+				fresh_articles.append(article)
+
+		return fresh_articles
+
+	def finalize(self, summary):
+		from newsline.helpers import helpers
+		from django.conf import settings
+
+		date = self.format_date()
+
+		dirpath = "%s/data/crawls/%s" % (settings.NEWSWORM_DIR, self.website.name)
+		sumpath = "%s/%s_summary.json" % (dirpath, date)
+		bloomfilterpath = "%s/%s_filter.bloom" % (dirpath, date)
+
+		helpers.makedir(dirpath)
+		
+		helpers.write_json("%s" % sumpath, summary)
+		
+		nsummary = Worm.normalize_summary(summary)
+
+		fresh_links = self.keep_fresh(nsummary)
+
+		print("Fresh %s" % fresh_links)
+		
+		if fresh_links:
+			self.bloomfilter(fresh_links, bloomfilterpath)
+			self.extract_articles(self.website.register_crawl(sumpath, bloomfilterpath), fresh_links)

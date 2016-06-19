@@ -422,14 +422,19 @@ class Worm(logger.ClassUsesLog):
 							self.log("[GET][%s]..." % link, color="CYAN")
 							from time import sleep
 							import requests
-							sleep(5)
-							request = requests.get(self.clean(self.decode(self.rooturl + "/" + link)))
-							if request.status_code == 200:
-								self.log("[GET][%s][200]" % link, color="GREEN")
-								return CrawledItem(link)
-							else:
-								self.log("[GET][%s][404]" % link, color="RED")
+							sleep(10)
+							try:
+								request = requests.get(self.clean(self.decode(self.rooturl + "/" + link)))
+							except requests.exceptions.ConnectionError as e:
+								self.log("[GET][%s][ConnectionRefused]" % link, color="RED")
 								return None
+							else:
+								if request.status_code == 200:
+									self.log("[GET][%s][200]" % link, color="GREEN")
+									return CrawledItem(link)
+								else:
+									self.log("[GET][%s][404]" % link, color="RED")
+									return None
 
 						from functools import partial
 						from operator import is_not	
@@ -468,10 +473,13 @@ class Worm(logger.ClassUsesLog):
 
 		return self.jsonify()
 	
+	@logger.log_method
 	def jsonify(self):
 		def grabtrunk(crawleditem):
+			self.log("Grabbing %s for json" % crawleditem.url)
 			if crawleditem.nested_items:
 				def _graball(nesteditems):
+					print("_grablall for %s" % crawleditem.url)
 					dictt = {}
 					for i, ni in enumerate(nesteditems):
 						dictt.update({i: grabtrunk(ni)})
@@ -484,7 +492,6 @@ class Worm(logger.ClassUsesLog):
 				}
 
 			else:
-				print("does not have nested items ")
 				return { 
 					"item_type"    : crawleditem.dom_item.name,
 					"item_url"     : crawleditem.url,
@@ -501,6 +508,7 @@ class Worm(logger.ClassUsesLog):
 			for i, ci in enumerate(self.domitems.crawled_items):
 				dictionary.update({i: grabtrunk(ci)})
 
+		self.log("Retuning dictionary.json", color="BOLDYELLOW")			
 		return dictionary
 
 	def _summary(self):
@@ -553,14 +561,16 @@ class Worm(logger.ClassUsesLog):
 
 		return articles
 
-class ArticlesExtractor:
+class ArticlesExtractor(logger.ClassUsesLog):
 	def __init__(self, root, url, lang='ar'):
 		self.root = root
 		self.url = url
 		self.lang = lang
 
+	@logger.log_method
 	def _download(self):
 		import newspaper
+		self.log("Downloading %s " % self.url, color="BOLDPURPLE")
 		a = newspaper.Article(self.root + "/" + self.url, language=self.lang)
 
 		a.download()
