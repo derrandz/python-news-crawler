@@ -34,11 +34,11 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django_extensions',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_extensions',
     'newsline.apps.utility.logger',
     'newsline.apps.web.newsworm'
 ]
@@ -82,9 +82,17 @@ WSGI_APPLICATION = 'newsline.wsgi.application'
 
 DATABASES = {
     'default':{
+        'ENGINE': '',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '', # An empty string means localhost
+        'PORT': '', # An empty string means the default port
+    },
+
+    'newsline_main':{
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'newsline_newsworm',
-        # 'NAME': 'newsline_failure_db',
+        'NAME': 'newsline_main_db',
         'USER': 'newsline_db_root',
         'PASSWORD': 'simple_root_pw',
         'HOST': 'localhost', # An empty string means localhost
@@ -105,7 +113,8 @@ DATABASES = {
 # the order in which the routers are specified is significant.
 # the newsworm database router is processed first, unless the models aren't those of his, other routers will proceed.
 
-DATABASE_ROUTERS = ['newsline.apps.web.newsworm.database.database_router.NewswormDatabaseRouter','newsline.scripts.database_router.MainDatabaseRouter']
+# 'newsline.apps.web.newsworm.database.database_router.NewswormDatabaseRouter'
+DATABASE_ROUTERS = ['newsline.scripts.database_router.MainDatabaseRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
