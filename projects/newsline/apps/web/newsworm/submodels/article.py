@@ -1,7 +1,8 @@
 from .website import Crawl
 from django.db import models
+from .abstract_model import ANewswormModel
 
-class Article(models.Model):
+class Article(ANewswormModel):
 	url          = models.CharField(max_length=255) 
 	crawl        = models.ForeignKey(Crawl, on_delete=models.CASCADE)
 	title        = models.CharField(max_length=255, blank=True, null=True)

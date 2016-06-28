@@ -1,7 +1,7 @@
-from .abstract_model import AbstractModel
+from .abstract_model import ANewswormModel
 from django.db import models
 
-class Website(AbstractModel):
+class Website(ANewswormModel):
 	name               = models.CharField(max_length=45)
 	url                = models.CharField(max_length=255)
 	configuration_file = models.CharField(max_length=255)
@@ -20,7 +20,7 @@ class Website(AbstractModel):
 	def get_freshest_crawl(self):
 		return self.crawl_set.all()[::-1][0]
 
-class WebsiteChild(AbstractModel):
+class WebsiteChild(ANewswormModel):
 	""" Any child of the website class, be it an article, a configuration, or a file."""
 	class Meta:
 		abstract = True 

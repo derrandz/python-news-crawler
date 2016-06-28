@@ -82,29 +82,21 @@ WSGI_APPLICATION = 'newsline.wsgi.application'
 
 DATABASES = {
     'default':{
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'newsline_failure_db',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'newsline_newsworm',
+        # 'NAME': 'newsline_failure_db',
         'USER': 'newsline_db_root',
         'PASSWORD': 'simple_root_pw',
-        'HOST': '', # An empty string means localhost
-        'PORT': '', # An empty string means the default port
-    },
-
-    'newsline_main_db': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'newsline_main_db',
-        'USER': 'newsline_db_root',
-        'PASSWORD': 'simple_root_pw',
-        'HOST': '', # An empty string means localhost
+        'HOST': 'localhost', # An empty string means localhost
         'PORT': '', # An empty string means the default port
     },
 
     'newsworm_db': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'newsline_newsworm',
         'USER': 'newsline_db_root',
         'PASSWORD': 'simple_root_pw',
-        'HOST': '', # An empty string means localhost
+        'HOST': 'localhost', # An empty string means localhost
         'PORT': '', # An empty string means the default port
     }
 }
